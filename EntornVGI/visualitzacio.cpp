@@ -378,7 +378,7 @@ glm::mat4 Projeccio_Orto(GLuint sh_programID, int minx,int miny,GLsizei w,GLsize
 // ---- Entorn VGI: ATENCIÓ!!. ESPECIFICACIO DELS PARÀMETRES DE PROJECCIÓ ORTOGRÀFICA
 //			        QUE ES CARREGUEN A LA MATRIU DE PROJECCIÓ GL_PROJECTION
 
-	// Definició Viewport
+	// Definimos Viewport y scissor de la ventana
 	glViewport(minx, miny, w, h); //ajustar tamaños en funcion del aspect ratio
 	if (h == 0) h = 1;
 	glScissor(minx, miny, w, h);
@@ -402,10 +402,10 @@ glm::mat4 Projeccio_Orto(GLuint sh_programID, int minx,int miny,GLsizei w,GLsize
 
 	float aspect_ratio = pseu_w / pseu_h;
 
-	if (w >= h) MatriuProjeccio = glm::ortho(-7.0f*aspect_ratio, 7.0f * aspect_ratio, -7.0f, 7.0f, 0.1f, 20.0f);  //Ajustar segun el tamaño del viewport aspect ratio
+	if (w >= h) MatriuProjeccio = glm::ortho(-7.0f*aspect_ratio, 7.0f * aspect_ratio, -7.0f, 7.0f, 0.1f, 20.0f);  //Ajustar tamaño del volumen segun el aspect ratio, en este caso por la w o x
 	else {
 		aspect_ratio = pseu_h / pseu_w;
-		MatriuProjeccio = glm::ortho(-7.0f, 7.0f, -7.0f*aspect_ratio, 7.0f*aspect_ratio, 0.1f, 20.0f);
+		MatriuProjeccio = glm::ortho(-7.0f, 7.0f, -7.0f*aspect_ratio, 7.0f*aspect_ratio, 0.1f, 20.0f); //Este es el caso de la h o y
 	}
 	/*
 	if (w >= h) MatriuProjeccio = glm::ortho(glm::radians(60.0), 1.0 * w / h, p_near, p_far); //cambiar a glm::orto
@@ -435,6 +435,7 @@ glm::mat4 Vista_Ortografica(GLuint sh_programID, int prj,GLdouble Raux,CColor co
 // Iluminacio movent-se amb la camara (abans gluLookAt)
 	if (!ifix) Iluminacio(sh_programID, iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step);
 	
+	//switch de la variable prj para ajustar la camara para las diferentes vistas
 	switch (prj) {
 	case 0:
 		//Camara Planta
@@ -467,12 +468,6 @@ glm::mat4 Vista_Ortografica(GLuint sh_programID, int prj,GLdouble Raux,CColor co
 	default:
 		break;
 	}
-	
-	
-
-	
-
-	
 	
 
 // Implementació de planta,alçat,perfil i isomètrica 
