@@ -378,11 +378,11 @@ glm::mat4 Projeccio_Orto(GLuint sh_programID, int minx,int miny,GLsizei w,GLsize
 // ---- Entorn VGI: ATENCIÓ!!. ESPECIFICACIO DELS PARÀMETRES DE PROJECCIÓ ORTOGRÀFICA
 //			        QUE ES CARREGUEN A LA MATRIU DE PROJECCIÓ GL_PROJECTION
 
-	// Definimos Viewport y Scissor de la ventana
-	glViewport(minx, miny, w, h); 
+	// Definició Viewport
+	glViewport(minx, miny, w, h); //ajustar tamaños en funcion del aspect ratio
 	if (h == 0) h = 1;
 	glScissor(minx, miny, w, h);
-	
+	//scissor
 
 
 	// Activació i inicialització matriu PROJECTION
@@ -397,15 +397,15 @@ glm::mat4 Projeccio_Orto(GLuint sh_programID, int minx,int miny,GLsizei w,GLsize
 			//else gluPerspective(60.0*h/w,1.0*w/h,p_near,p_far+zoom);
 
 	//calcular aspect ratio
-	float pseu_w = w; //pasamos las cdimensiones de la pantalla a float para la operacion del aspect ratio y asi evitar truncamiento
+	float pseu_w = w; //pasamos las cdimensiones de la pantalla a float para la operacion y evitar truncamiento
 	float pseu_h = h;
 
 	float aspect_ratio = pseu_w / pseu_h;
 
-	if (w >= h) MatriuProjeccio = glm::ortho(-7.0f*aspect_ratio, 7.0f * aspect_ratio, -7.0f, 7.0f, 0.1f, 20.0f);  //Ajustamos segun el aspect ratio, en este caso por la w o x
+	if (w >= h) MatriuProjeccio = glm::ortho(-7.0f*aspect_ratio, 7.0f * aspect_ratio, -7.0f, 7.0f, 0.1f, 20.0f);  //Ajustar segun el tamaño del viewport aspect ratio
 	else {
 		aspect_ratio = pseu_h / pseu_w;
-		MatriuProjeccio = glm::ortho(-7.0f, 7.0f, -7.0f*aspect_ratio, 7.0f*aspect_ratio, 0.1f, 20.0f); //Este es el caso de ajuste por la h o y
+		MatriuProjeccio = glm::ortho(-7.0f, 7.0f, -7.0f*aspect_ratio, 7.0f*aspect_ratio, 0.1f, 20.0f);
 	}
 	/*
 	if (w >= h) MatriuProjeccio = glm::ortho(glm::radians(60.0), 1.0 * w / h, p_near, p_far); //cambiar a glm::orto
@@ -435,7 +435,6 @@ glm::mat4 Vista_Ortografica(GLuint sh_programID, int prj,GLdouble Raux,CColor co
 // Iluminacio movent-se amb la camara (abans gluLookAt)
 	if (!ifix) Iluminacio(sh_programID, iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step);
 	
-	//switch de las diferentes camaras para las diferentes vistas en funcion del parametro prj
 	switch (prj) {
 	case 0:
 		//Camara Planta
@@ -469,6 +468,13 @@ glm::mat4 Vista_Ortografica(GLuint sh_programID, int prj,GLdouble Raux,CColor co
 		break;
 	}
 	
+	
+
+	
+
+	
+	
+
 // Implementació de planta,alçat,perfil i isomètrica 
 // ---- Entorn VGI: ATENCIÓ!!. ESPECIFICACIO DEL PUNT DE VISTA
 //								Cal definir el punt de vista (gluLookAt) en funció del
