@@ -207,6 +207,8 @@ BEGIN_MESSAGE_MAP(CEntornVGIView, CView)
 		ON_UPDATE_COMMAND_UI(ID_OBJECTE_CAP, &CEntornVGIView::OnUpdateObjecteCap)
 		ON_COMMAND(ID_PROJECCIO_ORTOGRAFICA, &CEntornVGIView::OnProjeccioOrtografica)
 		ON_UPDATE_COMMAND_UI(ID_PROJECCIO_ORTOGRAFICA, &CEntornVGIView::OnUpdateProjeccioOrtografica)
+		ON_COMMAND(ID_OBJECTE_CAMIO, &CEntornVGIView::OnObjecteCamio)
+		ON_UPDATE_COMMAND_UI(ID_OBJECTE_CAMIO, &CEntornVGIView::OnUpdateObjecteCamio)
 		END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -3609,6 +3611,58 @@ void CEntornVGIView::OnUpdateObjecteTetera(CCmdUI *pCmdUI)
 
 // --------------- OBJECTES COMPLEXES
 
+//Camio
+void CEntornVGIView::OnObjecteCamio()
+{
+	// TODO: Agregue aquí su código de controlador de comandos
+	CColor color_Mar;
+
+	color_Mar.r = 0.5;	color_Mar.g = 0.4; color_Mar.b = 0.9; color_Mar.a = 1.0;
+	// TODO: Agregue aquí su código de controlador de comandos
+	objecte = CAMIO;
+
+	//	---- Entorn VGI: ATENCIÓ!!. Canviar l'escala per a centrar la vista (Ortogràfica)
+
+	//  ---- Entorn VGI: ATENCIÓ!!. Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
+
+	// Entorn VGI: Activació el contexte OpenGL
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
+
+	// Càrrega dels VAO's per a construir objecte ARC
+	netejaVAOList();						// Neteja Llista VAO.
+
+	// Posar color objecte (col_obj) al vector de colors del VAO.
+	SetColor4d(col_obj.r, col_obj.g, col_obj.b, col_obj.a);
+
+	//if (Get_VAOId(GLUT_CUBE) != 0) deleteVAOList(GLUT_CUBE);
+	Set_VAOList(GLUT_CUBE, loadglutSolidCube_EBO(1.0));		// Càrrega Cub de costat 1 com a EBO a la posició GLUT_CUBE.
+
+	//if (Get_VAOId(GLU_SPHERE) != 0) deleteVAOList(GLU_SPHERE);
+	Set_VAOList(GLU_SPHERE, loadgluSphere_EBO(0.5, 20, 20));	// Càrrega Esfera a la posició GLU_SPHERE.
+
+	//if (Get_VAOId(GLUT_TEAPOT) != 0) deleteVAOList(GLUT_TEAPOT);
+	Set_VAOList(GLUT_TEAPOT, loadglutSolidTeapot_VAO());		// Carrega Tetera a la posició GLUT_TEAPOT.
+
+	//if (Get_VAOId(MAR_FRACTAL_VAO) != 0) deleteVAOList(MAR_FRACTAL_VAO);
+	Set_VAOList(MAR_FRACTAL_VAO, loadSea_VAO(color_Mar));		// Carrega Mar a la posició MAR_FRACTAL_VAO.
+
+	// Entorn VGI: Activació el contexte OpenGL. Permet la coexistencia d'altres contextes de generació
+	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
+
+	// Crida a OnPaint() per redibuixar l'escena
+	InvalidateRect(NULL, false);
+
+}
+
+
+void CEntornVGIView::OnUpdateObjecteCamio(CCmdUI* pCmdUI)
+{
+	// TODO: Agregue aquí su código de controlador de IU para actualización de comandos
+	if (objecte == CAMIO) pCmdUI->SetCheck(1);
+	else pCmdUI->SetCheck(0);
+
+}
+
 // OBJECTE ARC
 void CEntornVGIView::OnObjecteArc()
 {
@@ -3725,6 +3779,9 @@ void CEntornVGIView::OnUpdateObjecteTie(CCmdUI *pCmdUI)
 	if (objecte == TIE) pCmdUI->SetCheck(1);
 		else pCmdUI->SetCheck(0);
 }
+
+
+
 
 // ----------------- OBJECTES CORBES BEZIER, LEMNISCATA i B-SPLINE
 
@@ -5136,6 +5193,7 @@ std::string CEntornVGIView::CString2String(const CString& cString)
 
 	return strStd;
 }
+
 
 
 

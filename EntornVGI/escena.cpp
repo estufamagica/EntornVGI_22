@@ -124,7 +124,23 @@ void dibuixa_EscenaGL(GLuint sh_programID, bool eix, GLuint axis_Id, CMask3D rei
 
 	switch (objecte)
 	{
+		// Camio
+	case CAMIO:
+		// Definició propietats de reflexió (emissió, ambient, difusa, especular) del material pel color de l'objecte.
+		SeleccionaColorMaterial(sh_programID, col_object, sw_mat);
+		arc(sh_programID, MatriuVista, MatriuTG, sw_mat);
 
+		// Dibuix geometria Mar
+		color_Mar.r = 0.5;	color_Mar.g = 0.4; color_Mar.b = 0.9; color_Mar.a = 1.0;
+		// Definició propietats de reflexió (emissió, ambient, difusa, especular) del material pel color de l'objecte.
+		SeleccionaColorMaterial(sh_programID, color_Mar, sw_mat);
+		// Pas ModelView Matrix a shader
+		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+		NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+		// Pas NormalMatrix a shader
+		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+		draw_TriVAO_Object(MAR_FRACTAL_VAO);
+		break;
 // Arc
 	case ARC:
 		// Definició propietats de reflexió (emissió, ambient, difusa, especular) del material pel color de l'objecte.
