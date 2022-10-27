@@ -3615,10 +3615,6 @@ void CEntornVGIView::OnUpdateObjecteTetera(CCmdUI *pCmdUI)
 void CEntornVGIView::OnObjecteCamio()
 {
 	// TODO: Agregue aquí su código de controlador de comandos
-	CColor color_Mar;
-
-	color_Mar.r = 0.5;	color_Mar.g = 0.4; color_Mar.b = 0.9; color_Mar.a = 1.0;
-	// TODO: Agregue aquí su código de controlador de comandos
 	objecte = CAMIO;
 
 	//	---- Entorn VGI: ATENCIÓ!!. Canviar l'escala per a centrar la vista (Ortogràfica)
@@ -3632,19 +3628,12 @@ void CEntornVGIView::OnObjecteCamio()
 	netejaVAOList();						// Neteja Llista VAO.
 
 	// Posar color objecte (col_obj) al vector de colors del VAO.
-	SetColor4d(col_obj.r, col_obj.g, col_obj.b, col_obj.a);
+	//SetColor4d(0.5, 0.5, 0.5,1);
 
 	//if (Get_VAOId(GLUT_CUBE) != 0) deleteVAOList(GLUT_CUBE);
 	Set_VAOList(GLUT_CUBE, loadglutSolidCube_EBO(1.0));		// Càrrega Cub de costat 1 com a EBO a la posició GLUT_CUBE.
 
-	//if (Get_VAOId(GLU_SPHERE) != 0) deleteVAOList(GLU_SPHERE);
-	Set_VAOList(GLU_SPHERE, loadgluSphere_EBO(0.5, 20, 20));	// Càrrega Esfera a la posició GLU_SPHERE.
-
-	//if (Get_VAOId(GLUT_TEAPOT) != 0) deleteVAOList(GLUT_TEAPOT);
-	Set_VAOList(GLUT_TEAPOT, loadglutSolidTeapot_VAO());		// Carrega Tetera a la posició GLUT_TEAPOT.
-
-	//if (Get_VAOId(MAR_FRACTAL_VAO) != 0) deleteVAOList(MAR_FRACTAL_VAO);
-	Set_VAOList(MAR_FRACTAL_VAO, loadSea_VAO(color_Mar));		// Carrega Mar a la posició MAR_FRACTAL_VAO.
+	Set_VAOList(GLUT_TORUS, loadglutSolidTorus_EBO(0.1, 0.2, 20, 20));
 
 	// Entorn VGI: Activació el contexte OpenGL. Permet la coexistencia d'altres contextes de generació
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);

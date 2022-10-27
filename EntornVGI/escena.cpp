@@ -128,12 +128,8 @@ void dibuixa_EscenaGL(GLuint sh_programID, bool eix, GLuint axis_Id, CMask3D rei
 	case CAMIO:
 		// Definició propietats de reflexió (emissió, ambient, difusa, especular) del material pel color de l'objecte.
 		SeleccionaColorMaterial(sh_programID, col_object, sw_mat);
-		arc(sh_programID, MatriuVista, MatriuTG, sw_mat);
+		camio(sh_programID, MatriuVista, MatriuTG, sw_mat);
 
-		// Dibuix geometria Mar
-		color_Mar.r = 0.5;	color_Mar.g = 0.4; color_Mar.b = 0.9; color_Mar.a = 1.0;
-		// Definició propietats de reflexió (emissió, ambient, difusa, especular) del material pel color de l'objecte.
-		SeleccionaColorMaterial(sh_programID, color_Mar, sw_mat);
 		// Pas ModelView Matrix a shader
 		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
 		NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
@@ -475,6 +471,91 @@ void dibuixa(GLuint sh_programID, char obj, glm::mat4 MatriuVista, glm::mat4 Mat
 		//glPopMatrix();
 		break;
 	}
+}
+
+//OBJECTE CAMIO
+void camio(GLuint sh_programID, glm::mat4 MatriuVista, glm::mat4 MatriuTG, bool sw_mat[5])
+{	CColor col_object;
+	glm::mat4 NormalMatrix(1.0), ModelMatrix(1.0);
+
+	//Part posterior
+	col_object.r = 0.5;		col_object.g = 0.5;		col_object.b = 0.5;		col_object.a = 1.0;	// Color blau clar
+	SeleccionaColorMaterial(sh_programID, col_object, sw_mat);
+	ModelMatrix = glm::translate(MatriuTG, vec3(0.0f, 0.0f, 1.3f));
+	ModelMatrix = glm::scale(ModelMatrix, vec3(2.0f, 5.0f, 2.0f));
+	// Pas ModelView Matrix a shader
+	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+	// Pas NormalMatrix a shader
+	NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+	draw_TriEBO_Object(GLUT_CUBE); // drawSolidCube();	//  glutSolidCube(1.0);
+	//glPopMatrix();
+
+
+	//Cabina
+	col_object.r = 0.0;		col_object.g = 0.7;		col_object.b = 0.7;		col_object.a = 1.0;	// Color blau clar
+	SeleccionaColorMaterial(sh_programID, col_object, sw_mat);
+	ModelMatrix = glm::translate(MatriuTG, vec3(0.0f, 3.0f, 0.8f));
+	// Pas ModelView Matrix a shader
+	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+	// Pas NormalMatrix a shader
+	NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+	draw_TriEBO_Object(GLUT_CUBE); // drawSolidCube();	//  glutSolidCube(1.0);
+	//glPopMatrix();
+
+	//Rueda 1
+	col_object.r = 0.7;		col_object.g = 0.7;		col_object.b = 0.7;		col_object.a = 1.0;	// Color blau clar
+	SeleccionaColorMaterial(sh_programID, col_object, sw_mat);
+	ModelMatrix = glm::translate(MatriuTG, vec3(0.7f, 2.0f, 0.3f));
+	ModelMatrix = glm::rotate(ModelMatrix, radians(90.f), vec3(0.0f, 1.0f, 0.0f));
+	// Pas ModelView Matrix a shader
+	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+	// Pas NormalMatrix a shader
+	NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+	draw_TriEBO_Object(GLUT_TORUS); //glutSolidTorus(1.0, 5.0, 20, 20);
+	//glPopMatrix();
+
+	//Rueda 2
+	col_object.r = 0.7;		col_object.g = 0.7;		col_object.b = 0.7;		col_object.a = 1.0;	// Color blau clar
+	SeleccionaColorMaterial(sh_programID, col_object, sw_mat);
+	ModelMatrix = glm::translate(MatriuTG, vec3(-0.7f, 2.0f, 0.3f));
+	ModelMatrix = glm::rotate(ModelMatrix, radians(90.f), vec3(0.0f, 1.0f, 0.0f));
+	// Pas ModelView Matrix a shader
+	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+	// Pas NormalMatrix a shader
+	NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+	draw_TriEBO_Object(GLUT_TORUS); //glutSolidTorus(1.0, 5.0, 20, 20);
+	//glPopMatrix();
+	
+	//Rueda 3
+	col_object.r = 0.7;		col_object.g = 0.7;		col_object.b = 0.7;		col_object.a = 1.0;	// Color blau clar
+	SeleccionaColorMaterial(sh_programID, col_object, sw_mat);
+	ModelMatrix = glm::translate(MatriuTG, vec3(0.7f, -2.0f, 0.3f));
+	ModelMatrix = glm::rotate(ModelMatrix, radians(90.f), vec3(0.0f, 1.0f, 0.0f));
+	// Pas ModelView Matrix a shader
+	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+	// Pas NormalMatrix a shader
+	NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+	draw_TriEBO_Object(GLUT_TORUS); //glutSolidTorus(1.0, 5.0, 20, 20);
+	//glPopMatrix();
+	
+	//Rueda 4
+	col_object.r = 0.7;		col_object.g = 0.7;		col_object.b = 0.7;		col_object.a = 1.0;	// Color blau clar
+	SeleccionaColorMaterial(sh_programID, col_object, sw_mat);
+	ModelMatrix = glm::translate(MatriuTG, vec3(-0.7f, -2.0f, 0.3f));
+	ModelMatrix = glm::rotate(ModelMatrix, radians(90.f), vec3(0.0f, 1.0f, 0.0f));
+	// Pas ModelView Matrix a shader
+	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+	// Pas NormalMatrix a shader
+	NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+	draw_TriEBO_Object(GLUT_TORUS); //glutSolidTorus(1.0, 5.0, 20, 20);
+	//glPopMatrix();
+
 }
 
 // OBJECTE ARC
