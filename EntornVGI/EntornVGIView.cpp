@@ -1022,7 +1022,25 @@ void CEntornVGIView::dibuixa_Escena()
 	dibuixa_Eixos(eixos_programID, eixos, eixos_Id, grid, hgrid, ProjectionMatrix, ViewMatrix);
 
 // Escalat d'objectes, per adequar-los a les vistes ortogràfiques (Pràctica 2)
-//	GTMatrix = glm::scalef();
+//	GTMatrix = glm::scalef(); podemos escalar
+
+	if (projeccio==ORTO) {
+
+		switch (objecte)
+		{
+		case CUB: //reescalar con scalef
+		
+			break;
+		case ESFERA:
+			break;
+		case TETERA:
+			break;
+
+		default:
+			break;
+		}
+
+	}
 
 //	Dibuix geometria de l'escena amb comandes GL.
 	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material, 
