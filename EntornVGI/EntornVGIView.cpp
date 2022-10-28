@@ -3635,6 +3635,12 @@ void CEntornVGIView::OnObjecteCamio()
 
 	Set_VAOList(GLUT_TORUS, loadglutSolidTorus_EBO(0.1, 0.2, 20, 20));
 
+	CColor color_Mar;
+
+	color_Mar.r = 0.5;	color_Mar.g = 0.4; color_Mar.b = 0.9; color_Mar.a = 1.0;
+
+	Set_VAOList(MAR_FRACTAL_VAO, loadSea_VAO(color_Mar));
+
 	// Entorn VGI: Activació el contexte OpenGL. Permet la coexistencia d'altres contextes de generació
 	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
