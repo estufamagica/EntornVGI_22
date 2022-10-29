@@ -137,6 +137,18 @@ void dibuixa_EscenaGL(GLuint sh_programID, bool eix, GLuint axis_Id, CMask3D rei
 		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
 		draw_TriVAO_Object(MAR_FRACTAL_VAO);
 		break;
+	case HIDROAVIO:
+		//Cambiar por funciones de hidroavio
+		SeleccionaColorMaterial(sh_programID, col_object, sw_mat);
+		camio(sh_programID, MatriuVista, MatriuTG, sw_mat);
+		
+		// Pas ModelView Matrix a shader
+		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+		NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+		// Pas NormalMatrix a shader
+		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+		draw_TriVAO_Object(MAR_FRACTAL_VAO);
+		break;
 // Arc
 	case ARC:
 		// Definició propietats de reflexió (emissió, ambient, difusa, especular) del material pel color de l'objecte.
@@ -471,6 +483,20 @@ void dibuixa(GLuint sh_programID, char obj, glm::mat4 MatriuVista, glm::mat4 Mat
 		//glPopMatrix();
 		break;
 	}
+}
+
+
+//OBJECTE HIDROAVIO
+
+void hidroavio(GLuint sh_programID, glm::mat4 MatriuVista, glm::mat4 MatriuTG, bool sw_mat[5]) {
+	CColor col_object;
+	glm::mat4 NormalMatrix(1.0), ModelMatrix(1.0);
+	
+	//EMPEZAR A HACER
+
+
+
+
 }
 
 //OBJECTE CAMIO

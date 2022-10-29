@@ -209,6 +209,8 @@ BEGIN_MESSAGE_MAP(CEntornVGIView, CView)
 		ON_UPDATE_COMMAND_UI(ID_PROJECCIO_ORTOGRAFICA, &CEntornVGIView::OnUpdateProjeccioOrtografica)
 		ON_COMMAND(ID_OBJECTE_CAMIO, &CEntornVGIView::OnObjecteCamio)
 		ON_UPDATE_COMMAND_UI(ID_OBJECTE_CAMIO, &CEntornVGIView::OnUpdateObjecteCamio)
+		ON_COMMAND(ID_OBJECTE_HIDROAVIO, &CEntornVGIView::OnObjecteHidroavio) //ID_OBJECTE_HIDROAVIO
+		ON_UPDATE_COMMAND_UI(ID_OBJECTE_HIDROAVIO, &CEntornVGIView::OnUpdateObjecteHidroavio)
 		END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1023,7 +1025,7 @@ void CEntornVGIView::dibuixa_Escena()
 
 // Escalat d'objectes, per adequar-los a les vistes ortogràfiques (Pràctica 2)
 //	GTMatrix = glm::scalef(); podemos escalar
-
+	/*
 	if (projeccio==ORTO) {
 
 		switch (objecte)
@@ -1033,7 +1035,7 @@ void CEntornVGIView::dibuixa_Escena()
 			//calculad d
 			// S= d/D
 			//scale
-			GTMatrix = scale(GTMatrix, vec3(/*S, S, S*/));
+			GTMatrix = scale(GTMatrix, vec3(/*S, S, S));
 			break;
 		case ESFERA:
 			break;
@@ -1044,7 +1046,7 @@ void CEntornVGIView::dibuixa_Escena()
 			break;
 		}
 
-	}
+	}*/
 
 //	Dibuix geometria de l'escena amb comandes GL.
 	dibuixa_EscenaGL(shader_programID, eixos, eixos_Id, grid, hgrid, objecte, col_obj, sw_material, 
@@ -3680,6 +3682,58 @@ void CEntornVGIView::OnUpdateObjecteCamio(CCmdUI* pCmdUI)
 
 }
 
+void CEntornVGIView::OnObjecteHidroavio()
+{
+	// TODO: Agregue aquí su código de controlador de comandos
+	// TODO: Agregue aquí su código de controlador de comandos
+	objecte = HIDROAVIO;
+
+	//	---- Entorn VGI: ATENCIÓ!!. Canviar l'escala per a centrar la vista (Ortogràfica)
+
+	//  ---- Entorn VGI: ATENCIÓ!!. Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
+
+	// Entorn VGI: Activació el contexte OpenGL
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
+
+	// Càrrega dels VAO's per a construir objecte ARC
+	netejaVAOList();						// Neteja Llista VAO.
+
+	// Posar color objecte (col_obj) al vector de colors del VAO.
+	//SetColor4d(0.5, 0.5, 0.5,1);
+	// 
+	//if (Get_VAOId(GLUT_CUBE) != 0) deleteVAOList(GLUT_CUBE);
+	
+	//Arreglar geometria del VAO
+	Set_VAOList(GLUT_CUBE, loadglutSolidCube_EBO(1.0));		// Càrrega Cub de costat 1 com a EBO a la posició GLUT_CUBE.
+
+	Set_VAOList(GLUT_TORUS, loadglutSolidTorus_EBO(0.1, 0.2, 20, 20));
+
+	CColor color_Mar;
+
+	color_Mar.r = 0.5;	color_Mar.g = 0.4; color_Mar.b = 0.9; color_Mar.a = 1.0;
+
+	Set_VAOList(MAR_FRACTAL_VAO, loadSea_VAO(color_Mar));
+
+
+	//Añadir mas cosas al VAO
+
+	// Entorn VGI: Activació el contexte OpenGL. Permet la coexistencia d'altres contextes de generació
+	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
+
+	// Crida a OnPaint() per redibuixar l'escena
+	InvalidateRect(NULL, false);
+
+}
+
+
+void CEntornVGIView::OnUpdateObjecteHidroavio(CCmdUI* pCmdUI)
+{
+	// TODO: Agregue aquí su código de controlador de IU para actualización de comandos
+	if (objecte == HIDROAVIO) pCmdUI->SetCheck(1);
+	else pCmdUI->SetCheck(0);
+
+}
+
 // OBJECTE ARC
 void CEntornVGIView::OnObjecteArc()
 {
@@ -5210,6 +5264,9 @@ std::string CEntornVGIView::CString2String(const CString& cString)
 
 	return strStd;
 }
+
+
+
 
 
 

@@ -362,6 +362,7 @@ BEGIN
         MENUITEM "Matriu Primitives",           ID_OBJECTE_MATRIU_PRIMITIVES, CHECKED
         MENUITEM "Matriu Primitives VAO",       ID_OBJECTE_MATRIU_PRIMITIVES_VBO, CHECKED
         MENUITEM "Camio",                       ID_OBJECTE_CAMIO, CHECKED, MENUBARBREAK
+        MENUITEM "Hidroavio",                   ID_OBJECTE_HIDROAVIO, CHECKED
     END
     POPUP "Transforma"
     BEGIN
