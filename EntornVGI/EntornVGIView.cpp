@@ -1033,7 +1033,7 @@ void CEntornVGIView::dibuixa_Escena()
 			//calculad d
 			// S= d/D
 			//scale
-			GTMatrix = scale(GTMatrix, vec3(/*S, S, S*/));
+			GTMatrix = scale(GTMatrix, vec3(mida, mida, mida));
 			break;
 		case ESFERA:
 			break;
@@ -3498,6 +3498,25 @@ void CEntornVGIView::OnObjecteCub()
 
 //	---- Entorn VGI: ATENCIÓ!!. Canviar l'escala per a centrar la vista (Ortogràfica)
 
+	if (projeccio == ORTO) {
+
+		double D, d, max_X, min_X, max_Y, min_Y, max_Z, min_Z, rangX, rangY, rangZ;
+		max_X = 2.5;
+		min_X = -2.5;
+		max_Y = 2.5;
+		min_Y = -2.5;
+
+		rangX = max_X - min_X;
+		rangY = max_Y - min_Y;
+		rangZ = 1.0 - (-1.0);
+		
+		D = sqrt(rangX * rangX + rangY * rangY + rangZ * rangZ);
+
+		d = 1.0 * sqrt(3);
+
+		mida = d / D;
+
+	}
 //  ---- Entorn VGI: ATENCIÓ!!. Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
 
 // Entorn VGI: Activació el contexte OpenGL
