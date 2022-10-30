@@ -1027,13 +1027,15 @@ void CEntornVGIView::dibuixa_Escena()
 	switch (objecte)
 	{
 	case CUB: //reescalar con scalef
-		GTMatrix = glm::scale(GTMatrix, vec3(mida, mida, mida));
+		if (projeccio == ORTO) {
+			GTMatrix = glm::scale(GTMatrix, vec3(mida, mida, mida));
+		}
 		break;
 	case ESFERA:
-		GTMatrix = glm::scale(GTMatrix, vec3(mida, mida, mida));
+		if (projeccio== ORTO) GTMatrix = glm::scale(GTMatrix, vec3(mida, mida, mida));
 		break;
 	case TETERA:
-		GTMatrix = glm::scale(GTMatrix, vec3(mida, mida, mida));
+		if (projeccio==ORTO) GTMatrix = glm::scale(GTMatrix, vec3(mida, mida, mida));
 		break;
 	default:
 		break;
@@ -3492,33 +3494,35 @@ void CEntornVGIView::OnObjecteCub()
 
 //	---- Entorn VGI: ATENCIÓ!!. Canviar l'escala per a centrar la vista (Ortogràfica)
 
-	if (projeccio == ORTO) {
+	
 
-		float D, d, max_X, min_X, max_Y, min_Y, max_Z, min_Z, rangX, rangY, rangZ;
-		max_X = 2.5;
-		min_X = -2.5;
-		max_Y = 2.5;
-		min_Y = -2.5;
+	float D, d, max_X, min_X, max_Y, min_Y, max_Z, min_Z, rangX, rangY, rangZ;
+	max_X = 2.5;
+	min_X = -2.5;
+	max_Y = 2.5;
+	min_Y = -2.5;
 
-		rangX = max_X - min_X;
-		rangY = max_Y - min_Y;
-		//rangZ = 1.0 - (-1.0);
-		//rangZ = p_far - p_near;
-		rangZ = 5.0f;
-		D = sqrt(rangX * rangX + rangY * rangY + rangZ * rangZ);
+	rangX = max_X - min_X;
+	rangY = max_Y - min_Y;
+	//rangZ = 1.0 - (-1.0);
+	//rangZ = p_far - p_near;
+	rangZ = 5.0f;
+	//D = sqrt(rangX * rangX + rangY * rangY + rangZ * rangZ);
+	D = 5.0 * sqrt(3); 
+	d = 1.0 * sqrt(3);
 
-		d = 1.0 * sqrt(3);
-
-		mida = d / D;
-
-	}
+	mida = d / D;
+	
 //  ---- Entorn VGI: ATENCIÓ!!. Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
 
-	if (projeccio == PERSPECT) {
+	
 
+	float f = 1.3;
+	//float D;
+	//D = 5.0 * sqrt(3);
+	OPV.R = f * D / (2 * sin(60.0/2 * PI / 180));
 
-
-	}
+	
 
 // Entorn VGI: Activació el contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
@@ -3587,26 +3591,26 @@ void CEntornVGIView::OnObjecteEsfera()
 	objecte = ESFERA;
 
 //	---- Entorn VGI: ATENCIÓ!!. Canviar l'escala per a centrar la vista (Ortogràfica)
-	if (projeccio == ORTO) {
+	
 
-		float D, d, max_X, min_X, max_Y, min_Y, max_Z, min_Z, rangX, rangY, rangZ;
-		max_X = 2.5;
-		min_X = -2.5;
-		max_Y = 2.5;
-		min_Y = -2.5;
+	float D, d, max_X, min_X, max_Y, min_Y, max_Z, min_Z, rangX, rangY, rangZ;
+	max_X = 2.5;
+	min_X = -2.5;
+	max_Y = 2.5;
+	min_Y = -2.5;
 
-		rangX = max_X - min_X;
-		rangY = max_Y - min_Y;
-		//rangZ = 1.0 - (-1.0);
-		//rangZ = p_far - p_near;
-		rangZ = 5.0f;
-		D = 10.0f;
+	rangX = max_X - min_X;
+	rangY = max_Y - min_Y;
+	//rangZ = 1.0 - (-1.0);
+	//rangZ = p_far - p_near;
+	rangZ = 5.0f;
+	D = 10.0f;
 
-		d = 1.0 * sqrt(3);
+	d = 1.0 * sqrt(3);
 
-		mida = d / D;
-
-	}
+	mida = d / D;
+	float f = 1.5;
+	OPV.R = f* D / (2 * sin(60.0 / 2 * PI / 180));;
 
 //  ---- Entorn VGI: ATENCIÓ!!. Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
 
@@ -3643,26 +3647,24 @@ void CEntornVGIView::OnObjecteTetera()
 
 //	---- Entorn VGI: ATENCIÓ!!. Canviar l'escala per a centrar la vista (Ortogràfica)
 	
-	if (projeccio == ORTO) {
+	float D, d, max_X, min_X, max_Y, min_Y, max_Z, min_Z, rangX, rangY, rangZ;
+	max_X = 2.5;
+	min_X = -2.5;
+	max_Y = 2.5;
+	min_Y = -2.5;
 
-		float D, d, max_X, min_X, max_Y, min_Y, max_Z, min_Z, rangX, rangY, rangZ;
-		max_X = 2.5;
-		min_X = -2.5;
-		max_Y = 2.5;
-		min_Y = -2.5;
+	rangX = max_X - min_X;
+	rangY = max_Y - min_Y;
+	//rangZ = 1.0 - (-1.0);
+	//rangZ = p_far - p_near;
+	rangZ = 5.0f;
+	D = 10.0f;
 
-		rangX = max_X - min_X;
-		rangY = max_Y - min_Y;
-		//rangZ = 1.0 - (-1.0);
-		//rangZ = p_far - p_near;
-		rangZ = 5.0f;
-		D = 10.0f;
+	d = 1.0 * sqrt(3);
 
-		d = 1.0 * sqrt(3);
-
-		mida = d / D;
-
-	}
+	mida = d / D;
+	float f = 1.3;
+	OPV.R = f * D / (2 * sin(60.0 / 2 * PI / 180));;
 
 //  ---- Entorn VGI: ATENCIÓ!!. Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
 
@@ -3703,6 +3705,10 @@ void CEntornVGIView::OnObjecteCamio()
 	//	---- Entorn VGI: ATENCIÓ!!. Canviar l'escala per a centrar la vista (Ortogràfica)
 
 	//  ---- Entorn VGI: ATENCIÓ!!. Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
+
+	float D = 7.0f;
+	float f = 1.3;
+	OPV.R = f * D / (2 * sin(60.0 / 2 * PI / 180));;
 
 	// Entorn VGI: Activació el contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);

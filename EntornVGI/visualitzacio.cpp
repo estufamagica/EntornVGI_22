@@ -443,6 +443,12 @@ glm::mat4 Vista_Ortografica(GLuint sh_programID, int prj,GLdouble Raux,CColor co
 // Iluminacio movent-se amb la camara (abans gluLookAt)
 	if (!ifix) Iluminacio(sh_programID, iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step);
 	
+
+
+	// Implementació de planta,alçat,perfil i isomètrica 
+	// ---- Entorn VGI: ATENCIÓ!!. ESPECIFICACIO DEL PUNT DE VISTA
+	//								Cal definir el punt de vista (gluLookAt) en funció del
+	//								tipus de projecció definit a la variable prj.
 	//switch de la variable prj para ajustar la camara para las diferentes vistas
 	switch (prj) {
 	case 0:
@@ -477,11 +483,6 @@ glm::mat4 Vista_Ortografica(GLuint sh_programID, int prj,GLdouble Raux,CColor co
 		break;
 	}
 	
-
-// Implementació de planta,alçat,perfil i isomètrica 
-// ---- Entorn VGI: ATENCIÓ!!. ESPECIFICACIO DEL PUNT DE VISTA
-//								Cal definir el punt de vista (gluLookAt) en funció del
-//								tipus de projecció definit a la variable prj.
 
 // Pas Matriu a shader
 	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "viewMatrix"), 1, GL_FALSE, &MatriuVista[0][0]);
@@ -533,8 +534,11 @@ glm::mat4 Projeccio_Perspectiva(GLuint sh_programID, int minx,int miny,GLsizei w
 // Amb glm::Perspective
 	//if (w>=h) 	gluPerspective(60.0,1.0*w/h,p_near,p_far+zoom);
 		//else gluPerspective(60.0*h/w,1.0*w/h,p_near,p_far+zoom);
+	
 	if (w >= h) MatriuProjeccio = glm::perspective(glm::radians(60.0), 1.0 * w / h, p_near, p_far);
 	else MatriuProjeccio = glm::perspective(glm::radians(60.0), 1.0 * w / h, p_near, p_far);
+
+	//MatriuProjeccio = glm::perspective(glm::radians(90.0), 0.01, 5.0, 20.0);
 
 // Pas Matriu a shader
 	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "projectionMatrix"), 1, GL_FALSE, &MatriuProjeccio[0][0]);
