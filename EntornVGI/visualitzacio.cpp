@@ -402,10 +402,10 @@ glm::mat4 Projeccio_Orto(GLuint sh_programID, int minx,int miny,GLsizei w,GLsize
 
 	float aspect_ratio = pseu_w / pseu_h;
 
-	if (w >= h) MatriuProjeccio = glm::ortho(-1.0f * aspect_ratio, 1.0f * aspect_ratio, -1.0f, 1.0f, -1.0f, 1.0f);  //Ajustar tamaño del volumen segun el aspect ratio, en este caso por la w o x
+	if (w >= h) MatriuProjeccio = glm::ortho(-1.0f * aspect_ratio, 1.0f * aspect_ratio, -1.0f, 1.0f, (float) - p_far, (float) p_far);  //Ajustar tamaño del volumen segun el aspect ratio, en este caso por la w o x
 	else {
 		aspect_ratio = pseu_h / pseu_w;
-		MatriuProjeccio = glm::ortho(-1.0f, 1.0f, -1.0f * aspect_ratio, 1.0f * aspect_ratio, -1.0f, 1.0f); //Este es el caso de la h o y
+		MatriuProjeccio = glm::ortho(-1.0f, 1.0f, -1.0f * aspect_ratio, 1.0f * aspect_ratio, (float)-p_far, (float)p_far); //Este es el caso de la h o y
 	}
 
 	/*
@@ -447,28 +447,28 @@ glm::mat4 Vista_Ortografica(GLuint sh_programID, int prj,GLdouble Raux,CColor co
 	switch (prj) {
 	case 0:
 		//Camara Planta
-		MatriuVista = glm::lookAt(glm::vec3(0, 5, 0), //camera is here
+		MatriuVista = glm::lookAt(glm::vec3(0, 10, 0), //camera is here
 			glm::vec3(0, 0, 0), //looks here
 			glm::vec3(-1, 0, 0) //heads up
 		);
 		break;
 	case 3:
 		//Camara Isometrica
-		MatriuVista = glm::lookAt(glm::vec3(5, 5, 5), //camera is here
+		MatriuVista = glm::lookAt(glm::vec3(10, 10, 10), //camera is here
 		glm::vec3(0, 0, 0), //looks here
 		glm::vec3(0, 1, 0) //heads up
 		);
 		break;
 	case 1:
 		//Camara Alçat
-		MatriuVista = glm::lookAt(glm::vec3(5, 0, 0), //camera is here
+		MatriuVista = glm::lookAt(glm::vec3(10, 0, 0), //camera is here
 		glm::vec3(0, 0, 0), //looks here
 		glm::vec3(0, 1, 0) //heads up
 		);
 		break;
 	case 2:
 		//Camara Perfil 
-		MatriuVista = glm::lookAt(glm::vec3(0, 0, 5), //camera is here
+		MatriuVista = glm::lookAt(glm::vec3(0, 0, 10), //camera is here
 		glm::vec3(0, 0, 0), //looks here
 		glm::vec3(0, 1, 0) //heads up
 		);
