@@ -445,8 +445,6 @@ public:
 	afx_msg void OnUpdateProjeccioOrtografica(CCmdUI* pCmdUI);
 	afx_msg void OnObjecteCamio();
 	afx_msg void OnUpdateObjecteCamio(CCmdUI* pCmdUI);
-	afx_msg void OnObjecteHidroavio();
-	afx_msg void OnUpdateObjecteHidroavio(CCmdUI* pCmdUI);
 };
 
 #ifndef _DEBUG  // Versión de depuración en EntornVGIView.cpp

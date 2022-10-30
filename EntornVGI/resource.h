@@ -211,14 +211,13 @@
 #define ID_PROJECCIO_ORTOGRAFICA        32890
 #define ID_OBJECTE_CAMI32891            32891
 #define ID_OBJECTE_CAMIO                32892
-#define ID_OBJECTE_HIDROAVIO            32893
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        311
-#define _APS_NEXT_COMMAND_VALUE         32894
+#define _APS_NEXT_COMMAND_VALUE         32893
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
