@@ -1037,6 +1037,8 @@ void CEntornVGIView::dibuixa_Escena()
 	case TETERA:
 		if (projeccio==ORTO) GTMatrix = glm::scale(GTMatrix, vec3(mida, mida, mida));
 		break;
+	case CAMIO:
+		if(projeccio==ORTO) GTMatrix = glm::scale(GTMatrix, vec3(mida, mida, mida));
 	default:
 		break;
 	}
@@ -3703,10 +3705,14 @@ void CEntornVGIView::OnObjecteCamio()
 	objecte = CAMIO;
 
 	//	---- Entorn VGI: ATENCIÓ!!. Canviar l'escala per a centrar la vista (Ortogràfica)
+	
 
 	//  ---- Entorn VGI: ATENCIÓ!!. Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
 
 	float D = 7.0f;
+	float d = 1.0 * sqrt(3.0);
+	mida = d / D;
+
 	float f = 1.3;
 	OPV.R = f * D / (2 * sin(60.0 / 2 * PI / 180));;
 
