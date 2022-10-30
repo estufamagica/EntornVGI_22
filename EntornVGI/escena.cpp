@@ -645,6 +645,95 @@ void hidroavio(GLuint sh_programID, glm::mat4 MatriuVista, glm::mat4 MatriuTG, b
 	//draw_TriEBO_Object(GLU_SPHERE); //gluSphere(0.5, 20, 20);
 	gluSphere(1.0, 20.0, 20.0);
 
+	//Cola
+	//1 cilindro
+	col_object.r = 1.0;		col_object.g = 0.5;		col_object.b = 0.0;		col_object.a = 1.0;	// Color blau clar
+	SeleccionaColorMaterial(sh_programID, col_object, sw_mat);
+
+	ModelMatrix = glm::translate(MatriuTG, vec3(0.0,22.5, 0.0));
+	ModelMatrix = glm::rotate(ModelMatrix, radians(90.0f), vec3(1.0f, 0.0f, 0.0f));
+	ModelMatrix = glm::rotate(ModelMatrix, radians(180.0f), vec3(0.0f, 1.0f, 0.0f));
+	ModelMatrix = glm::scale(ModelMatrix, vec3(4.5, 0.15, 3.0));
+
+	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+	NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+
+	gluCylinder(0.5f, 3.0f, 2.0, 20.0, 1.0);
+
+	//esfera
+	col_object.r = 1.0;		col_object.g = 0.0;		col_object.b = 0.0;		col_object.a = 1.0;	// Color blau clar
+	SeleccionaColorMaterial(sh_programID, col_object, sw_mat);
+	ModelMatrix = glm::translate(MatriuTG, vec3(0.0, 28.5, 0.0));
+	ModelMatrix = glm::scale(ModelMatrix, vec3(13.5, 0.9, 0.45));
+	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+	NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+	gluSphere(1.0, 20.0, 20.0);
+
+	//Timon
+	col_object.r = 1.0;		col_object.g = 0.0;		col_object.b = 0.0;		col_object.a = 1.0;	// Color blau clar
+	SeleccionaColorMaterial(sh_programID, col_object, sw_mat);
+
+	ModelMatrix = glm::translate(MatriuTG, vec3(0.0, 24.75, 0.15));
+	ModelMatrix = glm::rotate(ModelMatrix, radians(90.0f), vec3(0.0f, 0.0f, 1.0f));
+	ModelMatrix = glm::rotate(ModelMatrix, radians(-90.0f), vec3(0.0f, 0.0f, 1.0f));
+
+	ModelMatrix = glm::scale(ModelMatrix, vec3(0.3, 4.5, 3.0));
+
+	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+	NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+
+	gluCylinder(1.0f, 0.2f, 3.25, 20.0, 1.0);
+
+	//Helix
+	ModelMatrix = glm::translate(MatriuTG, vec3(0.0, -27, 0.0));
+	ModelMatrix = glm::rotate(ModelMatrix, radians(90.0f), vec3(1.0f, 0.0f, 0.0f));
+	helixH(1,sh_programID, MatriuVista, ModelMatrix, sw_mat);
+
+}
+
+// Helix
+void helixH(double t, GLint shaderId, glm::mat4 MatriuVista, glm::mat4 MatriuTG, bool sw_mat[5])
+{
+	int j;
+	glm::mat4 TransMatrix(1.0), ModelMatrix(1.0), NormalMatrix(1.0);
+	CColor col_object;
+	//glPushMatrix();
+	//glRotatef(360 * t + 45, 0, 0, 1);
+	TransMatrix = glm::rotate(MatriuTG, radians((float)(360.0 * t + 45)), vec3(0.0f, 0.0f, 1.0f));
+	for (j = 0; j < 2; j = j + 1)
+	{ //glRotatef(90, 0, 0, 1);
+		TransMatrix = glm::rotate(TransMatrix, radians((float)90.0), vec3(0.0f, 0.0f, 1.0f));
+		//glColor3f(0.25 + 0.25 * j, 0.25 + j * 0.25, 0);
+		// Definició propietats de reflexió (emissió, ambient, difusa, especular) del material.
+		if (j == 0) {
+			col_object.r = 0.3; col_object.g = 0.3; col_object.b = 1.0;
+
+		}
+		else {
+			col_object.r = 1.0; col_object.g = 0.0; col_object.b = 0.0;
+
+		}
+
+		col_object.a = 1.0;
+
+		SeleccionaColorMaterial(shaderId, col_object, sw_mat);
+		//glPushMatrix();
+		//glScalef(12 * 1.75f, 0.3f, 0.9f);
+		ModelMatrix = glm::scale(TransMatrix, vec3(12 * 1.75f, 0.3f, 0.9f));
+		// Pas ModelView Matrix a shader
+		glUniformMatrix4fv(glGetUniformLocation(shaderId, "modelMatrix"), 1, GL_FALSE,
+			&ModelMatrix[0][0]);
+		NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+		// Pas NormalMatrix a shader
+		glUniformMatrix4fv(glGetUniformLocation(shaderId, "normalMatrix"), 1, GL_FALSE,
+			&NormalMatrix[0][0]);
+		glutSolidCube(1.0f);
+		//glPopMatrix();
+	}
+	//glPopMatrix();
 }
 
 //OBJECTE CAMIO

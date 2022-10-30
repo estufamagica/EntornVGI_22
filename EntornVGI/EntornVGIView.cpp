@@ -1040,6 +1040,9 @@ void CEntornVGIView::dibuixa_Escena()
 		break;
 	case CAMIO:
 		if (projeccio == ORTO) GTMatrix = glm::scale(GTMatrix, vec3(mida, mida, mida));
+		break;
+	case HIDROAVIO:
+		if (projeccio == ORTO) GTMatrix = glm::scale(GTMatrix, vec3(mida, mida, mida));
 	default:
 		break;
 	}
@@ -3759,7 +3762,7 @@ void CEntornVGIView::OnObjecteHidroavio()
 	objecte = HIDROAVIO;
 
 	//	---- Entorn VGI: ATENCIÓ!!. Canviar l'escala per a centrar la vista (Ortogràfica)
-	float D = 10.0;
+	float D = 72.0+0.9;
 	float d = 1.0 * sqrt(3.0);
 	mida = d / D;
 	
