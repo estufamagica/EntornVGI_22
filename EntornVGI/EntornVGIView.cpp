@@ -3504,8 +3504,9 @@ void CEntornVGIView::OnObjecteCub()
 
 		rangX = max_X - min_X;
 		rangY = max_Y - min_Y;
-		rangZ = 1.0 - (-1.0);
-		
+		//rangZ = 1.0 - (-1.0);
+		rangZ = p_far - (-p_far);
+		//rangZ = 5;
 		D = sqrt(rangX * rangX + rangY * rangY + rangZ * rangZ);
 
 		d = 1.0 * sqrt(3);
