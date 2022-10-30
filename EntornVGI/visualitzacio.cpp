@@ -402,7 +402,7 @@ glm::mat4 Projeccio_Orto(GLuint sh_programID, int minx,int miny,GLsizei w,GLsize
 
 	float aspect_ratio = pseu_w / pseu_h;
 
-	if (w >= h) MatriuProjeccio = glm::ortho(-1.0f * aspect_ratio, 1.0f * aspect_ratio, -1.0f, 1.0f, (float) - p_far, (float) p_far);  //Ajustar tamaño del volumen segun el aspect ratio, en este caso por la w o x
+	if (w >= h) MatriuProjeccio = glm::ortho(-1.0f * aspect_ratio, 1.0f * aspect_ratio, -1.0f, 1.0f, (float) -p_far, (float) p_far);  //Ajustar tamaño del volumen segun el aspect ratio, en este caso por la w o x
 	else {
 		aspect_ratio = pseu_h / pseu_w;
 		MatriuProjeccio = glm::ortho(-1.0f, 1.0f, -1.0f * aspect_ratio, 1.0f * aspect_ratio, (float)-p_far, (float)p_far); //Este es el caso de la h o y
