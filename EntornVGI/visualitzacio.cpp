@@ -372,13 +372,13 @@ void Iluminacio(GLint sh_programID, char ilumin, bool ifix, bool ilu2sides, bool
 // Projeccio_Orto: Definició Viewport i glOrtho 
 // ---- Entorn VGI: ATENCIÓ!!. CAL DEFINIR PARÀMETRES DE LA FUNCIÓ
 
-glm::mat4 Projeccio_Orto(GLuint sh_programID, int minx,int miny,GLsizei w,GLsizei h)
-{   
+glm::mat4 Projeccio_Orto(GLuint sh_programID, int minx, int miny, GLsizei w, GLsizei h)
+{
 	glm::mat4 MatriuProjeccio(1.0);
-// ---- Entorn VGI: ATENCIÓ!!. ESPECIFICACIO DELS PARÀMETRES DE PROJECCIÓ ORTOGRÀFICA
-//			        QUE ES CARREGUEN A LA MATRIU DE PROJECCIÓ GL_PROJECTION
+	// ---- Entorn VGI: ATENCIÓ!!. ESPECIFICACIO DELS PARÀMETRES DE PROJECCIÓ ORTOGRÀFICA
+	//			        QUE ES CARREGUEN A LA MATRIU DE PROJECCIÓ GL_PROJECTION
 
-	// Definimos Viewport y scissor de la ventana
+		// Definimos Viewport y scissor de la ventana
 	glViewport(minx, miny, w, h); //ajustar tamaños en funcion del aspect ratio
 	if (h == 0) h = 1;
 	glScissor(minx, miny, w, h);
@@ -402,7 +402,7 @@ glm::mat4 Projeccio_Orto(GLuint sh_programID, int minx,int miny,GLsizei w,GLsize
 
 	float aspect_ratio = pseu_w / pseu_h;
 
-	if (w >= h) MatriuProjeccio = glm::ortho(-1.0f * aspect_ratio, 1.0f * aspect_ratio, -1.0f, 1.0f, (float) -p_far, (float) p_far);  //Ajustar tamaño del volumen segun el aspect ratio, en este caso por la w o x
+	if (w >= h) MatriuProjeccio = glm::ortho(-1.0f * aspect_ratio, 1.0f * aspect_ratio, -1.0f, 1.0f, (float)-p_far, (float)p_far);  //Ajustar tamaño del volumen segun el aspect ratio, en este caso por la w o x
 	else {
 		aspect_ratio = pseu_h / pseu_w;
 		MatriuProjeccio = glm::ortho(-1.0f, 1.0f, -1.0f * aspect_ratio, 1.0f * aspect_ratio, (float)-p_far, (float)p_far); //Este es el caso de la h o y
@@ -422,7 +422,7 @@ glm::mat4 Projeccio_Orto(GLuint sh_programID, int minx,int miny,GLsizei w,GLsize
 
 	// Pas Matriu a shader
 	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "projectionMatrix"), 1, GL_FALSE, &MatriuProjeccio[0][0]);
-	
+
 	// Activació matriu MODELVIEW (tancar matriu PROJECTION)
 		//glMatrixMode(GL_MODELVIEW);
 		//glLoadIdentity();
@@ -443,12 +443,6 @@ glm::mat4 Vista_Ortografica(GLuint sh_programID, int prj,GLdouble Raux,CColor co
 // Iluminacio movent-se amb la camara (abans gluLookAt)
 	if (!ifix) Iluminacio(sh_programID, iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step);
 	
-
-
-	// Implementació de planta,alçat,perfil i isomètrica 
-	// ---- Entorn VGI: ATENCIÓ!!. ESPECIFICACIO DEL PUNT DE VISTA
-	//								Cal definir el punt de vista (gluLookAt) en funció del
-	//								tipus de projecció definit a la variable prj.
 	//switch de la variable prj para ajustar la camara para las diferentes vistas
 	switch (prj) {
 	case 0:
@@ -483,6 +477,11 @@ glm::mat4 Vista_Ortografica(GLuint sh_programID, int prj,GLdouble Raux,CColor co
 		break;
 	}
 	
+
+// Implementació de planta,alçat,perfil i isomètrica 
+// ---- Entorn VGI: ATENCIÓ!!. ESPECIFICACIO DEL PUNT DE VISTA
+//								Cal definir el punt de vista (gluLookAt) en funció del
+//								tipus de projecció definit a la variable prj.
 
 // Pas Matriu a shader
 	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "viewMatrix"), 1, GL_FALSE, &MatriuVista[0][0]);
@@ -534,11 +533,8 @@ glm::mat4 Projeccio_Perspectiva(GLuint sh_programID, int minx,int miny,GLsizei w
 // Amb glm::Perspective
 	//if (w>=h) 	gluPerspective(60.0,1.0*w/h,p_near,p_far+zoom);
 		//else gluPerspective(60.0*h/w,1.0*w/h,p_near,p_far+zoom);
-	
 	if (w >= h) MatriuProjeccio = glm::perspective(glm::radians(60.0), 1.0 * w / h, p_near, p_far);
 	else MatriuProjeccio = glm::perspective(glm::radians(60.0), 1.0 * w / h, p_near, p_far);
-
-	//MatriuProjeccio = glm::perspective(glm::radians(90.0), 0.01, 5.0, 20.0);
 
 // Pas Matriu a shader
 	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "projectionMatrix"), 1, GL_FALSE, &MatriuProjeccio[0][0]);
