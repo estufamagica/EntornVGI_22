@@ -1029,11 +1029,7 @@ void CEntornVGIView::dibuixa_Escena()
 		switch (objecte)
 		{
 		case CUB: //reescalar con scalef
-			//calcular D
-			//calculad d
-			// S= d/D
-			//scale
-			GTMatrix = scale(GTMatrix, vec3(mida, mida, mida));
+			GTMatrix = glm::scale(GTMatrix, vec3(mida, mida, mida));
 			break;
 		case ESFERA:
 			break;
