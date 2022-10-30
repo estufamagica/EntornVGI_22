@@ -3762,7 +3762,7 @@ void CEntornVGIView::OnObjecteHidroavio()
 	objecte = HIDROAVIO;
 
 	//	---- Entorn VGI: ATENCIÓ!!. Canviar l'escala per a centrar la vista (Ortogràfica)
-	float D = 72.0+0.9;
+	float D = 85;
 	float d = 1.0 * sqrt(3.0);
 	mida = d / D;
 	
@@ -3794,11 +3794,11 @@ void CEntornVGIView::OnObjecteHidroavio()
 	Set_VAOList(GLU_DISK, loadgluDisk_EBO(0.0f, 5.0f, 6, 1));    // Càrrega disc com a VAO
 
 
-	/*CColor color_Mar;
+	CColor color_Mar;
 
 	color_Mar.r = 0.5;	color_Mar.g = 0.4; color_Mar.b = 0.9; color_Mar.a = 1.0;
 
-	Set_VAOList(MAR_FRACTAL_VAO, loadSea_VAO(color_Mar));*/
+	Set_VAOList(MAR_FRACTAL_VAO, loadSea_VAO(color_Mar));
 
 
 	//Añadir mas cosas al VAO
