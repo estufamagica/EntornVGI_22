@@ -63,6 +63,29 @@ for(i=0;i<=6;i=i++)
 
 // 3. CAL FER: OBRIR FITXER FRACTAL I LLEGIR ALC,ADES ASSIGNANT-LES
 //    A LA MATRIU ZZ DE FORMA EQUIESPAIADA.
+int counter = 0;
+buff char[300];
+fd = fopen(nomf, "r");
+if (fd == NULL) perror("Error opening file");
+else
+{
+	while (!feof(fd)) // to read file
+	{
+		
+		// function used to read the contents of file
+		fread(buffer, sizeof(buff), 1, fd);
+		//cout << buffer;
+		if (counter == 0) {
+
+			int dim = buff[0];
+
+		}
+
+
+		counter += 1;
+
+	}
+}
 
 // 4. CAL FER: LLEGIR EL NOMBRE DE PICS I ELS VALORS (CENTRE,RADI 
 //    I ALÇADA MÀXIMA.
@@ -213,7 +236,7 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 // VAO
 	CVAO FractalVAO;
 	FractalVAO.vaoId = 0;	FractalVAO.vboId = 0;	FractalVAO.nVertexs = 0;	// Valors inicialitzats per a VAO sense EBO.
-	FractalVAO.eboId = 0;	FractalVAO.indices = 0;								// Valors inicialitzats per a VAO amb EBO.
+	FractalVAO.eboId = 0;	FractalVAO.nIndices = 0;								// Valors inicialitzats per a VAO amb EBO.
 
 	std::vector <double> vertices, normals, colors, textures;	// Definició vectors dinàmics per a vertexs, normals i textures 
 	vertices.resize(0);		textures.resize(0);		colors.resize(0);	normals.resize(0);	// Reinicialitzar vectors
