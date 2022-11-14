@@ -529,12 +529,12 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 //			   - nvertexs: Nombre de vèrtexs generat per a dibuixar el fractal. En funció del pas de recoregut definit en el paràmetre step.
 CVAO loadfractEBO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], bool textur, int step)
 {
-	int i, j, index;
+	int i, j;
 	float ctx, cty;
 	CColor col_Vertex;								// Color del vèrtex del fractal.
 	float paletaR[MAX_PALETA_FRACTAL], paletaG[MAX_PALETA_FRACTAL], paletaB[MAX_PALETA_FRACTAL];	// Paleta de colors
 
-	i = 0;		j = 0;		index = 0;
+	i = 0;		j = 0;		
 	ctx = 0.0f;	cty = 0.0f;
 	col_Vertex.r = 0.0;		col_Vertex.g = 0.0;		col_Vertex.b = 0.0;
 	for (i = 0; i < MAX_PALETA_FRACTAL; i++) { paletaR[i] = 0.0f; paletaG[i] = 0.0f;	paletaB[i] = 0.0f; }
@@ -542,7 +542,7 @@ CVAO loadfractEBO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 	// VAO
 	CVAO FractalVAO;
 	FractalVAO.vaoId = 0;	FractalVAO.vboId = 0;	FractalVAO.nVertexs = 0;	// Valors inicialitzats per a VAO sense EBO.
-	FractalVAO.eboId = 0;	FractalVAO.indices = 0;								// Valors inicialitzats per a VAO amb EBO.
+	FractalVAO.eboId = 0;	FractalVAO.nIndices = 0;								// Valors inicialitzats per a VAO amb EBO.
 
 	std::vector <double> vertices, normals, colors, textures;	// Definició vectors dinàmics per a vertexs, normals i textures 
 	std::vector <uint> indices;
