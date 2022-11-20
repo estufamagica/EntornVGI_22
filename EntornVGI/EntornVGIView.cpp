@@ -2821,7 +2821,7 @@ void CEntornVGIView::OnArxiuObrirFractal()
 
 // Entorn VGI: Variable de tipus char *nomfitx conté el nom del fitxer seleccionat
 
-
+	
 // Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
 }

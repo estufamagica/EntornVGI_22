@@ -10,9 +10,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-
+#include <string>
+#include <iostream>
+#include <fstream>
 #include "material.h"
 #include "fractals.h"
+
+//#include "EntornVGIView.h"
 
 // -------------- Entorn VGI: VARIABLES utilitzades en els fractals
 // FMAX: Index màxim de la matriu d'alçades. Definida a fractals.h (valor:512)
@@ -63,35 +67,72 @@ for(i=0;i<=6;i=i++)
 
 // 3. CAL FER: OBRIR FITXER FRACTAL I LLEGIR ALC,ADES ASSIGNANT-LES
 //    A LA MATRIU ZZ DE FORMA EQUIESPAIADA.
-int counter = 0;
-buff char[300];
+int counter_file = 0;
+int counter_num = 0;
+int counter_pic = 0;
+//buff char[300];
 fd = fopen(nomf, "r");
+int n, m, total, numpic;
+float x, y, rad, h;
 if (fd == NULL) perror("Error opening file");
 else
 {
-	while (!feof(fd)) // to read file
+	fscanf(fd, "%d %d \n", &n, &m);
+	total = n * m;
+	std::string line;
+	std::ifstream rd("../../EntonrVGI/fractals/ESCENA8P.MNT");
+	step = FMAX/(n-1);
+	
+	float *buff_alturas = new float[FMAX+1*FMAX+1];
+
+	while (std::getline(rd, line))
 	{
-		
-		// function used to read the contents of file
-		fread(buffer, sizeof(buff), 1, fd);
-		//cout << buffer;
-		if (counter == 0) {
+		//cout << prueba << "\n";
+		if ((counter_file>0)&&(counter_file<total+1)) //alturas fichero
+		{
+			float aux = std::stof(line);
+			buff_alturas[counter_num]=aux;
+			counter_num++;
+		}
+		//picos, centro radio i altura
 
-			int dim = buff[0];
-
+		if (counter_file == total+1)
+		{
+			numpic = std::stoi(line);
 		}
 
+		if ((counter_file>total+1)&&(numpic!=0))
+		{
+			fscanf(fd, "%f %f %f %f\n", &x, &y, &rad, &h);
+			cx[counter_pic] = x; cy[counter_pic] = y; radi[counter_pic] = rad; hmax[counter_pic] = h;
 
-		counter += 1;
+			counter_pic++;
+		}
 
+		counter_file++;
 	}
+
+	counter_num = 0;
+
+	for (int i = 0; i < FMAX+1; i++)
+	{
+		for (int j = 0; j < FMAX + 1; j = j + step) 
+		{
+			if (counter_num<total)
+			{
+				zz[i][j] = buff_alturas[counter_num];
+				counter_num++;
+			}
+		}
+	}
+
 }
 
 // 4. CAL FER: LLEGIR EL NOMBRE DE PICS I ELS VALORS (CENTRE,RADI 
 //    I ALÇADA MÀXIMA.
 
 // 5. INICIALITZAR LA VARIABLE ALEATÒRIA
-srand( (unsigned) time(NULL));
+srand( (unsigned) time(NULL)); //por mirar
 r=(float) rand()/RAND_MAX;
 
 // Funció retorna el pas entre alçades a la variable step, 
@@ -317,7 +358,7 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 					}
 		else textures.push_back(1.0f); textures.push_back(0.0f);				// Vector Textures
 		// VERTEX
-		vertices.push_back(i);	vertices.push_back(j);	vertices.push_back(zz[i][j]);	// Vector Vertices
+		vertices.push_back(i+step);	vertices.push_back(j);	vertices.push_back(zz[i+step][j]);	// Vector Vertices
 
 		// ---------- VÈRTEX 3
 		// VECTOR NORMAL
@@ -337,7 +378,7 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 		else {	textures.push_back(1.0f); textures.push_back(1.0f);				// Vector Textures
 			}
 		// VERTEX
-		vertices.push_back(i);	vertices.push_back(j);	vertices.push_back(zz[i][j]);	// Vector Vertices
+		vertices.push_back(i+step);	vertices.push_back(j+step);	vertices.push_back(zz[i+step][j+step]);	// Vector Vertices
 
 // ------------------------------- Segon Triangle ------------------------------------------
 		// -------- VÈRTEX 1
@@ -378,7 +419,7 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 		else {	textures.push_back(1.0f); textures.push_back(1.0f);				// Vector Textures
 			}
 		// VERTEX
-		vertices.push_back(i);	vertices.push_back(j);	vertices.push_back(zz[i][j]);	// Vector Vertices
+		vertices.push_back(i+step);	vertices.push_back(j+step);	vertices.push_back(zz[i+step][j+step]);	// Vector Vertices
 
 
 		// -------- VÈRTEX 4
@@ -399,7 +440,7 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 		else {	textures.push_back(0.0f); textures.push_back(1.0f);				// Vector Textures
 			}
 		// VERTEX
-		vertices.push_back(i);	vertices.push_back(j);	vertices.push_back(zz[i][j]);	// Vector Vertices
+		vertices.push_back(i);	vertices.push_back(j+step);	vertices.push_back(zz[i][j+step]);	// Vector Vertices
 	}
 
 	else

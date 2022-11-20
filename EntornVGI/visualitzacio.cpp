@@ -17,10 +17,10 @@
 
 // Entorn V3D. QUATERNIONS: Include per a la definició del tipus GL_QUAT i crida a les funcions de quatern.
 #include "quatern.h"
-
+#include "fractals.h"
 #include "visualitzacio.h"
 #include "escena.h"
-#include "fractals.h"
+
 
 // Iluminació: Configurar iluminació de l'escena
 void Iluminacio(GLint sh_programID, char ilumin, bool ifix, bool ilu2sides, bool ll_amb, LLUM* lumin, char obj, bool frnt_fcs,
@@ -345,7 +345,7 @@ void Iluminacio(GLint sh_programID, char ilumin, bool ifix, bool ilu2sides, bool
     case PLANA:
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 // PRÀCTICA 3: Crida a la funció pel càlcul dels vectors normals normals a les cares si l'objecte és un fractal
-		loadfractVAO(); //falta mirarselo
+		//loadfractVAO(); //falta mirarselo
    
 // Il.luminació per cares planes
 		glShadeModel(GL_FLAT); 
@@ -354,14 +354,14 @@ void Iluminacio(GLint sh_programID, char ilumin, bool ifix, bool ilu2sides, bool
 	case GOURAUD:
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 // PRÀCTICA 3: Crida a la funció pel càlcul dels vectors normals normals a les cares si l'objecte és un fractal
-		loadfractVAO();
+		loadfractVAO(false,' ',ilumin,false,false, step);
 // Il.luminació suau 
         glShadeModel(GL_SMOOTH); 
 		break;
 
 	case PHONG:
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		loadfractVAO();
+		//loadfractVAO();
 		// Il.luminació suau 
 		glShadeModel(GL_SMOOTH);
 		break;

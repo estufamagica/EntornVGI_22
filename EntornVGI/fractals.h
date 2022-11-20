@@ -77,5 +77,5 @@ double soroll_dif(int x,int y);
 // -------------- Entorn VGI: Càrrega de la triangulació del fractal en un VAO
 CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], bool textur, int step);
 CVAO loadfractEBO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], bool textur, int step);
-CVAO loadMar_FractalVAO()
+CVAO loadMar_FractalVAO();
 #endif
