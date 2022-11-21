@@ -80,11 +80,19 @@ else
 	fscanf(fd, "%d %d \n", &n, &m);
 	total = n * m;
 	std::string line;
-	std::ifstream rd("../../EntonrVGI/fractals/ESCENA8P.MNT");
+	
+	char path_fractals[60] = "../../EntonrVGI/fractals/";
+
+	//StrNCat(path_fractals, &nomf, 30);
+
+	std::ifstream rd(nomf);
 	step = FMAX/(n-1);
 	
 	float *buff_alturas = new float[FMAX+1*FMAX+1];
-
+	size_t pos = 0;
+	std::string delimiter = " ";
+	std::string token;
+	size_t count_token = 0;
 	while (std::getline(rd, line))
 	{
 		//cout << prueba << "\n";
@@ -103,7 +111,32 @@ else
 
 		if ((counter_file>total+1)&&(numpic!=0))
 		{
+			pos = 0;
+			count_token = 0;
+			while ((pos = line.find(delimiter)) != std::string::npos) {
+				token = line.substr(0, pos);
+				line.erase(0, pos + delimiter.length());
+
+				switch (count_token)
+				{
+				
+				case 0:
+					break;
+				case 1:
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+
+				default:
+					break;
+				}
+
+				count_token++;
+			}
 			fscanf(fd, "%f %f %f %f\n", &x, &y, &rad, &h);
+
 			cx[counter_pic] = x; cy[counter_pic] = y; radi[counter_pic] = rad; hmax[counter_pic] = h;
 
 			counter_pic++;

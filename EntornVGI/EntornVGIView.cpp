@@ -36,6 +36,8 @@
 #include "EntornVGIView.h"
 #include "visualitzacio.h"	// Include funcions de projeció i il.luminació
 #include "escena.h"			// Include funcions d'objectes OpenGL
+#include "fractals.h"
+#include "normals.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -2818,6 +2820,8 @@ void CEntornVGIView::OnArxiuObrirFractal()
 // Entorn VGI: Conversió de la variable CString nom a la variable char *nomfitx, 
 //		compatible amb  les funcions de càrrega de fitxers fractals
 	char *nomfitx = CString2Char(nom);
+
+	pas = llegir_pts(nomfitx);
 
 // Entorn VGI: Variable de tipus char *nomfitx conté el nom del fitxer seleccionat
 
