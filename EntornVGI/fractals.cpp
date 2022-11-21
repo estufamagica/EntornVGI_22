@@ -15,6 +15,7 @@
 #include <fstream>
 #include "material.h"
 #include "fractals.h"
+#include <list>
 
 //#include "EntornVGIView.h"
 
@@ -74,6 +75,12 @@ int counter_pic = 0;
 fd = fopen(nomf, "r");
 int n, m, total, numpic;
 float x, y, rad, h;
+
+//float* buff_alturas = new float[FMAX + 1 * FMAX + 1];
+
+std::list<float> buff_alturas;
+
+
 if (fd == NULL) perror("Error opening file");
 else
 {
@@ -88,7 +95,6 @@ else
 	std::ifstream rd(nomf);
 	step = FMAX/(n-1);
 	
-	float *buff_alturas = new float[FMAX+1*FMAX+1];
 	size_t pos = 0;
 	std::string delimiter = " ";
 	std::string token;
@@ -99,7 +105,8 @@ else
 		if ((counter_file>0)&&(counter_file<total+1)) //alturas fichero
 		{
 			float aux = std::stof(line);
-			buff_alturas[counter_num]=aux;
+			//buff_alturas[counter_num]=aux;
+			buff_alturas.push_back(aux);
 			counter_num++;
 		}
 		//picos, centro radio i altura
@@ -154,20 +161,25 @@ else
 		counter_file++;
 	}
 
-	counter_num = 0;
+	
 
-	for (int i = 0; i < FMAX+1; i++)
+}
+
+
+counter_num = 0;
+
+for (int i = 0; i < FMAX + 1; i++)
+{
+	for (int j = 0; j < FMAX + 1; j = j + step)
 	{
-		for (int j = 0; j < FMAX + 1; j = j + step) 
+		if (counter_num < total)
 		{
-			if (counter_num<total)
-			{
-				zz[i][j] = buff_alturas[counter_num];
-				counter_num++;
-			}
+			//zz[i][j] = buff_alturas[counter_num];
+			zz[i][j] = buff_alturas.front();
+			buff_alturas.pop_front();
+			counter_num++;
 		}
 	}
-
 }
 
 // 4. CAL FER: LLEGIR EL NOMBRE DE PICS I ELS VALORS (CENTRE,RADI 
