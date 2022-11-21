@@ -121,12 +121,21 @@ else
 				{
 				
 				case 0:
+					
+					cx[counter_pic] = std::stof(token);
+
 					break;
 				case 1:
+					cy[counter_pic] = std::stof(token);
+
 					break;
 				case 2:
+					radi[counter_pic] = std::stof(token);
+
 					break;
 				case 3:
+					hmax[counter_pic] = std::stof(token);
+
 					break;
 
 				default:
@@ -135,9 +144,9 @@ else
 
 				count_token++;
 			}
-			fscanf(fd, "%f %f %f %f\n", &x, &y, &rad, &h);
+			//canf(fd, "%f %f %f %f\n", &x, &y, &rad, &h);
 
-			cx[counter_pic] = x; cy[counter_pic] = y; radi[counter_pic] = rad; hmax[counter_pic] = h;
+			//cx[counter_pic] = x; cy[counter_pic] = y; radi[counter_pic] = rad; hmax[counter_pic] = h;
 
 			counter_pic++;
 		}
