@@ -74,6 +74,8 @@ double soroll_sq(int x,int y);
 // -------------- Entorn VGI: Soroll diferenciable segons la posició del punt (x,y)
 double soroll_dif(int x,int y);
 
+double distancia(int x, float cx, int y, float cy); //distancia entre dos punts 
+
 // -------------- Entorn VGI: Càrrega de la triangulació del fractal en un VAO
 CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], bool textur, int step);
 CVAO loadfractEBO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], bool textur, int step);

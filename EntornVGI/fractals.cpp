@@ -73,7 +73,7 @@ int counter_num = 0;
 int counter_pic = 0;
 //buff char[300];
 fd = fopen(nomf, "r");
-int n, m, total, numpic;
+int n, m, total;
 float x, y, rad, h;
 
 //float* buff_alturas = new float[FMAX + 1 * FMAX + 1];
@@ -113,10 +113,10 @@ else
 
 		if (counter_file == total+1)
 		{
-			numpic = std::stoi(line);
+			npics = std::stoi(line);
 		}
 
-		if ((counter_file>total+1)&&(numpic!=0))
+		if ((counter_file>total+1)&&(npics!=0))
 		{
 			pos = 0;
 			count_token = 0;
@@ -229,6 +229,27 @@ return true;
 void itera_fractal(char bruit,int paso)
 {
 // 1. CAL FER: CÀLCUL DE LES ALÇADES INTERMITGES DES DEL PAS paso/2 FINS A 1 SEGONS ALGORISME DEL PUNT MIG ALEATORI (Teoria, tema 6 Fractals)
+	//pas/2 hasta 1
+	//ze = (za+zb)/2 + sorroll(ij)
+
+	while (paso!=1)
+	{
+		int alf = paso;
+
+		paso = paso / 2;
+
+		for (int i = paso; i < FMAX + 1; i = i+ paso)
+		{
+			for (int j = paso; i < FMAX; j = j + paso) {
+				zz[i][j] = ((zz[i-paso][j-paso]+ zz[i + paso][j + paso])/2) + soroll(i,j,alf,bruit); //1 centro
+				zz[i + paso][j] = ((zz[i + paso][j - paso] + zz[i + paso][j + paso]) / 2) + soroll(i,j,alf,bruit);//2 abajo centro
+				zz[i][j + paso] = ((zz[i - paso][j + paso] + zz[i + paso][j + paso]) / 2) + soroll(i, j, alf, bruit); //3 derecha centro
+				zz[i][j - paso] = ((zz[i - paso][j - paso] + zz[i + paso][j - paso]) / 2) + soroll(i, j, alf, bruit); //4 izq centro
+				zz[i - paso][j] = ((zz[i - paso][j - paso] + zz[i - paso][j + paso]) / 2) + soroll(i, j, alf, bruit); //5 arriba centro
+			}
+		}
+	}
+
 
 // 2. CAL FER: CALCUL DEL MAXIM I MINIM DE LES ALÇADES INICIALS UN COP GENERADES TOTES LES ALÇADES (per l'assignació de colors de la paleta)
 
@@ -277,6 +298,17 @@ double soroll(int i,int j,double alf,char noise)
 // Càlcul del soroll linial segons la posició del punt (x,y)
 double soroll_lin(int x, int y)
 {	double aux_sl = 0.0;
+	double distance = 0.0;
+
+	for (int i = 0; i < npics; i++)
+	{
+		distance = distancia(x, cx[i], y, cy[i]);
+
+		if (distance < radi[i])
+		{
+			aux_sl += hmax[i] * ((1 - distance) / radi[i]);
+		}
+	}
 
 	return aux_sl;
 }
@@ -284,6 +316,18 @@ double soroll_lin(int x, int y)
 // Càlcul del soroll quadràtic segons la posició del punt (x,y)
 double soroll_quad(int x, int y)
 {	double aux_sq = 0.0;
+	double distance = 0.0;
+
+	for (int i = 0; i < npics; i++)
+	{
+		distance = distancia(x, cx[i], y, cy[i]);
+
+		if (distance < radi[i])
+		{
+			aux_sq += hmax[i] * (1 - distance*distance / (radi[i] * radi[i]));
+		}
+	}
+	
 
 	return aux_sq;
 }
@@ -291,6 +335,18 @@ double soroll_quad(int x, int y)
 // Càlcul del soroll arrel quadrada segons la posició del punt (x,y)
 double soroll_sq(int x, int y)
 {	double aux_sq = 0.0;
+	double distance = 0.0;
+
+	for (int i = 0; i < npics; i++)
+	{
+		distance = distancia(x, cx[i], y, cy[i]);
+
+		if (distance < radi[i])
+		{
+			aux_sq += hmax[i] * (1 - sqrt(distance) / sqrt(radi[i]));
+		}
+	}
+
 
 	return aux_sq;
 }
@@ -298,8 +354,23 @@ double soroll_sq(int x, int y)
 // Càlcul del soroll diferenciable segons la posició del punt (x,y)
 double soroll_dif(int x, int y)
 {	double aux_sd = 0.0;
+	double distance = 0.0;
+
+	for (int i = 0; i < npics; i++)
+	{
+		distance = distancia(x, cx[i], y, cy[i]);
+
+		if (distance < radi[i])
+		{
+			aux_sd += hmax[i] * (1-distance/radi[i]) * (1 - distance / radi[i]);
+		}
+	}
 
 	return aux_sd;
+}
+
+double distancia(int x, float cx, int y, float cy) {
+	return (double) sqrt(pow((x - cx),2) + pow((y - cy),2));
 }
 //------------------ FI CALCUL DELS SOROLLS  --------------------/
 

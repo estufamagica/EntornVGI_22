@@ -2802,7 +2802,8 @@ void CEntornVGIView::OnTimer(UINT_PTR nIDEvent)
 /*					1. ARXIUS 												 */
 /* ------------------------------------------------------------------------- */
 
-// Obrir fitxer Fractal
+// Obrir fitxer 
+
 void CEntornVGIView::OnArxiuObrirFractal()
 {
 // TODO: Agregue aquí su código de controlador de comandos
@@ -2823,6 +2824,8 @@ void CEntornVGIView::OnArxiuObrirFractal()
 
 	pas = llegir_pts(nomfitx);
 
+
+	
 // Entorn VGI: Variable de tipus char *nomfitx conté el nom del fitxer seleccionat
 
 	

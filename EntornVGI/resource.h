@@ -212,13 +212,22 @@
 #define ID_OBJECTE_CAMI32891            32891
 #define ID_OBJECTE_CAMIO                32892
 #define ID_OBJECTE_HIDROAVIO            32893
+#define ID_OBJECTE_FRACTALS             32894
+#define ID_FRACTALS_SOROLL              32895
+#define ID_                             32896
+#define ID_FRACTAL_SENSE                32897
+#define ID_FRACTAL_LINEAL               32898
+#define ID_FRACTAL_QDR                  32899
+#define ID_FRACTA_SQRT                  32900
+#define ID_FRACTAL_SQRT                 32901
+#define ID_FRACTAL_DIF                  32902
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        311
-#define _APS_NEXT_COMMAND_VALUE         32894
+#define _APS_NEXT_COMMAND_VALUE         32903
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

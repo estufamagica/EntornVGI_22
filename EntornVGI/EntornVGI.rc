@@ -363,6 +363,17 @@ BEGIN
         MENUITEM "Matriu Primitives VAO",       ID_OBJECTE_MATRIU_PRIMITIVES_VBO, CHECKED
         MENUITEM "Camio",                       ID_OBJECTE_CAMIO, CHECKED, MENUBARBREAK
         MENUITEM "Hidroavio",                   ID_OBJECTE_HIDROAVIO, CHECKED
+        POPUP "Fractals"
+        BEGIN
+            POPUP "Soroll"
+            BEGIN
+                MENUITEM "Sense",                       ID_FRACTAL_SENSE, CHECKED
+                MENUITEM "Lineal",                      32898, CHECKED
+                MENUITEM "Quadratica",                  32899, CHECKED
+                MENUITEM "SQRT",                        ID_FRACTAL_SQRT, CHECKED
+                MENUITEM "Diferenciable",               32902, CHECKED
+            END
+        END
     END
     POPUP "Transforma"
     BEGIN
