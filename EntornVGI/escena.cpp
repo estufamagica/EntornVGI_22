@@ -411,6 +411,40 @@ void dibuixa_EscenaGL(GLuint sh_programID, bool eix, GLuint axis_Id, CMask3D rei
 		//glPopMatrix();
 		break;
 
+	case O_FRACTAL:
+		// DIBUIX FRACTAL
+		// Definir característiques material
+		SeleccionaColorMaterial(sh_programID, col_object, sw_material);
+		
+		// Pas ModelView Matrix a shader
+		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1,
+			GL_FALSE, &ModelMatrix[0][0]);
+		NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+		// Pas NormalMatrix a shader
+		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1,
+			GL_FALSE, &NormalMatrix[0][0]);
+		// Dibuix del fractal segons identificador VAO contingut a O_FRACTAL_VAO.
+		draw_TriVAO_Object(O_FRACTAL_VAO);//draw_TriEBO_Object(O_FRACTAL_VAO);
+		// DIBUIX MAR DEL FRACTAL
+		if (textur) {// Desactivar la textura per a no posar-la en el mar fractal
+			glDisable(GL_TEXTURE_2D);
+			glUniform1i(glGetUniformLocation(sh_programID, "textur"), GL_FALSE);
+		}
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		// Definir el color del mar transparent amb component a=0.5f
+		col_object.r = 0.2f; col_object.g = 0.75f; col_object.b = 0.9f;
+		col_object.a = 0.5f;
+		SeleccionaColorMaterial(sh_programID, col_object, sw_material);
+		// Dibuix del mar fractal segons identificador vaoIdM passat per paràmetre
+		draw_TriVAO_Object(MAR_FRACTAL_VAO);
+		glDisable(GL_BLEND);
+		if (textur) { // Restaurar textura si estaba activa
+			glEnable(GL_TEXTURE_2D);
+			glUniform1i(glGetUniformLocation(sh_programID, "textur"), GL_TRUE);
+		}
+		break;
+
 // Dibuix de la resta d'objectes
 	default:
 		// Definició propietats de reflexió (emissió, ambient, difusa, especular) del material.

@@ -221,13 +221,17 @@
 #define ID_FRACTA_SQRT                  32900
 #define ID_FRACTAL_SQRT                 32901
 #define ID_FRACTAL_DIF                  32902
+#define ID_ITMES                        32903
+#define ID_BUTTON32904                  32904
+#define ID_ITMENYS                      32904
+#define ID_FRACTAL_QUAD                 32905
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        311
-#define _APS_NEXT_COMMAND_VALUE         32903
+#define _APS_NEXT_COMMAND_VALUE         32906
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

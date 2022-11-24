@@ -158,6 +158,8 @@ BEGIN
     SEPARATOR
     BUTTON      ID_FILE_PRINT
     BUTTON      ID_APP_ABOUT
+    BUTTON      ID_ITMES
+    BUTTON      ID_ITMENYS
 END
 
 IDR_SORT TOOLBAR 16, 15
@@ -368,10 +370,10 @@ BEGIN
             POPUP "Soroll"
             BEGIN
                 MENUITEM "Sense",                       ID_FRACTAL_SENSE, CHECKED
-                MENUITEM "Lineal",                      32898, CHECKED
-                MENUITEM "Quadratica",                  32899, CHECKED
+                MENUITEM "Lineal",                      ID_FRACTAL_LINEAL, CHECKED
+                MENUITEM "Quadratica",                  ID_FRACTAL_QUAD, CHECKED
                 MENUITEM "SQRT",                        ID_FRACTAL_SQRT, CHECKED
-                MENUITEM "Diferenciable",               32902, CHECKED
+                MENUITEM "Diferenciable",               ID_FRACTAL_DIF, CHECKED
             END
         END
     END

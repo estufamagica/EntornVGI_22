@@ -213,6 +213,18 @@ BEGIN_MESSAGE_MAP(CEntornVGIView, CView)
 		ON_UPDATE_COMMAND_UI(ID_OBJECTE_CAMIO, &CEntornVGIView::OnUpdateObjecteCamio)
 		ON_COMMAND(ID_OBJECTE_HIDROAVIO, &CEntornVGIView::OnObjecteHidroavio) //ID_OBJECTE_HIDROAVIO
 		ON_UPDATE_COMMAND_UI(ID_OBJECTE_HIDROAVIO, &CEntornVGIView::OnUpdateObjecteHidroavio)
+		ON_COMMAND(ID_ITMES, &CEntornVGIView::OnIteraMes)
+		ON_COMMAND(ID_ITMENYS, &CEntornVGIView::OnIteraMenys)
+		ON_COMMAND(ID_FRACTAL_SENSE, &CEntornVGIView::OnObjecteFractalSense)
+		ON_UPDATE_COMMAND_UI(ID_FRACTAL_SENSE, &CEntornVGIView::OnUpdateObjecteFractalSense)
+		ON_COMMAND(ID_FRACTAL_LINEAL, &CEntornVGIView::OnObjecteFractalLineal)
+		ON_UPDATE_COMMAND_UI(ID_FRACTAL_LINEAL, &CEntornVGIView::OnUpdateObjecteFractalLineal)
+		ON_COMMAND(ID_FRACTAL_QUAD, &CEntornVGIView::OnObjecteFractalQuad)
+		ON_UPDATE_COMMAND_UI(ID_FRACTAL_QUAD, &CEntornVGIView::OnUpdateObjecteFractalQuad)
+		ON_COMMAND(ID_FRACTAL_SQRT, &CEntornVGIView::OnObjecteFractalSqrt)
+		ON_UPDATE_COMMAND_UI(ID_FRACTAL_SQRT, &CEntornVGIView::OnUpdateObjecteFractalSqrt)
+		ON_COMMAND(ID_FRACTAL_DIF, &CEntornVGIView::OnObjecteFractalDif)
+		ON_UPDATE_COMMAND_UI(ID_FRACTAL_DIF, &CEntornVGIView::OnUpdateObjecteFractalDif)
 		END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -2822,12 +2834,9 @@ void CEntornVGIView::OnArxiuObrirFractal()
 //		compatible amb  les funcions de càrrega de fitxers fractals
 	char *nomfitx = CString2Char(nom);
 
-	pas = llegir_pts(nomfitx);
-
-
-	
 // Entorn VGI: Variable de tipus char *nomfitx conté el nom del fitxer seleccionat
-
+	pas = llegir_pts(nomfitx); //llegim fractal
+	itera_fractal(soroll, pas);
 	
 // Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
@@ -3476,6 +3485,105 @@ void CEntornVGIView::OnUpdateProjeccioOrtografica(CCmdUI* pCmdUI)
 /* ------------------------------------------------------------------------- */
 /*					7. OBJECTE					                             */
 /* ------------------------------------------------------------------------- */
+
+
+//FRACTALS
+void CEntornVGIView::OnObjecteFractalSense()
+{
+	// TODO: Agregue aquí su código de controlador de comandos
+	objecte = O_FRACTAL;
+	soroll = 'C';
+
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);    // Entorn VGI: Activació el contexte OpenGL
+
+	netejaVAOList();											// Neteja Llista VAO.
+
+
+	//Load fractal
+
+
+	// Entorn VGI: Activació el contexte OpenGL. Permet la coexistencia d'altres contextes de generació
+	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
+
+	// Crida a OnPaint() per redibuixar l'escena
+	InvalidateRect(NULL, false);
+
+
+
+}
+
+
+void CEntornVGIView::OnUpdateObjecteFractalSense(CCmdUI* pCmdUI)
+{
+	// TODO: Agregue aquí su código de controlador de IU para actualización de comandos
+	if (objecte == O_FRACTAL && soroll=='C') pCmdUI->SetCheck(1);
+	else pCmdUI->SetCheck(0);
+
+}
+
+
+void CEntornVGIView::OnObjecteFractalLineal()
+{
+	// TODO: Agregue aquí su código de controlador de comandos
+	objecte = O_FRACTAL;
+	soroll = S_LINEAL;
+}
+
+
+void CEntornVGIView::OnUpdateObjecteFractalLineal(CCmdUI* pCmdUI)
+{
+	// TODO: Agregue aquí su código de controlador de IU para actualización de comandos
+	if (objecte == O_FRACTAL && soroll == S_LINEAL) pCmdUI->SetCheck(1);
+	else pCmdUI->SetCheck(0);
+}
+
+
+void CEntornVGIView::OnObjecteFractalQuad()
+{
+	// TODO: Agregue aquí su código de controlador de comandos
+	objecte = O_FRACTAL;
+	soroll = S_QUADRATIC;
+}
+
+
+void CEntornVGIView::OnUpdateObjecteFractalQuad(CCmdUI* pCmdUI)
+{
+	// TODO: Agregue aquí su código de controlador de IU para actualización de comandos
+	if (objecte == O_FRACTAL && soroll == S_QUADRATIC) pCmdUI->SetCheck(1);
+	else pCmdUI->SetCheck(0);
+}
+
+
+void CEntornVGIView::OnObjecteFractalSqrt()
+{
+	// TODO: Agregue aquí su código de controlador de comandos
+	objecte = O_FRACTAL;
+	soroll = S_SQRT;
+}
+
+
+void CEntornVGIView::OnUpdateObjecteFractalSqrt(CCmdUI* pCmdUI)
+{
+	// TODO: Agregue aquí su código de controlador de IU para actualización de comandos
+	if (objecte == O_FRACTAL && soroll == S_SQRT) pCmdUI->SetCheck(1);
+	else pCmdUI->SetCheck(0);
+}
+
+
+void CEntornVGIView::OnObjecteFractalDif()
+{
+	// TODO: Agregue aquí su código de controlador de comandos
+	objecte = O_FRACTAL;
+	soroll = S_DIFERENCIABLE;
+}
+
+
+void CEntornVGIView::OnUpdateObjecteFractalDif(CCmdUI* pCmdUI)
+{
+	// TODO: Agregue aquí su código de controlador de IU para actualización de comandos
+	if (objecte == O_FRACTAL && soroll == S_DIFERENCIABLE) pCmdUI->SetCheck(1);
+	else pCmdUI->SetCheck(0);
+}
 
 
 // OBJECTE: Cap objecte
@@ -5361,6 +5469,27 @@ std::string CEntornVGIView::CString2String(const CString& cString)
 
 
 
+
+
+
+
+
+void CEntornVGIView::OnIteraMes()
+{
+	// Modificar el valor de pas si l’objecte és O_FRACTAL.
+	pas = pas * 2;
+	// Crida a OnPaint() per redibuixar l'escena
+	InvalidateRect(NULL, false);
+}
+
+
+void CEntornVGIView::OnIteraMenys()
+{
+	// Modificar el valor de pas si l’objecte és O_FRACTAL.
+	pas = pas / 2;
+	// Crida a OnPaint() per redibuixar l'escena
+	InvalidateRect(NULL, false);
+}
 
 
 

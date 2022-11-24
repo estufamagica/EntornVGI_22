@@ -238,9 +238,9 @@ void itera_fractal(char bruit,int paso)
 
 		paso = paso / 2;
 
-		for (int i = paso; i < FMAX + 1; i = i+ paso)
+		for (int i = paso; i < FMAX + 1; i = i+ (paso*2))
 		{
-			for (int j = paso; i < FMAX; j = j + paso) {
+			for (int j = paso; j < FMAX; j = j + (paso*2)) {
 				zz[i][j] = ((zz[i-paso][j-paso]+ zz[i + paso][j + paso])/2) + soroll(i,j,alf,bruit); //1 centro
 				zz[i + paso][j] = ((zz[i + paso][j - paso] + zz[i + paso][j + paso]) / 2) + soroll(i,j,alf,bruit);//2 abajo centro
 				zz[i][j + paso] = ((zz[i - paso][j + paso] + zz[i + paso][j + paso]) / 2) + soroll(i, j, alf, bruit); //3 derecha centro

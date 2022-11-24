@@ -336,6 +336,7 @@ void Iluminacio(GLint sh_programID, char ilumin, bool ifix, bool ilu2sides, bool
 	{
 	case PUNTS:
 		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+
 		break;
 
 	case FILFERROS:
@@ -345,7 +346,7 @@ void Iluminacio(GLint sh_programID, char ilumin, bool ifix, bool ilu2sides, bool
     case PLANA:
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 // PRÀCTICA 3: Crida a la funció pel càlcul dels vectors normals normals a les cares si l'objecte és un fractal
-		//loadfractVAO(); //falta mirarselo
+		//if(objecte==O_FRACTAL && sw_ilum) normalscara(step)
    
 // Il.luminació per cares planes
 		glShadeModel(GL_FLAT); 
@@ -354,7 +355,7 @@ void Iluminacio(GLint sh_programID, char ilumin, bool ifix, bool ilu2sides, bool
 	case GOURAUD:
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 // PRÀCTICA 3: Crida a la funció pel càlcul dels vectors normals normals a les cares si l'objecte és un fractal
-		loadfractVAO(false,' ',ilumin,false,false, step);
+		//if(objecte==O_FRACTAL && sw_ilum) normalsvertexs(step)
 // Il.luminació suau 
         glShadeModel(GL_SMOOTH); 
 		break;
@@ -366,6 +367,20 @@ void Iluminacio(GLint sh_programID, char ilumin, bool ifix, bool ilu2sides, bool
 		glShadeModel(GL_SMOOTH);
 		break;
 	}
+
+	// Creació del VAO del fractal si s'ha canviat la iluminació, soroll o paleta
+	/*if (bc_lin)
+	{
+		bc_lin = false;
+		if (obj == O_FRACTAL)
+		{
+			deleteVAOList(O_FRACTAL_VAO); // Eliminar VAO anterior.
+			Set_VAOList(O_FRACTAL_VAO, loadfractVAO(palcolorF, paletaF, ilumin, true,
+				sw_mat, textur, step));
+			// Set_VAOList(O_FRACTAL_VAO, loadfractEBO(palcolorF, paletaF, ilumin, true, sw_mat, textur, step); // Funció que crea VAO amb EBO
+		}
+	}*/
+
 }
 
 

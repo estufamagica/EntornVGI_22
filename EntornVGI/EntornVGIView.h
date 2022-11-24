@@ -447,6 +447,18 @@ public:
 	afx_msg void OnUpdateObjecteCamio(CCmdUI* pCmdUI);
 	afx_msg void OnObjecteHidroavio();
 	afx_msg void OnUpdateObjecteHidroavio(CCmdUI* pCmdUI);
+	afx_msg void OnIteraMes();
+	afx_msg void OnIteraMenys();
+	afx_msg void OnObjecteFractalSense();
+	afx_msg void OnUpdateObjecteFractalSense(CCmdUI* pCmdUI);
+	afx_msg void OnObjecteFractalLineal();
+	afx_msg void OnUpdateObjecteFractalLineal(CCmdUI* pCmdUI);
+	afx_msg void OnObjecteFractalQuad();
+	afx_msg void OnUpdateObjecteFractalQuad(CCmdUI* pCmdUI);
+	afx_msg void OnObjecteFractalSqrt();
+	afx_msg void OnUpdateObjecteFractalSqrt(CCmdUI* pCmdUI);
+	afx_msg void OnObjecteFractalDif();
+	afx_msg void OnUpdateObjecteFractalDif(CCmdUI* pCmdUI);
 };
 
 #ifndef _DEBUG  // Versión de depuración en EntornVGIView.cpp
