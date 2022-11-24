@@ -192,6 +192,9 @@ r=(float) rand()/RAND_MAX;
 // Funció retorna el pas entre alçades a la variable step, 
 // calculat en funció del nombre d'alçades inicials i del
 // tamany de la matriu.
+
+
+
 return step;
 
 }
@@ -592,8 +595,7 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 			else {	textures.push_back(0.0f); textures.push_back(0.0f);				// Vector Textures
 				}
 		// VERTEX
-		//vertices.push_back();	vertices.push_back();	vertices.push_back();	// Vector Vertices
-
+		vertices.push_back(i); vertices.push_back(j); vertices.push_back(zz[i][j]); // V1
 		// --------- VÈRTEX 2
 		// VECTOR NORMAL
 		normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
@@ -612,7 +614,7 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 			else {	textures.push_back(1.0f); textures.push_back(0.0f);				// Vector Textures
 				}
 		// VERTEX
-		vertices.push_back(i);	vertices.push_back(j);	vertices.push_back(zz[i][j]);	// Vector Vertices
+		vertices.push_back(i+step);	vertices.push_back(j);	vertices.push_back(zz[i+step][j]);	// Vector Vertices
 
 		// --------- VÈRTEX 3
 		// VECTOR NORMAL
@@ -631,7 +633,7 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 			else {	textures.push_back(1.0f); textures.push_back(1.0f);				// Vector Textures
 				}
 		// VERTEX
-		vertices.push_back(i);	vertices.push_back(j);	vertices.push_back(zz[i][j]);	// Vector Vertices
+		vertices.push_back(i+step);	vertices.push_back(j+step);	vertices.push_back(zz[i+step][j+step]);	// Vector Vertices
 
 // ------------------------------- Segon Triangle ------------------------------------------
 		// -------- VÈRTEX 1
@@ -652,6 +654,7 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 			else {	textures.push_back(0.0f); textures.push_back(0.0f);				// Vector Textures
 				}
 		// VERTEX
+		vertices.push_back(i); vertices.push_back(j); vertices.push_back(zz[i][j]); // V1
 		//vertices.push_back();	vertices.push_back();	vertices.push_back();	// Vector Vertices
 
 		// -------- VÈRTEX 3
@@ -672,7 +675,7 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 			else {	textures.push_back(1.0f); textures.push_back(1.0f);				// Vector Textures
 				}
 		// VERTEX
-		vertices.push_back(i);	vertices.push_back(j);	vertices.push_back(zz[i][j]);	// Vector Vertices
+		vertices.push_back(i+step);	vertices.push_back(j+step);	vertices.push_back(zz[i+step][j+step]);	// Vector Vertices
 
 		// -------- VÈRTEX 4
 		// VECTOR NORMAL
@@ -692,7 +695,7 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 			else {	textures.push_back(0.0f); textures.push_back(1.0f);				// Vector Textures
 			}
 		// VERTEX
-		vertices.push_back(i);	vertices.push_back(j);	vertices.push_back(zz[i][j]);	// Vector Vertices
+		vertices.push_back(i);	vertices.push_back(j+step);	vertices.push_back(zz[i][j+step]);	// Vector Vertices
 	}
 
 // ----------------------- VAO

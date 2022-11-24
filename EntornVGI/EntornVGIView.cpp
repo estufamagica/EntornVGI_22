@@ -2835,7 +2835,10 @@ void CEntornVGIView::OnArxiuObrirFractal()
 	char *nomfitx = CString2Char(nom);
 
 // Entorn VGI: Variable de tipus char *nomfitx conté el nom del fitxer seleccionat
+	
+	objecte = O_FRACTAL;
 	pas = llegir_pts(nomfitx); //llegim fractal
+	pas_ini = pas;
 	itera_fractal(soroll, pas);
 	
 // Crida a OnPaint() per redibuixar l'escena
@@ -5477,7 +5480,21 @@ std::string CEntornVGIView::CString2String(const CString& cString)
 void CEntornVGIView::OnIteraMes()
 {
 	// Modificar el valor de pas si l’objecte és O_FRACTAL.
-	pas = pas * 2;
+
+	int aux_pas = 0;
+	if (objecte == O_FRACTAL ) {
+
+		aux_pas = pas * 2;
+
+		if (aux_pas < pas_ini) {
+			pas = aux;
+		
+		}
+
+
+	}
+
+	//pas = pas * 2;
 	// Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
 }
@@ -5486,7 +5503,19 @@ void CEntornVGIView::OnIteraMes()
 void CEntornVGIView::OnIteraMenys()
 {
 	// Modificar el valor de pas si l’objecte és O_FRACTAL.
-	pas = pas / 2;
+
+	int aux_pas = 0;
+	if (objecte == O_FRACTAL) {
+
+		aux_pas = pas / 2;
+
+		if (aux_pas >= 1) {
+			pas = aux;
+
+		}
+
+
+	}
 	// Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
 }
