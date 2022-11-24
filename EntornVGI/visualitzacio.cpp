@@ -20,14 +20,19 @@
 #include "fractals.h"
 #include "visualitzacio.h"
 #include "escena.h"
+#include "normals.h"
+
 
 
 // Iluminació: Configurar iluminació de l'escena
 void Iluminacio(GLint sh_programID, char ilumin, bool ifix, bool ilu2sides, bool ll_amb, LLUM* lumin, char obj, bool frnt_fcs,
-	bool bc_lin, int step)
+	bool bc_lin, int step, bool& sw_ilum)
 {
 	//bool ll_amb=true;
 	GLdouble angv, angh;
+
+	bool sw_material[5];
+	sw_material[0] = false;	sw_material[1] = true; sw_material[2] = true; sw_material[3] = false;	sw_material[4] = true;
 
 	// Configuració de la font de llum LIGHT0
 	GLfloat position[] = { 0.0,0.0,200.0,1.0 };
@@ -346,7 +351,7 @@ void Iluminacio(GLint sh_programID, char ilumin, bool ifix, bool ilu2sides, bool
     case PLANA:
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 // PRÀCTICA 3: Crida a la funció pel càlcul dels vectors normals normals a les cares si l'objecte és un fractal
-		//if(objecte==O_FRACTAL && sw_ilum) normalscara(step)
+		if (obj == O_FRACTAL && sw_ilum) normalscara(step);
    
 // Il.luminació per cares planes
 		glShadeModel(GL_FLAT); 
@@ -355,7 +360,7 @@ void Iluminacio(GLint sh_programID, char ilumin, bool ifix, bool ilu2sides, bool
 	case GOURAUD:
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 // PRÀCTICA 3: Crida a la funció pel càlcul dels vectors normals normals a les cares si l'objecte és un fractal
-		//if(objecte==O_FRACTAL && sw_ilum) normalsvertexs(step)
+		if (obj == O_FRACTAL && sw_ilum) normalsvertex(step);
 // Il.luminació suau 
         glShadeModel(GL_SMOOTH); 
 		break;
@@ -369,17 +374,19 @@ void Iluminacio(GLint sh_programID, char ilumin, bool ifix, bool ilu2sides, bool
 	}
 
 	// Creació del VAO del fractal si s'ha canviat la iluminació, soroll o paleta
-	/*if (bc_lin)
+	if (sw_ilum)
 	{
-		bc_lin = false;
+		sw_ilum = false;
 		if (obj == O_FRACTAL)
 		{
+			
 			deleteVAOList(O_FRACTAL_VAO); // Eliminar VAO anterior.
-			Set_VAOList(O_FRACTAL_VAO, loadfractVAO(palcolorF, paletaF, ilumin, true,
-				sw_mat, textur, step));
+			//Set_VAOList(O_FRACTAL_VAO, loadfractVAO(palcolorF, paletaF, ilumin, true,
+			//	sw_mat, textur, step));
+			Set_VAOList(O_FRACTAL_VAO, loadfractVAO(false, ' ', ilumin, sw_material, false, step));
 			// Set_VAOList(O_FRACTAL_VAO, loadfractEBO(palcolorF, paletaF, ilumin, true, sw_mat, textur, step); // Funció que crea VAO amb EBO
 		}
-	}*/
+	}
 
 }
 
@@ -458,7 +465,7 @@ glm::mat4 Vista_Ortografica(GLuint sh_programID, int prj,GLdouble Raux,CColor co
 	
 	
 // Iluminacio movent-se amb la camara (abans gluLookAt)
-	if (!ifix) Iluminacio(sh_programID, iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step);
+	if (!ifix) Iluminacio(sh_programID, iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step, );
 	
 	//switch de la variable prj para ajustar la camara para las diferentes vistas
 	switch (prj) {

@@ -447,257 +447,273 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 // PER A IL.LUMINACIÓ GOURAUD CAL DESENVOLUPAR EL SEGÜENT CODI:
 
 // CAL FER: Definir els "for" per a recorrer la matriu amb indexs (i,j)
-
-// ------------------------------- Primer Triangle ------------------------------------------
-		// -------- VÈRTEX 1
-		// VECTOR NORMAL
-		normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
-		// COLOR
-		if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
-						// CAL FER: <CÀLCUL index>;
-						colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
-					}
-		else {	//	Colorejar segons color de l'objecte (FET)
-				colors.push_back(cColor[0]);	 colors.push_back(cColor[1]);		colors.push_back(cColor[2]); colors.push_back(cColor[3]);// Vector Colors
-			}
-		//	Assignació TEXTURA
-		if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
-						textures.push_back(ctx); textures.push_back(cty);			// Vector Textures
-		}
-		else {	textures.push_back(0.0f); textures.push_back(0.0f);				// Vector Textures
-			}
-		// VERTEX
-		vertices.push_back(i);	vertices.push_back(j);	vertices.push_back(zz[i][j]);	// Vector Vertices
-
-		// -------- VÈRTEX 2
-		// VECTOR NORMAL
-		normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
-		// COLOR
-		if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
-						// <CAL FER: CÀLCUL index>;
-						colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
-		}
-		else {	//	Colorejar segons color de l'objecte (FET)
-				colors.push_back(cColor[0]);	 colors.push_back(cColor[1]);		colors.push_back(cColor[2]); colors.push_back(cColor[3]);// Vector Colors
-		}
-		// TEXTURA
-		if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
-						textures.push_back(ctx); textures.push_back(cty);
-					}
-		else textures.push_back(1.0f); textures.push_back(0.0f);				// Vector Textures
-		// VERTEX
-		vertices.push_back(i+step);	vertices.push_back(j);	vertices.push_back(zz[i+step][j]);	// Vector Vertices
-
-		// ---------- VÈRTEX 3
-		// VECTOR NORMAL
-		//normals.push_back();		normals.push_back();	normals.push_back();	// Vector Normal
-		// COLOR
-		if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
-						// CAL FER: <CÀLCUL index>;
-						colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
-		}
-		else {	//	Colorejar segons color de l'objecte (FET)
-				colors.push_back(cColor[0]);	 colors.push_back(cColor[1]);		colors.push_back(cColor[2]); colors.push_back(cColor[3]);// Vector Colors
-			}
-		// TEXTURA
-		if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
-						textures.push_back(ctx); textures.push_back(cty);
+		for (i = 0; i < FMAX + 1; i = i + step) {
+			for (j = 0; j < FMAX + 1; j = j + step) {
+				// ------------------------------- Primer Triangle ------------------------------------------
+						// -------- VÈRTEX 1
+						// VECTOR NORMAL
+				normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
+				// COLOR
+				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
+					// CAL FER: <CÀLCUL index>;
+					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
 				}
-		else {	textures.push_back(1.0f); textures.push_back(1.0f);				// Vector Textures
-			}
-		// VERTEX
-		vertices.push_back(i+step);	vertices.push_back(j+step);	vertices.push_back(zz[i+step][j+step]);	// Vector Vertices
+				else {	//	Colorejar segons color de l'objecte (FET)
+					colors.push_back(cColor[0]);	 colors.push_back(cColor[1]);		colors.push_back(cColor[2]); colors.push_back(cColor[3]);// Vector Colors
+				}
+				//	Assignació TEXTURA
+				if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
+					textures.push_back(ctx); textures.push_back(cty);			// Vector Textures
+				}
+				else {
+					textures.push_back(0.0f); textures.push_back(0.0f);				// Vector Textures
+				}
+				// VERTEX
+				vertices.push_back(i);	vertices.push_back(j);	vertices.push_back(zz[i][j]);	// Vector Vertices
 
-// ------------------------------- Segon Triangle ------------------------------------------
-		// -------- VÈRTEX 1
-		// VECTOR NORMAL
-		normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
-		// COLOR
-		if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
-						// CAL FER: <CÀLCUL index>;
-						colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
-		}
-		else {	//	Colorejar segons color de l'objecte
-				colors.push_back(cColor[0]);	 colors.push_back(cColor[1]);		colors.push_back(cColor[2]); colors.push_back(cColor[3]);// Vector Colors
-		}
-		// TEXTURA
-		if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
-						textures.push_back(ctx); textures.push_back(cty);			// Vector Textures
-		}
-		else {	textures.push_back(0.0f); textures.push_back(0.0f);				// Vector Textures
-			}
-		// VERTEX
-		vertices.push_back(i);	vertices.push_back(j);	vertices.push_back(zz[i][j]);	// Vector Vertices
+				// -------- VÈRTEX 2
+				// VECTOR NORMAL
+				normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
+				// COLOR
+				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
+					// <CAL FER: CÀLCUL index>;
+					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
+				}
+				else {	//	Colorejar segons color de l'objecte (FET)
+					colors.push_back(cColor[0]);	 colors.push_back(cColor[1]);		colors.push_back(cColor[2]); colors.push_back(cColor[3]);// Vector Colors
+				}
+				// TEXTURA
+				if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
+					textures.push_back(ctx); textures.push_back(cty);
+				}
+				else textures.push_back(1.0f); textures.push_back(0.0f);				// Vector Textures
+				// VERTEX
+				vertices.push_back(i + step);	vertices.push_back(j);	vertices.push_back(zz[i + step][j]);	// Vector Vertices
 
-		// -------- VÈRTEX 3
-			// VECTOR NORMAL
-		normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
-		// COLOR
-		if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
-						// CAL FER: <CÀLCUL index>;
-						colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
-		}
-		else {	//	Colorejar segons color de l'objecte (FET)
-				colors.push_back(cColor[0]);	 colors.push_back(cColor[1]);		colors.push_back(cColor[2]); colors.push_back(cColor[3]);// Vector Colors
-		}
-		//	Assignació TEXTURA
-		if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
-						textures.push_back(ctx); textures.push_back(cty);			// Vector Textures
-		}
-		else {	textures.push_back(1.0f); textures.push_back(1.0f);				// Vector Textures
-			}
-		// VERTEX
-		vertices.push_back(i+step);	vertices.push_back(j+step);	vertices.push_back(zz[i+step][j+step]);	// Vector Vertices
+				// ---------- VÈRTEX 3
+				// VECTOR NORMAL
+				//normals.push_back();		normals.push_back();	normals.push_back();	// Vector Normal
+				// COLOR
+				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
+					// CAL FER: <CÀLCUL index>;
+					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
+				}
+				else {	//	Colorejar segons color de l'objecte (FET)
+					colors.push_back(cColor[0]);	 colors.push_back(cColor[1]);		colors.push_back(cColor[2]); colors.push_back(cColor[3]);// Vector Colors
+				}
+				// TEXTURA
+				if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
+					textures.push_back(ctx); textures.push_back(cty);
+				}
+				else {
+					textures.push_back(1.0f); textures.push_back(1.0f);				// Vector Textures
+				}
+				// VERTEX
+				vertices.push_back(i + step);	vertices.push_back(j + step);	vertices.push_back(zz[i + step][j + step]);	// Vector Vertices
+
+				// ------------------------------- Segon Triangle ------------------------------------------
+						// -------- VÈRTEX 1
+						// VECTOR NORMAL
+				normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
+				// COLOR
+				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
+					// CAL FER: <CÀLCUL index>;
+					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
+				}
+				else {	//	Colorejar segons color de l'objecte
+					colors.push_back(cColor[0]);	 colors.push_back(cColor[1]);		colors.push_back(cColor[2]); colors.push_back(cColor[3]);// Vector Colors
+				}
+				// TEXTURA
+				if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
+					textures.push_back(ctx); textures.push_back(cty);			// Vector Textures
+				}
+				else {
+					textures.push_back(0.0f); textures.push_back(0.0f);				// Vector Textures
+				}
+				// VERTEX
+				vertices.push_back(i);	vertices.push_back(j);	vertices.push_back(zz[i][j]);	// Vector Vertices
+
+				// -------- VÈRTEX 3
+					// VECTOR NORMAL
+				normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
+				// COLOR
+				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
+					// CAL FER: <CÀLCUL index>;
+					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
+				}
+				else {	//	Colorejar segons color de l'objecte (FET)
+					colors.push_back(cColor[0]);	 colors.push_back(cColor[1]);		colors.push_back(cColor[2]); colors.push_back(cColor[3]);// Vector Colors
+				}
+				//	Assignació TEXTURA
+				if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
+					textures.push_back(ctx); textures.push_back(cty);			// Vector Textures
+				}
+				else {
+					textures.push_back(1.0f); textures.push_back(1.0f);				// Vector Textures
+				}
+				// VERTEX
+				vertices.push_back(i + step);	vertices.push_back(j + step);	vertices.push_back(zz[i + step][j + step]);	// Vector Vertices
 
 
-		// -------- VÈRTEX 4
-		// VECTOR NORMAL
-		normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
-		// COLOR
-		if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
-						// CAL FER: <CÀLCUL index>;
-						colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
-		}
-		else {	//	Colorejar segons color de l'objecte (FET)
-				colors.push_back(cColor[0]);	 colors.push_back(cColor[1]);		colors.push_back(cColor[2]); colors.push_back(cColor[3]);// Vector Colors
-		}
-		// TEXTURA
-		if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
-						textures.push_back(ctx); textures.push_back(cty);			// Vector Textures
-		}
-		else {	textures.push_back(0.0f); textures.push_back(1.0f);				// Vector Textures
+				// -------- VÈRTEX 4
+				// VECTOR NORMAL
+				normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
+				// COLOR
+				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
+					// CAL FER: <CÀLCUL index>;
+					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
+				}
+				else {	//	Colorejar segons color de l'objecte (FET)
+					colors.push_back(cColor[0]);	 colors.push_back(cColor[1]);		colors.push_back(cColor[2]); colors.push_back(cColor[3]);// Vector Colors
+				}
+				// TEXTURA
+				if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
+					textures.push_back(ctx); textures.push_back(cty);			// Vector Textures
+				}
+				else {
+					textures.push_back(0.0f); textures.push_back(1.0f);				// Vector Textures
+				}
+				// VERTEX
+				vertices.push_back(i);	vertices.push_back(j + step);	vertices.push_back(zz[i][j + step]);	// Vector Vertices
 			}
-		// VERTEX
-		vertices.push_back(i);	vertices.push_back(j+step);	vertices.push_back(zz[i][j+step]);	// Vector Vertices
+		}
 	}
 
 	else
-// PER A IL.LUMINACIÓ PLANA o FILFERROS o PUNTS CAL DESENVOLUPAR EL SEGÜENT CODI:
+		// PER A IL.LUMINACIÓ PLANA o FILFERROS o PUNTS CAL DESENVOLUPAR EL SEGÜENT CODI:
 	{
 		// CAL FER: Definir els "for" per a recorrer la matriu amb indexs (i,j)
-
-// ------------------------------- Primer Triangle ------------------------------------------
-		// --------- VÈRTEX 1
-		// VECTOR NORMAL
-		normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
-		// COLOR
-		if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
-						// CAL FER: <CÀLCUL index>;
-						colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
-					}
-			else {	//	Colorejar segons color de l'objecte (FET)
+		for (i = 0; i < FMAX + 1;i=i+step) {
+			for (j = 0; j < FMAX + 1; j=j+step) {
+				// ------------------------------- Primer Triangle ------------------------------------------
+						// --------- VÈRTEX 1
+						// VECTOR NORMAL
+				normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
+				// COLOR
+				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
+					// CAL FER: <CÀLCUL index>;
+					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
+				}
+				else {	//	Colorejar segons color de l'objecte (FET)
 					colors.push_back(cColor[0]);	 colors.push_back(cColor[1]);		colors.push_back(cColor[2]); colors.push_back(cColor[3]);// Vector Colors
 				}
-		//	TEXTURA
-		if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
-						textures.push_back(ctx); textures.push_back(cty);			// Vector Textures
-					}
-			else {	textures.push_back(0.0f); textures.push_back(0.0f);				// Vector Textures
+				//	TEXTURA
+				if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
+					textures.push_back(ctx); textures.push_back(cty);			// Vector Textures
 				}
-		// VERTEX
-		vertices.push_back(i); vertices.push_back(j); vertices.push_back(zz[i][j]); // V1
-		// --------- VÈRTEX 2
-		// VECTOR NORMAL
-		normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
-		// COLOR
-		if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
-						// <CAL FER: CÀLCUL index>;
-						colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
-						}
-			else {	//	Colorejar segons color de l'objecte (FET)
+				else {
+					textures.push_back(0.0f); textures.push_back(0.0f);				// Vector Textures
+				}
+				// VERTEX
+				vertices.push_back(i); vertices.push_back(j); vertices.push_back(zz[i][j]); // V1
+				// --------- VÈRTEX 2
+				// VECTOR NORMAL
+				normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
+				// COLOR
+				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
+					// <CAL FER: CÀLCUL index>;
+					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
+				}
+				else {	//	Colorejar segons color de l'objecte (FET)
 					colors.push_back(cColor[0]);	 colors.push_back(cColor[1]);		colors.push_back(cColor[2]); colors.push_back(cColor[3]);// Vector Colors
 				}
-		//	TEXTURA
-		if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
-						textures.push_back(ctx); textures.push_back(cty);			// Vector Textures
-					}
-			else {	textures.push_back(1.0f); textures.push_back(0.0f);				// Vector Textures
+				//	TEXTURA
+				if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
+					textures.push_back(ctx); textures.push_back(cty);			// Vector Textures
 				}
-		// VERTEX
-		vertices.push_back(i+step);	vertices.push_back(j);	vertices.push_back(zz[i+step][j]);	// Vector Vertices
+				else {
+					textures.push_back(1.0f); textures.push_back(0.0f);				// Vector Textures
+				}
+				// VERTEX
+				vertices.push_back(i + step);	vertices.push_back(j);	vertices.push_back(zz[i + step][j]);	// Vector Vertices
 
-		// --------- VÈRTEX 3
-		// VECTOR NORMAL
-		//normals.push_back();		normals.push_back();	normals.push_back();	// Vector Normal
-		if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
-						// CAL FER: <CÀLCUL index>;
-						colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
-					}
-			else {	//	Colorejar segons color de l'objecte (FET)
+				// --------- VÈRTEX 3
+				// VECTOR NORMAL
+				//normals.push_back();		normals.push_back();	normals.push_back();	// Vector Normal
+				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
+					// CAL FER: <CÀLCUL index>;
+					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
+				}
+				else {	//	Colorejar segons color de l'objecte (FET)
 					colors.push_back(cColor[0]);	 colors.push_back(cColor[1]);		colors.push_back(cColor[2]); colors.push_back(cColor[3]);// Vector Colors
 				}
-		// TEXTURA
-		if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
-						textures.push_back(ctx); textures.push_back(cty);			// Vector Textures
-					}
-			else {	textures.push_back(1.0f); textures.push_back(1.0f);				// Vector Textures
+				// TEXTURA
+				if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
+					textures.push_back(ctx); textures.push_back(cty);			// Vector Textures
 				}
-		// VERTEX
-		vertices.push_back(i+step);	vertices.push_back(j+step);	vertices.push_back(zz[i+step][j+step]);	// Vector Vertices
+				else {
+					textures.push_back(1.0f); textures.push_back(1.0f);				// Vector Textures
+				}
+				// VERTEX
+				vertices.push_back(i + step);	vertices.push_back(j + step);	vertices.push_back(zz[i + step][j + step]);	// Vector Vertices
 
-// ------------------------------- Segon Triangle ------------------------------------------
-		// -------- VÈRTEX 1
-		// VECTOR NORMAL
-		normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
-		// COLOR
-		if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
-						// CAL FER: <CÀLCUL index>;
-						colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]);	colors.push_back(1.0);// Vector Colors
-						}
-			else {	//	Colorejar segons color de l'objecte
+				// ------------------------------- Segon Triangle ------------------------------------------
+						// -------- VÈRTEX 1
+						// VECTOR NORMAL
+				normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
+				// COLOR
+				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
+					// CAL FER: <CÀLCUL index>;
+					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]);	colors.push_back(1.0);// Vector Colors
+				}
+				else {	//	Colorejar segons color de l'objecte
 					colors.push_back(cColor[0]);	 colors.push_back(cColor[1]);		colors.push_back(cColor[2]);	colors.push_back(cColor[3]);// Vector Colors
-					}
-		//	TEXTURA
-		if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
-						textures.push_back(ctx); textures.push_back(cty);			// Vector Textures
-					}
-			else {	textures.push_back(0.0f); textures.push_back(0.0f);				// Vector Textures
 				}
-		// VERTEX
-		vertices.push_back(i); vertices.push_back(j); vertices.push_back(zz[i][j]); // V1
-		//vertices.push_back();	vertices.push_back();	vertices.push_back();	// Vector Vertices
+				//	TEXTURA
+				if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
+					textures.push_back(ctx); textures.push_back(cty);			// Vector Textures
+				}
+				else {
+					textures.push_back(0.0f); textures.push_back(0.0f);				// Vector Textures
+				}
+				// VERTEX
+				vertices.push_back(i); vertices.push_back(j); vertices.push_back(zz[i][j]); // V1
+				//vertices.push_back();	vertices.push_back();	vertices.push_back();	// Vector Vertices
 
-		// -------- VÈRTEX 3
-		// VECTOR NORMAL
-		//normals.push_back();		normals.push_back();	normals.push_back();	// Vector Normal
-		// COLOR
-		if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
-						// CAL FER: <CÀLCUL index>;
-						colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
-						}
-			else {	//	Colorejar segons color de l'objecte (FET)
+				// -------- VÈRTEX 3
+				// VECTOR NORMAL
+				//normals.push_back();		normals.push_back();	normals.push_back();	// Vector Normal
+				// COLOR
+				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
+					// CAL FER: <CÀLCUL index>;
+					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
+				}
+				else {	//	Colorejar segons color de l'objecte (FET)
 					colors.push_back(cColor[0]);	 colors.push_back(cColor[1]);		colors.push_back(cColor[2]); colors.push_back(cColor[3]);// Vector Colors
 				}
-		//	TEXTURA
-		if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
-						textures.push_back(ctx); textures.push_back(cty);			// Vector Textures
-					}
-			else {	textures.push_back(1.0f); textures.push_back(1.0f);				// Vector Textures
+				//	TEXTURA
+				if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
+					textures.push_back(ctx); textures.push_back(cty);			// Vector Textures
 				}
-		// VERTEX
-		vertices.push_back(i+step);	vertices.push_back(j+step);	vertices.push_back(zz[i+step][j+step]);	// Vector Vertices
+				else {
+					textures.push_back(1.0f); textures.push_back(1.0f);				// Vector Textures
+				}
+				// VERTEX
+				vertices.push_back(i + step);	vertices.push_back(j + step);	vertices.push_back(zz[i + step][j + step]);	// Vector Vertices
 
-		// -------- VÈRTEX 4
-		// VECTOR NORMAL
-		normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
-		// COLOR
-		if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
-						// CAL FER: <CÀLCUL index>;
-						colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
-						}
-			else {	//	Colorejar segons color de l'objecte (FET)
+				// -------- VÈRTEX 4
+				// VECTOR NORMAL
+				normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
+				// COLOR
+				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
+					// CAL FER: <CÀLCUL index>;
+					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
+				}
+				else {	//	Colorejar segons color de l'objecte (FET)
 					colors.push_back(cColor[0]);	 colors.push_back(cColor[1]);		colors.push_back(cColor[2]); colors.push_back(cColor[3]);// Vector Colors
 				}
-		//	TEXTURA
-		if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
-						textures.push_back(ctx); textures.push_back(cty);			// Vector Textures
-					}
-			else {	textures.push_back(0.0f); textures.push_back(1.0f);				// Vector Textures
+				//	TEXTURA
+				if (textur) {	// CAL FER: <CÀLCUL (ctx,cty)>
+					textures.push_back(ctx); textures.push_back(cty);			// Vector Textures
+				}
+				else {
+					textures.push_back(0.0f); textures.push_back(1.0f);				// Vector Textures
+				}
+				// VERTEX
+				vertices.push_back(i);	vertices.push_back(j + step);	vertices.push_back(zz[i][j + step]);	// Vector Vertices
 			}
-		// VERTEX
-		vertices.push_back(i);	vertices.push_back(j+step);	vertices.push_back(zz[i][j+step]);	// Vector Vertices
+		}
 	}
-
 // ----------------------- VAO
 	std::vector <int>::size_type nv = vertices.size();	// Tamany del vector vertices en elements.
 
