@@ -412,20 +412,16 @@ void dibuixa_EscenaGL(GLuint sh_programID, bool eix, GLuint axis_Id, CMask3D rei
 		break;
 
 	case O_FRACTAL:
-		// DIBUIX FRACTAL
-		// Definir característiques material
-		SeleccionaColorMaterial(sh_programID, col_object, sw_material);
 		
-		// Pas ModelView Matrix a shader
+		fractal(sh_programID, MatriuVista, MatriuTG, sw_mat, col_object);
+		// DIBUIX MAR DEL FRACTAL
+		//ModelMatrix = translate(MatriuTG, vec3(256, 256, 0));
 		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1,
 			GL_FALSE, &ModelMatrix[0][0]);
 		NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
 		// Pas NormalMatrix a shader
 		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1,
 			GL_FALSE, &NormalMatrix[0][0]);
-		// Dibuix del fractal segons identificador VAO contingut a O_FRACTAL_VAO.
-		draw_TriVAO_Object(O_FRACTAL_VAO);//draw_TriEBO_Object(O_FRACTAL_VAO);
-		// DIBUIX MAR DEL FRACTAL
 		if (textur) {// Desactivar la textura per a no posar-la en el mar fractal
 			glDisable(GL_TEXTURE_2D);
 			glUniform1i(glGetUniformLocation(sh_programID, "textur"), GL_FALSE);
@@ -455,6 +451,26 @@ void dibuixa_EscenaGL(GLuint sh_programID, bool eix, GLuint axis_Id, CMask3D rei
 
 // Enviar les comandes gràfiques a pantalla
 //	glFlush();
+}
+
+void fractal(GLuint sh_programID, glm::mat4 MatriuVista, glm::mat4 MatriuTG, bool sw_mat[5], CColor col_object) {
+	// DIBUIX FRACTAL
+		// Definir característiques material
+	
+	glm::mat4 NormalMatrix(1.0);
+
+	SeleccionaColorMaterial(sh_programID, col_object, sw_mat);
+
+	// Pas ModelView Matrix a shader
+	MatriuTG = translate(MatriuTG, vec3(-256, -256, 0));
+	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1,
+		GL_FALSE, &MatriuTG[0][0]);
+	NormalMatrix = transpose(inverse(MatriuVista * MatriuTG));
+	// Pas NormalMatrix a shader
+	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1,
+		GL_FALSE, &NormalMatrix[0][0]);
+	// Dibuix del fractal segons identificador VAO contingut a O_FRACTAL_VAO.
+	draw_TriVAO_Object(O_FRACTAL_VAO);//draw_TriEBO_Object(O_FRACTAL_VAO);
 }
 
 

@@ -243,12 +243,12 @@ void itera_fractal(char bruit,int paso)
 
 		for (int i = paso; i < FMAX + 1; i = i+ (paso*2))
 		{
-			for (int j = paso; j < FMAX; j = j + (paso*2)) {
-				zz[i][j] = ((zz[i-paso][j-paso]+ zz[i + paso][j + paso])/2) + soroll(i,j,alf,bruit); //1 centro
-				zz[i + paso][j] = ((zz[i + paso][j - paso] + zz[i + paso][j + paso]) / 2) + soroll(i,j,alf,bruit);//2 abajo centro
-				zz[i][j + paso] = ((zz[i - paso][j + paso] + zz[i + paso][j + paso]) / 2) + soroll(i, j, alf, bruit); //3 derecha centro
-				zz[i][j - paso] = ((zz[i - paso][j - paso] + zz[i + paso][j - paso]) / 2) + soroll(i, j, alf, bruit); //4 izq centro
-				zz[i - paso][j] = ((zz[i - paso][j - paso] + zz[i - paso][j + paso]) / 2) + soroll(i, j, alf, bruit); //5 arriba centro
+			for (int j = paso; j < FMAX + 1; j = j + (paso*2)) {
+				zz[i][j] = ((zz[i-paso][j-paso]+ zz[i + paso][j + paso])/2) + (float)soroll(i,j,alf,bruit); //1 centro
+				zz[i + paso][j] = ((zz[i + paso][j - paso] + zz[i + paso][j + paso]) / 2) + (float)soroll(i,j,alf,bruit);//2 abajo centro
+				zz[i][j + paso] = ((zz[i - paso][j + paso] + zz[i + paso][j + paso]) / 2) + (float)soroll(i, j, alf, bruit); //3 derecha centro
+				zz[i][j - paso] = ((zz[i - paso][j - paso] + zz[i + paso][j - paso]) / 2) + (float)soroll(i, j, alf, bruit); //4 izq centro
+				zz[i - paso][j] = ((zz[i - paso][j - paso] + zz[i - paso][j + paso]) / 2) + (float)soroll(i, j, alf, bruit); //5 arriba centro
 			}
 		}
 	}
@@ -270,7 +270,7 @@ double soroll(int i,int j,double alf,char noise)
 	double ff,s,r;
 
 // Càlcul de la variable aleatòria entre (0,1).
-	r=(float) rand()/RAND_MAX;
+	r=(double) rand()/RAND_MAX;
 
 // Càlcul del soroll segons el tipus.
 	switch(noise)
@@ -309,7 +309,7 @@ double soroll_lin(int x, int y)
 
 		if (distance < radi[i])
 		{
-			aux_sl += hmax[i] * ((1 - distance) / radi[i]);
+			aux_sl += hmax[i] * (1 - distance / radi[i]);
 		}
 	}
 
@@ -447,8 +447,8 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 // PER A IL.LUMINACIÓ GOURAUD CAL DESENVOLUPAR EL SEGÜENT CODI:
 
 // CAL FER: Definir els "for" per a recorrer la matriu amb indexs (i,j)
-		for (i = 0; i < FMAX + 1; i = i + step) {
-			for (j = 0; j < FMAX + 1; j = j + step) {
+		for (i = 0; i < FMAX; i = i + step) {
+			for (j = 0; j < FMAX; j = j + step) {
 				// ------------------------------- Primer Triangle ------------------------------------------
 						// -------- VÈRTEX 1
 						// VECTOR NORMAL
@@ -583,8 +583,8 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 		// PER A IL.LUMINACIÓ PLANA o FILFERROS o PUNTS CAL DESENVOLUPAR EL SEGÜENT CODI:
 	{
 		// CAL FER: Definir els "for" per a recorrer la matriu amb indexs (i,j)
-		for (i = 0; i < FMAX + 1;i=i+step) {
-			for (j = 0; j < FMAX + 1; j=j+step) {
+		for (i = 0; i < FMAX;i=i+step) {
+			for (j = 0; j < FMAX; j=j+step) {
 				// ------------------------------- Primer Triangle ------------------------------------------
 						// --------- VÈRTEX 1
 						// VECTOR NORMAL

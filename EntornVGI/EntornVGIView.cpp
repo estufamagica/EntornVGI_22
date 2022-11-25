@@ -914,7 +914,7 @@ void CEntornVGIView::OnPaint()
 		ProjectionMatrix = Projeccio_Orto(shader_programID, 0, 0, w/2, h/2);
 		ViewMatrix = Vista_Ortografica(shader_programID, 0, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
-			eixos, grid, hgrid);
+			eixos, grid, hgrid, sw_il, sw_material); 
 		// Dibuix de l'Objecte o l'Escena
 		configura_Escena();     // Aplicar Transformacions Geometriques segons persiana Transformacio i configurar objectes
 		dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
@@ -924,7 +924,7 @@ void CEntornVGIView::OnPaint()
 		ProjectionMatrix = Projeccio_Orto(shader_programID, w/2, 0, w/2, h/2);
 		ViewMatrix = Vista_Ortografica(shader_programID, 3, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
-			eixos, grid, hgrid);
+			eixos, grid, hgrid, sw_il, sw_material);
 		// Dibuix de l'Objecte o l'Escena
 		//glPushMatrix();
 		configura_Escena();     // Aplicar Transformacions Geometriques segons persiana Transformacio i configurar objectes
@@ -936,7 +936,7 @@ void CEntornVGIView::OnPaint()
 		ProjectionMatrix = Projeccio_Orto(shader_programID, 0, h/2, w/2, h/2);
 		ViewMatrix = Vista_Ortografica(shader_programID, 1, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
-			eixos, grid, hgrid);
+			eixos, grid, hgrid, sw_il, sw_material);
 		// Dibuix de l'Objecte o l'Escena
 		configura_Escena();     // Aplicar Transformacions Geom?triques segons persiana Transformacio i configurar objectes
 		dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
@@ -946,7 +946,7 @@ void CEntornVGIView::OnPaint()
 		ProjectionMatrix = Projeccio_Orto(shader_programID, w/2, h/2, w/2 , h/2);
 		ViewMatrix = Vista_Ortografica(shader_programID, 2, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
-			eixos, grid, hgrid);
+			eixos, grid, hgrid, sw_il, sw_material);
 		// Dibuix de l'Objecte o l'Escena
 		configura_Escena();     // Aplicar Transformacions Geom?triques segons persiana Transformacio i configurar objectes
 		dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
@@ -968,19 +968,19 @@ void CEntornVGIView::OnPaint()
 				ViewMatrix = Vista_Esferica(shader_programID, OPV, Vis_Polar, pan, tr_cpv, tr_cpvF, c_fons, col_obj, objecte, mida, pas,
 				front_faces, oculta, test_vis, back_line,
 				ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
-				eixos, grid, hgrid);
+				eixos, grid, hgrid, sw_il, sw_material);
 					}
 		else if (camera == CAM_NAVEGA) {
 			ViewMatrix = Vista_Navega(shader_programID, opvN, false, n, vpv, pan, tr_cpv, tr_cpvF, c_fons, col_obj, objecte, true, pas,
 				front_faces, oculta, test_vis, back_line,
 				ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
-				eixos, grid, hgrid);
+				eixos, grid, hgrid, sw_il, sw_material);
 		}
 		else if (camera == CAM_GEODE) {
 			ViewMatrix = Vista_Geode(shader_programID, OPV_G, Vis_Polar, pan, tr_cpv, tr_cpvF, c_fons, col_obj, objecte, mida, pas,
 				front_faces, oculta, test_vis, back_line,
 				ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
-				eixos, grid, hgrid);
+				eixos, grid, hgrid, sw_il, sw_material);
 				}
 
 		// Dibuix de l'Objecte o l'Escena
@@ -2835,11 +2835,21 @@ void CEntornVGIView::OnArxiuObrirFractal()
 	char *nomfitx = CString2Char(nom);
 
 // Entorn VGI: Variable de tipus char *nomfitx conté el nom del fitxer seleccionat
-	
-	objecte = O_FRACTAL;
 	pas = llegir_pts(nomfitx); //llegim fractal
 	pas_ini = pas;
 	itera_fractal(soroll, pas);
+	objecte = O_FRACTAL;
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);// Activem context OpenGL
+	// Càrrega dels VAO's fixes per a construir objecte Fractal
+	netejaVAOList(); // Neteja Llista VAO.
+	// Crea el VAO per al mar fractal
+	//GTMatrix = translate(GTMatrix, vec3(-(FMAX / 2), -(FMAX / 2), 0));
+	
+	Set_VAOList(MAR_FRACTAL_VAO, loadMar_FractalVAO());
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);// Desactivem context OpenGL
+	Set_VAOList(O_FRACTAL_VAO, loadfractVAO(palcolFractal, ' ', sw_il, sw_material, false, pas));
+	
+	
 	
 // Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
@@ -3453,7 +3463,7 @@ void CEntornVGIView::OnProjeccioPerspectiva()
 // TODO: Agregue aquí su código de controlador de comandos
 	projeccio = PERSPECT;
 	mobil = true;			zzoom = true;
-
+	//sw_il = true;
 // Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
 
@@ -3470,6 +3480,7 @@ void CEntornVGIView::OnProjeccioOrtografica()
 {
 	// TODO: Agregue aquí su código de controlador de comandos
 	projeccio = ORTO;
+	
 	// Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
 
@@ -3496,17 +3507,23 @@ void CEntornVGIView::OnObjecteFractalSense()
 	// TODO: Agregue aquí su código de controlador de comandos
 	objecte = O_FRACTAL;
 	soroll = 'C';
-
+	sw_il = true;
+	itera_fractal(soroll, pas);
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);    // Entorn VGI: Activació el contexte OpenGL
 
 	netejaVAOList();											// Neteja Llista VAO.
 
 
 	//Load fractal
-
+	Set_VAOList(MAR_FRACTAL_VAO, loadMar_FractalVAO());
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);// Desactivem context OpenGL
 
 	// Entorn VGI: Activació el contexte OpenGL. Permet la coexistencia d'altres contextes de generació
-	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
+	//wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
+	Set_VAOList(O_FRACTAL_VAO, loadfractVAO(palcolFractal, ' ', sw_il, sw_material, false, pas));
+
+	// Entorn VGI: Activació el contexte OpenGL. Permet la coexistencia d'altres contextes de generació
+	//wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
 
 	// Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
@@ -3530,6 +3547,24 @@ void CEntornVGIView::OnObjecteFractalLineal()
 	// TODO: Agregue aquí su código de controlador de comandos
 	objecte = O_FRACTAL;
 	soroll = S_LINEAL;
+	sw_il = true;
+
+	itera_fractal(soroll, pas);
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);    // Entorn VGI: Activació el contexte OpenGL
+
+	netejaVAOList();											// Neteja Llista VAO.
+
+
+	//Load fractal
+
+	Set_VAOList(MAR_FRACTAL_VAO, loadMar_FractalVAO());
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);// Desactivem context OpenGL
+	
+	// Entorn VGI: Activació el contexte OpenGL. Permet la coexistencia d'altres contextes de generació
+	//wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
+	//Set_VAOList(O_FRACTAL_VAO, loadfractVAO(palcolFractal, ' ', sw_il, sw_material, false, pas));
+	// Crida a OnPaint() per redibuixar l'escena
+	InvalidateRect(NULL, false);
 }
 
 
@@ -3546,6 +3581,7 @@ void CEntornVGIView::OnObjecteFractalQuad()
 	// TODO: Agregue aquí su código de controlador de comandos
 	objecte = O_FRACTAL;
 	soroll = S_QUADRATIC;
+	sw_il = true;
 }
 
 
@@ -3562,6 +3598,7 @@ void CEntornVGIView::OnObjecteFractalSqrt()
 	// TODO: Agregue aquí su código de controlador de comandos
 	objecte = O_FRACTAL;
 	soroll = S_SQRT;
+	sw_il = true;
 }
 
 
@@ -5482,18 +5519,18 @@ void CEntornVGIView::OnIteraMes()
 	// Modificar el valor de pas si l’objecte és O_FRACTAL.
 
 	int aux_pas = 0;
-	if (objecte == O_FRACTAL ) {
+	if (objecte == O_FRACTAL) {
 
-		aux_pas = pas * 2;
+		aux_pas = pas / 2;
 
-		if (aux_pas < pas_ini) {
-			pas = aux;
-		
+		if (aux_pas >= 1) {
+			pas = aux_pas;
+
 		}
 
 
 	}
-
+	sw_il = true;
 	//pas = pas * 2;
 	// Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
@@ -5507,15 +5544,17 @@ void CEntornVGIView::OnIteraMenys()
 	int aux_pas = 0;
 	if (objecte == O_FRACTAL) {
 
-		aux_pas = pas / 2;
+		aux_pas = pas * 2;
 
-		if (aux_pas >= 1) {
-			pas = aux;
+		if (aux_pas <= pas_ini) {
+			pas = aux_pas;
 
 		}
 
 
 	}
+	sw_il = true;
+
 	// Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
 }
