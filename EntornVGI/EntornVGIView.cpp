@@ -2847,7 +2847,7 @@ void CEntornVGIView::OnArxiuObrirFractal()
 	
 	Set_VAOList(MAR_FRACTAL_VAO, loadMar_FractalVAO());
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);// Desactivem context OpenGL
-	Set_VAOList(O_FRACTAL_VAO, loadfractVAO(palcolFractal, ' ', sw_il, sw_material, false, pas));
+	//Set_VAOList(O_FRACTAL_VAO, loadfractVAO(palcolFractal, ' ', sw_il, sw_material, false, pas));
 	
 	
 	
@@ -3520,7 +3520,7 @@ void CEntornVGIView::OnObjecteFractalSense()
 
 	// Entorn VGI: Activació el contexte OpenGL. Permet la coexistencia d'altres contextes de generació
 	//wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
-	Set_VAOList(O_FRACTAL_VAO, loadfractVAO(palcolFractal, ' ', sw_il, sw_material, false, pas));
+	//Set_VAOList(O_FRACTAL_VAO, loadfractVAO(palcolFractal, ' ', sw_il, sw_material, false, pas));
 
 	// Entorn VGI: Activació el contexte OpenGL. Permet la coexistencia d'altres contextes de generació
 	//wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
@@ -3582,6 +3582,23 @@ void CEntornVGIView::OnObjecteFractalQuad()
 	objecte = O_FRACTAL;
 	soroll = S_QUADRATIC;
 	sw_il = true;
+
+	itera_fractal(soroll, pas_ini);
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);    // Entorn VGI: Activació el contexte OpenGL
+
+	netejaVAOList();											// Neteja Llista VAO.
+
+
+	//Load fractal
+
+	Set_VAOList(MAR_FRACTAL_VAO, loadMar_FractalVAO());
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);// Desactivem context OpenGL
+
+	// Entorn VGI: Activació el contexte OpenGL. Permet la coexistencia d'altres contextes de generació
+	//wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
+	//Set_VAOList(O_FRACTAL_VAO, loadfractVAO(palcolFractal, ' ', sw_il, sw_material, false, pas));
+	// Crida a OnPaint() per redibuixar l'escena
+	InvalidateRect(NULL, false);
 }
 
 
@@ -3599,6 +3616,23 @@ void CEntornVGIView::OnObjecteFractalSqrt()
 	objecte = O_FRACTAL;
 	soroll = S_SQRT;
 	sw_il = true;
+
+	itera_fractal(soroll, pas_ini);
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);    // Entorn VGI: Activació el contexte OpenGL
+
+	netejaVAOList();											// Neteja Llista VAO.
+
+
+	//Load fractal
+
+	Set_VAOList(MAR_FRACTAL_VAO, loadMar_FractalVAO());
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);// Desactivem context OpenGL
+
+	// Entorn VGI: Activació el contexte OpenGL. Permet la coexistencia d'altres contextes de generació
+	//wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
+	//Set_VAOList(O_FRACTAL_VAO, loadfractVAO(palcolFractal, ' ', sw_il, sw_material, false, pas));
+	// Crida a OnPaint() per redibuixar l'escena
+	InvalidateRect(NULL, false);
 }
 
 
@@ -3615,6 +3649,24 @@ void CEntornVGIView::OnObjecteFractalDif()
 	// TODO: Agregue aquí su código de controlador de comandos
 	objecte = O_FRACTAL;
 	soroll = S_DIFERENCIABLE;
+	sw_il = true;
+
+	itera_fractal(soroll, pas_ini);
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);    // Entorn VGI: Activació el contexte OpenGL
+
+	netejaVAOList();											// Neteja Llista VAO.
+
+
+	//Load fractal
+
+	Set_VAOList(MAR_FRACTAL_VAO, loadMar_FractalVAO());
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);// Desactivem context OpenGL
+
+	// Entorn VGI: Activació el contexte OpenGL. Permet la coexistencia d'altres contextes de generació
+	//wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
+	//Set_VAOList(O_FRACTAL_VAO, loadfractVAO(palcolFractal, ' ', sw_il, sw_material, false, pas));
+	// Crida a OnPaint() per redibuixar l'escena
+	InvalidateRect(NULL, false);
 }
 
 
