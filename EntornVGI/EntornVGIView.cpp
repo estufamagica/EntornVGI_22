@@ -3508,7 +3508,7 @@ void CEntornVGIView::OnObjecteFractalSense()
 	objecte = O_FRACTAL;
 	soroll = 'C';
 	sw_il = true;
-	itera_fractal(soroll, pas);
+	itera_fractal(soroll, pas_ini);
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);    // Entorn VGI: Activació el contexte OpenGL
 
 	netejaVAOList();											// Neteja Llista VAO.
@@ -3549,7 +3549,7 @@ void CEntornVGIView::OnObjecteFractalLineal()
 	soroll = S_LINEAL;
 	sw_il = true;
 
-	itera_fractal(soroll, pas);
+	itera_fractal(soroll, pas_ini);
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);    // Entorn VGI: Activació el contexte OpenGL
 
 	netejaVAOList();											// Neteja Llista VAO.
