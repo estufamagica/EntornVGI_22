@@ -448,6 +448,15 @@ void normalscara(int step)
 	i = 0;	j = 0;
 	for (i = 0; i < 3; i++) 
 	{	v1[i] = 0.0f;	v2[i] = 0.0f;	n[i] = 0.0f;
+		
+	}
+
+	for ( i = 0; i < FMAX; i = i + step)
+	{
+		for ( j = 0; j < FMAX; j = j + step )
+		{
+
+		}
 	}
 }
 

@@ -588,7 +588,7 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 				// ------------------------------- Primer Triangle ------------------------------------------
 						// --------- VÈRTEX 1
 						// VECTOR NORMAL
-				normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
+				normals.push_back(normalsC[i][j][0]);		normals.push_back(normalsC[i][j][1]);	normals.push_back(normalsC[i][j][2]); // Vector Normal
 				// COLOR
 				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
 					// CAL FER: <CÀLCUL index>;
@@ -608,7 +608,7 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 				vertices.push_back(i); vertices.push_back(j); vertices.push_back(zz[i][j]); // V1
 				// --------- VÈRTEX 2
 				// VECTOR NORMAL
-				normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
+				normals.push_back(normalsC[i][j][0]);		normals.push_back(normalsC[i][j][1]);	normals.push_back(normalsC[i][j][2]); // Vector Normal
 				// COLOR
 				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
 					// <CAL FER: CÀLCUL index>;
@@ -629,7 +629,7 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 
 				// --------- VÈRTEX 3
 				// VECTOR NORMAL
-				//normals.push_back();		normals.push_back();	normals.push_back();	// Vector Normal
+				normals.push_back(normalsC[i][j][0]);		normals.push_back(normalsC[i][j][1]);	normals.push_back(normalsC[i][j][2]);	// Vector Normal
 				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
 					// CAL FER: <CÀLCUL index>;
 					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
@@ -672,7 +672,7 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 
 				// -------- VÈRTEX 3
 				// VECTOR NORMAL
-				//normals.push_back();		normals.push_back();	normals.push_back();	// Vector Normal
+				normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]);	// Vector Normal
 				// COLOR
 				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
 					// CAL FER: <CÀLCUL index>;

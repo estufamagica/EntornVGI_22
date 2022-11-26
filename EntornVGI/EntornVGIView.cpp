@@ -4715,6 +4715,7 @@ void CEntornVGIView::OnIluminacioPunts()
 // TODO: Agregue aquí su código de controlador de comandos
 	ilumina = PUNTS;
 	test_vis = false;		oculta = false;
+	sw_il = true;
 
 // Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
@@ -4734,6 +4735,7 @@ void CEntornVGIView::OnIluminacioFilferros()
 // TODO: Agregue aquí su código de controlador de comandos
 	ilumina = FILFERROS;
 	test_vis = false;		oculta = false;
+	sw_il = true;
 
 // Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
@@ -4753,7 +4755,7 @@ void CEntornVGIView::OnIluminacioPlana()
 // TODO: Agregue aquí su código de controlador de comandos
 	ilumina = PLANA;
 	test_vis = false;		oculta = true;
-
+	sw_il = true;
 // Entorn VGI: Activació del contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
