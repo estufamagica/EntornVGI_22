@@ -4797,7 +4797,7 @@ void CEntornVGIView::OnIluminacioGouraud()
 // TODO: Agregue aquí su código de controlador de comandos
 	ilumina = GOURAUD;		shader_menu = GOURAUD_SHADER;
 	test_vis = false;		oculta = true;
-
+	sw_il = true;
 // Entorn VGI: Activació del contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
 
@@ -4837,6 +4837,7 @@ void CEntornVGIView::OnIluminacioPhong()
 // TODO: Agregue aquí su código de controlador de comandos
 	ilumina = PHONG;		shader_menu = PHONG_SHADER;
 	test_vis = false;		oculta = true;
+	sw_il = true;
 
 // Entorn VGI: Activació del contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);

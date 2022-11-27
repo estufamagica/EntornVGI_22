@@ -473,7 +473,7 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 
 				// -------- VÈRTEX 2
 				// VECTOR NORMAL
-				normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
+				normals.push_back(normalsV[i+step][j][0]);		normals.push_back(normalsV[i+step][j][1]);	normals.push_back(normalsV[i+step][j][2]); // Vector Normal
 				// COLOR
 				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
 					// <CAL FER: CÀLCUL index>;
@@ -492,7 +492,7 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 
 				// ---------- VÈRTEX 3
 				// VECTOR NORMAL
-				//normals.push_back();		normals.push_back();	normals.push_back();	// Vector Normal
+				normals.push_back(normalsV[i + step][j+step][0]);		normals.push_back(normalsV[i + step][j+step][1]);	normals.push_back(normalsV[i + step][j+step][2]);	// Vector Normal
 				// COLOR
 				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
 					// CAL FER: <CÀLCUL index>;
@@ -535,7 +535,7 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 
 				// -------- VÈRTEX 3
 					// VECTOR NORMAL
-				normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
+				normals.push_back(normalsV[i + step][j + step][0]);		normals.push_back(normalsV[i + step][j + step][1]);	normals.push_back(normalsV[i + step][j + step][2]); // Vector Normal
 				// COLOR
 				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
 					// CAL FER: <CÀLCUL index>;
@@ -557,7 +557,7 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 
 				// -------- VÈRTEX 4
 				// VECTOR NORMAL
-				normals.push_back(normalsV[i][j][0]);		normals.push_back(normalsV[i][j][1]);	normals.push_back(normalsV[i][j][2]); // Vector Normal
+				normals.push_back(normalsV[i][j+step][0]);		normals.push_back(normalsV[i][j+step][1]);	normals.push_back(normalsV[i][j+step][2]); // Vector Normal
 				// COLOR
 				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
 					// CAL FER: <CÀLCUL index>;

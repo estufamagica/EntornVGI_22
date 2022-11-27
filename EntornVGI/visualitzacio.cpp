@@ -368,6 +368,7 @@ void Iluminacio(GLint sh_programID, char ilumin, bool ifix, bool ilu2sides, bool
 	case PHONG:
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		//loadfractVAO();
+		if (obj == O_FRACTAL && sw_ilum) normalsvertex(step);
 		// Il.luminació suau 
 		glShadeModel(GL_SMOOTH);
 		break;
