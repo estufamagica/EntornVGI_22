@@ -26,7 +26,7 @@
 
 // Iluminació: Configurar iluminació de l'escena
 void Iluminacio(GLint sh_programID, char ilumin, bool ifix, bool ilu2sides, bool ll_amb, LLUM* lumin, char obj, bool frnt_fcs,
-	bool bc_lin, int step, bool& sw_ilum, bool *sw_mat)
+	bool bc_lin, int step, bool& sw_ilum, bool *sw_mat, bool palcolorF, char paletaF)
 {
 	//bool ll_amb=true;
 	GLdouble angv, angh;
@@ -384,7 +384,7 @@ void Iluminacio(GLint sh_programID, char ilumin, bool ifix, bool ilu2sides, bool
 			deleteVAOList(O_FRACTAL_VAO); // Eliminar VAO anterior.
 			//Set_VAOList(O_FRACTAL_VAO, loadfractVAO(palcolorF, paletaF, ilumin, true,
 			//	sw_mat, textur, step));
-			Set_VAOList(O_FRACTAL_VAO, loadfractVAO(false, ' ', ilumin, sw_mat, false, step));
+			Set_VAOList(O_FRACTAL_VAO, loadfractVAO(palcolorF, paletaF, ilumin, sw_mat, false, step));
 			// Set_VAOList(O_FRACTAL_VAO, loadfractEBO(palcolorF, paletaF, ilumin, true, sw_mat, textur, step); // Funció que crea VAO amb EBO
 		}
 	}
@@ -460,13 +460,13 @@ glm::mat4 Projeccio_Orto(GLuint sh_programID, int minx, int miny, GLsizei w, GLs
 glm::mat4 Vista_Ortografica(GLuint sh_programID, int prj,GLdouble Raux,CColor col_fons,CColor col_object,char objecte,GLdouble mida,int step,
 				bool frnt_fcs, bool oculta, bool testv, bool bck_ln, 
 				char iluminacio, bool llum_amb, LLUM* lumi, bool ifix, bool il2sides, 
-				bool eix, CMask3D reixa, CPunt3D hreixa, bool& sw_il,  bool *sw_mat)
+				bool eix, CMask3D reixa, CPunt3D hreixa, bool& sw_il,  bool *sw_mat, bool palcolorF, char paletaF)
 {
 	glm::mat4 MatriuVista(1.0);
 	
 	
 // Iluminacio movent-se amb la camara (abans gluLookAt)
-	if (!ifix) Iluminacio(sh_programID, iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step, sw_il, sw_mat);
+	if (!ifix) Iluminacio(sh_programID, iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step, sw_il, sw_mat, palcolorF, paletaF);
 	
 	//switch de la variable prj para ajustar la camara para las diferentes vistas
 	switch (prj) {
@@ -515,7 +515,7 @@ glm::mat4 Vista_Ortografica(GLuint sh_programID, int prj,GLdouble Raux,CColor co
 	Fons(col_fons);
 
 // Iluminacio fixe respecte la camara (després gluLookAt)
-	if (ifix) Iluminacio(sh_programID, iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step, sw_il, sw_mat);
+	if (ifix) Iluminacio(sh_programID, iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step, sw_il, sw_mat,palcolorF,paletaF);
 
 // Test de Visibilitat
 	if (testv) glEnable(GL_CULL_FACE);
@@ -577,7 +577,7 @@ glm::mat4 Vista_Esferica(GLuint sh_programID,CEsfe3D opv,char VPol,bool pant,CPu
 				 CColor col_fons,CColor col_object,char objecte,double mida,int step, 
 				 bool frnt_fcs, bool oculta, bool testv, bool bck_ln, 
 				 char iluminacio, bool llum_amb, LLUM* lumi, bool ifix, bool il2sides,
-				 bool eix, CMask3D reixa, CPunt3D hreixa, bool& sw_il, bool* sw_mat)
+				 bool eix, CMask3D reixa, CPunt3D hreixa, bool& sw_il, bool* sw_mat, bool palcolorF, char paletaF)
 {    
 	GLdouble cam[3],up[3];
 	glm::mat4 MatriuVista(1.0);
@@ -614,7 +614,7 @@ glm::mat4 Vista_Esferica(GLuint sh_programID,CEsfe3D opv,char VPol,bool pant,CPu
 					up[2]=-sin(opv.beta)*sin(opv.alfa);		}
 
 // Iluminacio movent-se amb la camara (abans glLookAt)
-	if (!ifix) Iluminacio(sh_programID,iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step, sw_il, sw_mat);
+	if (!ifix) Iluminacio(sh_programID,iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step, sw_il, sw_mat, palcolorF, paletaF);
 
 // Opció pan: desplaçament del Centre de l'esfera (pant=1)
 //	if (pant) glTranslatef(tr.x,tr.y,tr.z);
@@ -636,7 +636,7 @@ glm::mat4 Vista_Esferica(GLuint sh_programID,CEsfe3D opv,char VPol,bool pant,CPu
    glUniformMatrix4fv(glGetUniformLocation(sh_programID, "viewMatrix"), 1, GL_FALSE, &MatriuVista[0][0]);
 
 // Iluminacio fixe respecte la camara (després glLookAt)
-   if (ifix) Iluminacio(sh_programID,iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step, sw_il, sw_mat);
+   if (ifix) Iluminacio(sh_programID,iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step, sw_il, sw_mat, palcolorF,  paletaF);
 
 // Test de Visibilitat
 	if (testv) glEnable(GL_CULL_FACE);
@@ -666,7 +666,7 @@ glm::mat4 Vista_Navega(GLuint sh_programID, CPunt3D pv,bool pvb,GLdouble n[3],GL
 				  CColor col_fons,CColor col_object,char objecte,bool color, int step,
 				  bool frnt_fcs, bool oculta, bool testv, bool bck_ln, 
 				  char iluminacio, bool llum_amb, LLUM* lumi, bool ifix, bool il2sides,
-				  bool eix, CMask3D reixa, CPunt3D hreixa, bool& sw_il, bool* sw_mat)
+				  bool eix, CMask3D reixa, CPunt3D hreixa, bool& sw_il, bool* sw_mat, bool palcolorF, char paletaF)
 {   double altfar=0;
 	glm::mat4 MatriuVista(1.0);
 
@@ -674,7 +674,7 @@ glm::mat4 Vista_Navega(GLuint sh_programID, CPunt3D pv,bool pvb,GLdouble n[3],GL
 	Fons(col_fons);
 
 // Iluminacio movent-se amb la camara (abans glLookAt)
-	if (!ifix) Iluminacio(sh_programID,iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step, sw_il, sw_mat);
+	if (!ifix) Iluminacio(sh_programID,iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step, sw_il, sw_mat, palcolorF, paletaF);
 
 // Opció pan: desplaçament del Centre de l'esfera (pant=true)
 	if (pant) glTranslatef(tr.x,tr.y,tr.z);
@@ -693,7 +693,7 @@ glm::mat4 Vista_Navega(GLuint sh_programID, CPunt3D pv,bool pvb,GLdouble n[3],GL
 
 
 // Iluminacio fixe respecte la camara (després glLookAt)
-	if (ifix) Iluminacio(sh_programID,iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step, sw_il, sw_mat);
+	if (ifix) Iluminacio(sh_programID,iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step, sw_il, sw_mat, palcolorF, paletaF);
 
 // Test de Visibilitat
 	if (testv) glEnable(GL_CULL_FACE);
@@ -723,7 +723,7 @@ glm::mat4 Vista_Geode(GLuint sh_programID, CEsfe3D opv, char VPol, bool pant, CP
 	CColor col_fons, CColor col_object, char objecte, double mida, int step,
 	bool frnt_fcs, bool oculta, bool testv, bool bck_ln,
 	char iluminacio, bool llum_amb, LLUM* lumi, bool ifix, bool il2sides,
-	bool eix, CMask3D reixa, CPunt3D hreixa, bool& sw_il, bool* sw_mat)
+	bool eix, CMask3D reixa, CPunt3D hreixa, bool& sw_il, bool* sw_mat, bool palcolorF, char paletaF)
 {
 	GLdouble cam[3], camN[3], up[3];
 	glm::mat4 MatriuVista(1.0);
@@ -754,7 +754,7 @@ glm::mat4 Vista_Geode(GLuint sh_programID, CEsfe3D opv, char VPol, bool pant, CP
 	up[2] = cos(opv.alfa);
 
 // Iluminacio movent-se amb la camara (abans gluLookAt)
-	if (!ifix) Iluminacio(sh_programID, iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step, sw_il, sw_mat);
+	if (!ifix) Iluminacio(sh_programID, iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step, sw_il, sw_mat, palcolorF,  paletaF);
 
 // Opció pan: desplaçament del Centre de l'esfera (pant=1)
 //	if (pant) glTranslatef(tr.x,tr.y,tr.z);
@@ -776,7 +776,7 @@ glm::mat4 Vista_Geode(GLuint sh_programID, CEsfe3D opv, char VPol, bool pant, CP
 	glUniformMatrix4fv(glGetUniformLocation(sh_programID, "viewMatrix"), 1, GL_FALSE, &MatriuVista[0][0]);
 
 // Iluminacio fixe respecte la camara (després gluLookAt)
-	if (ifix) Iluminacio(sh_programID, iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step, sw_il, sw_mat);
+	if (ifix) Iluminacio(sh_programID, iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step, sw_il, sw_mat,  palcolorF,  paletaF);
 
 // Test de Visibilitat
 	if (testv) glEnable(GL_CULL_FACE);

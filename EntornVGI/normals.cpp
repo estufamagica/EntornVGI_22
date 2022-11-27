@@ -455,6 +455,8 @@ void normalscara(int step)
 	{
 		for ( j = 0; j < FMAX; j = j + step )
 		{
+
+			
 			//Triangle 2
 			//Vector: v1->v3
 			v1[0] = step;
@@ -488,6 +490,53 @@ void normalscara(int step)
 			normalsC[i][j][0] = n[0];
 			normalsC[i][j][1] = n[1];
 			normalsC[i][j][2] = n[2];
+
+
+
+
+			/*
+			//Triangle 2
+			//Vector: v1->v3
+			v1[0] = -step;
+			v1[1] = -step;
+			v1[2] = zz[i][j] - zz[i+step][j+step];
+
+			//Vector: v1->v4
+			v2[0] = step;
+			v2[1] = 0;
+			v2[2] = zz[i + step][j] - zz[i][j];
+
+			normal(v1, v2, n);
+			normalsC[i][j][0] = n[0];
+			normalsC[i][j][1] = n[1];
+			normalsC[i][j][2] = n[2];
+
+			//Triangle 1
+
+			//Vector: v1->v3
+			v1[0] = step;
+			v1[1] = step;
+			v1[2] = zz[i + step][j + step] - zz[i][j];
+
+			//Vector: v1->v2
+
+			v2[0] = -step;
+			v2[1] = 0;
+			v2[2] = zz[i][j+step] - zz[i+step][j+step];
+
+			normal(v1, v2, n);
+			normalsV[i][j][0] = n[0];
+			normalsV[i][j][1] = n[1];
+			normalsV[i][j][2] = n[2];
+			
+			*/
+
+
+
+
+
+
+
 
 		}
 	}

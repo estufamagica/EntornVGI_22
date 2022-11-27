@@ -99,12 +99,27 @@ else
 	std::string delimiter = " ";
 	std::string token;
 	size_t count_token = 0;
+
+	
+
 	while (std::getline(rd, line))
 	{
 		//cout << prueba << "\n";
 		if ((counter_file>0)&&(counter_file<total+1)) //alturas fichero
 		{
 			float aux = std::stof(line);
+
+			/*
+			if (zmax < aux) {
+
+				zmax = aux;
+			}
+			if (zmin > aux) {
+				
+				zmin = aux;
+			}*/
+
+
 			//buff_alturas[counter_num]=aux;
 			buff_alturas.push_back(aux);
 			counter_num++;
@@ -249,12 +264,28 @@ void itera_fractal(char bruit,int paso)
 				zz[i][j + paso] = ((zz[i - paso][j + paso] + zz[i + paso][j + paso]) / 2) + (float)soroll(i, j, alf, bruit); //3 derecha centro
 				zz[i][j - paso] = ((zz[i - paso][j - paso] + zz[i + paso][j - paso]) / 2) + (float)soroll(i, j, alf, bruit); //4 izq centro
 				zz[i - paso][j] = ((zz[i - paso][j - paso] + zz[i - paso][j + paso]) / 2) + (float)soroll(i, j, alf, bruit); //5 arriba centro
+
+				
+
+
 			}
 		}
 	}
 
 
 // 2. CAL FER: CALCUL DEL MAXIM I MINIM DE LES ALÇADES INICIALS UN COP GENERADES TOTES LES ALÇADES (per l'assignació de colors de la paleta)
+		
+	for (int i = 0; i < FMAX +1 ; i++) {
+		for (int j = 0; j < FMAX + 1; j++) {
+			if (zmax < zz[i][j]) zmax = zz[i][j];
+			if (zmin > zz[i][j]) zmin = zz[i][j];
+		}
+
+	}
+
+//if (zmax < zz[i][j]) zmax = zz[i][j];
+				//if (zmin > zz[i][j]) zmin = zz[i][j];
+
 
 }
 
@@ -418,25 +449,52 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 	{
 	case MEDITERRANI:
 		// CAL FER: Configurar paleta mediterrani
+		for (i = 0; i < MAX_PALETA_FRACTAL; i++) { 
+
+			paletaR[i] = med_colorR[i]; paletaG[i] =  med_colorG[i];	paletaB[i] =  med_colorB[i];
+		
+		}
 
 		break;
 	case GLACIAR:
 		// CAL FER: Configurar paleta glaciar
+		for (i = 0; i < MAX_PALETA_FRACTAL; i++) {
+
+			paletaR[i] = glaciar_colorR[i]; paletaG[i] = glaciar_colorG[i];	paletaB[i] = glaciar_colorB[i];
+
+		}
 
 		break;
 
 	case TUNDRA:
 		// CAL FER: Configurar paleta tundra
 
+		for (i = 0; i < MAX_PALETA_FRACTAL; i++) {
+
+			paletaR[i] = tundra_colorR[i]; paletaG[i] = tundra_colorG[i];	paletaB[i] = tundra_colorB[i];
+
+		}
+
 		break;
 
 	default:
+		for (i = 0; i < MAX_PALETA_FRACTAL; i++) {
+
+			paletaR[i] = 1.0; paletaG[i] = 1.0;	paletaB[i] = 1.0;
+
+		}
+
+
 		// CAL FER: Configurar paleta color blanc
 		break;
 	}
 
 // CAL FER: Càlcul del valor de traslació per a centrar el fractal aplicat a tots els vèrtexs del fractal.
 	const float centrat = FMAX / 2.f;
+
+	float altura = (zmax - zmin)/24;
+
+	
 
 // 2. CAL FER:CREAR ELS VÈRTEXS DELS TRIANGLES SEGONS EL PAS (step)
 //				I DEFINIR ELS VECTORS NORMALS DE CADA VÈRTEX EN FUNCIÖ DE
@@ -456,6 +514,11 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 				// COLOR
 				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
 					// CAL FER: <CÀLCUL index>;
+					
+					
+					index = ((zz[i][j] - zmin) / altura);
+					if (index == 24) index = 23;
+
 					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
 				}
 				else {	//	Colorejar segons color de l'objecte (FET)
@@ -477,6 +540,10 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 				// COLOR
 				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
 					// <CAL FER: CÀLCUL index>;
+					index = (zz[i][j] - zmin) / altura;
+					if (index == 24) index = 23;
+
+
 					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
 				}
 				else {	//	Colorejar segons color de l'objecte (FET)
@@ -496,6 +563,10 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 				// COLOR
 				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
 					// CAL FER: <CÀLCUL index>;
+					index = (zz[i][j] - zmin) / altura;
+					if (index == 24) index = 23;
+
+
 					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
 				}
 				else {	//	Colorejar segons color de l'objecte (FET)
@@ -518,6 +589,10 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 				// COLOR
 				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
 					// CAL FER: <CÀLCUL index>;
+					index = (zz[i][j] - zmin) / altura;
+					if (index == 24) index = 23;
+
+
 					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
 				}
 				else {	//	Colorejar segons color de l'objecte
@@ -539,6 +614,11 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 				// COLOR
 				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
 					// CAL FER: <CÀLCUL index>;
+
+					index = (zz[i][j] - zmin) / altura;
+					if (index == 24) index = 23;
+
+
 					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
 				}
 				else {	//	Colorejar segons color de l'objecte (FET)
@@ -561,6 +641,11 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 				// COLOR
 				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
 					// CAL FER: <CÀLCUL index>;
+
+					index = (zz[i][j] - zmin) / altura;
+					if (index == 24) index = 23;
+
+
 					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
 				}
 				else {	//	Colorejar segons color de l'objecte (FET)
@@ -592,6 +677,11 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 				// COLOR
 				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
 					// CAL FER: <CÀLCUL index>;
+
+					index = (zz[i][j] - zmin) / altura;
+					if (index == 24) index = 23;
+
+
 					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
 				}
 				else {	//	Colorejar segons color de l'objecte (FET)
@@ -612,6 +702,11 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 				// COLOR
 				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
 					// <CAL FER: CÀLCUL index>;
+
+					index = (zz[i][j] - zmin) / altura;
+					if (index == 24) index = 23;
+
+
 					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
 				}
 				else {	//	Colorejar segons color de l'objecte (FET)
@@ -632,6 +727,11 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 				normals.push_back(normalsC[i][j][0]);		normals.push_back(normalsC[i][j][1]);	normals.push_back(normalsC[i][j][2]);	// Vector Normal
 				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
 					// CAL FER: <CÀLCUL index>;
+
+					index = (zz[i][j] - zmin) / altura;
+					if (index == 24) index = 23;
+
+
 					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
 				}
 				else {	//	Colorejar segons color de l'objecte (FET)
@@ -654,6 +754,11 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 				// COLOR
 				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
 					// CAL FER: <CÀLCUL index>;
+
+					index = (zz[i][j] - zmin) / altura;
+					if (index == 24) index = 23;
+
+
 					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]);	colors.push_back(1.0);// Vector Colors
 				}
 				else {	//	Colorejar segons color de l'objecte
@@ -676,6 +781,11 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 				// COLOR
 				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
 					// CAL FER: <CÀLCUL index>;
+
+					index = (zz[i][j] - zmin) / altura;
+					if (index == 24) index = 23;
+
+
 					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
 				}
 				else {	//	Colorejar segons color de l'objecte (FET)
@@ -697,6 +807,11 @@ CVAO loadfractVAO(bool palcolor, char paleta, char iluminacio, bool sw_mat[5], b
 				// COLOR
 				if (palcolor) {	//	Colorejar segons alçada sobre la paleta de colors colorR,colorG,colorB
 					// CAL FER: <CÀLCUL index>;
+
+					index = (zz[i][j] - zmin) / altura;
+					if (index == 24) index = 23;
+
+
 					colors.push_back(paletaR[index]);	colors.push_back(paletaG[index]);		colors.push_back(paletaB[index]); colors.push_back(1.0);// Vector Colors
 				}
 				else {	//	Colorejar segons color de l'objecte (FET)

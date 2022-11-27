@@ -375,6 +375,13 @@ BEGIN
                 MENUITEM "SQRT",                        ID_FRACTAL_SQRT, CHECKED
                 MENUITEM "Diferenciable",               ID_FRACTAL_DIF, CHECKED
             END
+            MENUITEM "Paleta Colors?",              ID_FRACTALS_PALETACOLORS, CHECKED
+            POPUP "Paleta Colors"
+            BEGIN
+                MENUITEM "Mediterrani",                 ID_PALETACOLORS_MEDITERRANI, CHECKED
+                MENUITEM "Glaciar",                     ID_PALETACOLORS_GLACIAR, CHECKED
+                MENUITEM "Tundra",                      ID_PALETACOLORS_TUNDRA, CHECKED
+            END
         END
     END
     POPUP "Transforma"

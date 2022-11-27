@@ -225,13 +225,19 @@
 #define ID_BUTTON32904                  32904
 #define ID_ITMENYS                      32904
 #define ID_FRACTAL_QUAD                 32905
+#define ID_FRACTALS_PALETACOLORS        32906
+#define ID_FRACTALS_PALETACOLORS32907   32907
+#define ID_FRACTALS_PALETACOLORS32908   32908
+#define ID_PALETACOLORS_MEDITERRANI     32909
+#define ID_PALETACOLORS_GLACIAR         32910
+#define ID_PALETACOLORS_TUNDRA          32911
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        311
-#define _APS_NEXT_COMMAND_VALUE         32906
+#define _APS_NEXT_COMMAND_VALUE         32912
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

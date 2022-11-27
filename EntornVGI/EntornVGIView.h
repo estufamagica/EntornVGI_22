@@ -191,6 +191,7 @@ public:
 	int pas, pas_ini;	// Resolució del fractal inicial (pas_ini) i de visualització (pas).
 	bool sw_il;			// Booleana que controla si cal compilar el fractal (sw_il=1) o no (sw_il=0)
 	bool palcolFractal;	// Booleana que activa coloració del fractal segons paleta de colors [TRUE] o no [FALSE].
+	char palnomFractal; //Char per escollir tipus de paleta(Med, tundra,glaciar)
 
 // Entorn VGI: Altres variables
 	GLdouble mida;	// Factor d'escala per calcular Volum de Visualització de l'objecte que encaixi.
@@ -459,6 +460,14 @@ public:
 	afx_msg void OnUpdateObjecteFractalSqrt(CCmdUI* pCmdUI);
 	afx_msg void OnObjecteFractalDif();
 	afx_msg void OnUpdateObjecteFractalDif(CCmdUI* pCmdUI);
+	afx_msg void OnFractalsPaletacolors();
+	afx_msg void OnUpdateFractalsPaletacolors(CCmdUI* pCmdUI);
+	afx_msg void OnPaletacolorsMediterrani();
+	afx_msg void OnUpdatePaletacolorsMediterrani(CCmdUI* pCmdUI);
+	afx_msg void OnPaletacolorsGlaciar();
+	afx_msg void OnUpdatePaletacolorsGlaciar(CCmdUI* pCmdUI);
+	afx_msg void OnPaletacolorsTundra();
+	afx_msg void OnUpdatePaletacolorsTundra(CCmdUI* pCmdUI);
 };
 
 #ifndef _DEBUG  // Versión de depuración en EntornVGIView.cpp

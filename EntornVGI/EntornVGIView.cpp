@@ -225,6 +225,14 @@ BEGIN_MESSAGE_MAP(CEntornVGIView, CView)
 		ON_UPDATE_COMMAND_UI(ID_FRACTAL_SQRT, &CEntornVGIView::OnUpdateObjecteFractalSqrt)
 		ON_COMMAND(ID_FRACTAL_DIF, &CEntornVGIView::OnObjecteFractalDif)
 		ON_UPDATE_COMMAND_UI(ID_FRACTAL_DIF, &CEntornVGIView::OnUpdateObjecteFractalDif)
+		ON_COMMAND(ID_FRACTALS_PALETACOLORS, &CEntornVGIView::OnFractalsPaletacolors)
+		ON_UPDATE_COMMAND_UI(ID_FRACTALS_PALETACOLORS, &CEntornVGIView::OnUpdateFractalsPaletacolors)
+		ON_COMMAND(ID_PALETACOLORS_MEDITERRANI, &CEntornVGIView::OnPaletacolorsMediterrani)
+		ON_UPDATE_COMMAND_UI(ID_PALETACOLORS_MEDITERRANI, &CEntornVGIView::OnUpdatePaletacolorsMediterrani)
+		ON_COMMAND(ID_PALETACOLORS_GLACIAR, &CEntornVGIView::OnPaletacolorsGlaciar)
+		ON_UPDATE_COMMAND_UI(ID_PALETACOLORS_GLACIAR, &CEntornVGIView::OnUpdatePaletacolorsGlaciar)
+		ON_COMMAND(ID_PALETACOLORS_TUNDRA, &CEntornVGIView::OnPaletacolorsTundra)
+		ON_UPDATE_COMMAND_UI(ID_PALETACOLORS_TUNDRA, &CEntornVGIView::OnUpdatePaletacolorsTundra)
 		END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -444,6 +452,7 @@ CEntornVGIView::CEntornVGIView()
 	t_fractal = CAP;	soroll = 'C';
 	pas = 64;			pas_ini = 64;
 	sw_il = true;		palcolFractal = false;
+	palnomFractal = ' ';
 
 // Entorn VGI: Altres variables
 	mida = 1.0;			nom = "";		buffer = "";
@@ -914,7 +923,7 @@ void CEntornVGIView::OnPaint()
 		ProjectionMatrix = Projeccio_Orto(shader_programID, 0, 0, w/2, h/2);
 		ViewMatrix = Vista_Ortografica(shader_programID, 0, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
-			eixos, grid, hgrid, sw_il, sw_material); 
+			eixos, grid, hgrid, sw_il, sw_material, palcolFractal, palnomFractal);
 		// Dibuix de l'Objecte o l'Escena
 		configura_Escena();     // Aplicar Transformacions Geometriques segons persiana Transformacio i configurar objectes
 		dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
@@ -924,7 +933,7 @@ void CEntornVGIView::OnPaint()
 		ProjectionMatrix = Projeccio_Orto(shader_programID, w/2, 0, w/2, h/2);
 		ViewMatrix = Vista_Ortografica(shader_programID, 3, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
-			eixos, grid, hgrid, sw_il, sw_material);
+			eixos, grid, hgrid, sw_il, sw_material, palcolFractal, palnomFractal);
 		// Dibuix de l'Objecte o l'Escena
 		//glPushMatrix();
 		configura_Escena();     // Aplicar Transformacions Geometriques segons persiana Transformacio i configurar objectes
@@ -936,7 +945,7 @@ void CEntornVGIView::OnPaint()
 		ProjectionMatrix = Projeccio_Orto(shader_programID, 0, h/2, w/2, h/2);
 		ViewMatrix = Vista_Ortografica(shader_programID, 1, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
-			eixos, grid, hgrid, sw_il, sw_material);
+			eixos, grid, hgrid, sw_il, sw_material, palcolFractal, palnomFractal);
 		// Dibuix de l'Objecte o l'Escena
 		configura_Escena();     // Aplicar Transformacions Geom?triques segons persiana Transformacio i configurar objectes
 		dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
@@ -946,7 +955,7 @@ void CEntornVGIView::OnPaint()
 		ProjectionMatrix = Projeccio_Orto(shader_programID, w/2, h/2, w/2 , h/2);
 		ViewMatrix = Vista_Ortografica(shader_programID, 2, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
-			eixos, grid, hgrid, sw_il, sw_material);
+			eixos, grid, hgrid, sw_il, sw_material, palcolFractal, palnomFractal);
 		// Dibuix de l'Objecte o l'Escena
 		configura_Escena();     // Aplicar Transformacions Geom?triques segons persiana Transformacio i configurar objectes
 		dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
@@ -968,19 +977,19 @@ void CEntornVGIView::OnPaint()
 				ViewMatrix = Vista_Esferica(shader_programID, OPV, Vis_Polar, pan, tr_cpv, tr_cpvF, c_fons, col_obj, objecte, mida, pas,
 				front_faces, oculta, test_vis, back_line,
 				ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
-				eixos, grid, hgrid, sw_il, sw_material);
+				eixos, grid, hgrid, sw_il, sw_material, palcolFractal, palnomFractal);
 					}
 		else if (camera == CAM_NAVEGA) {
 			ViewMatrix = Vista_Navega(shader_programID, opvN, false, n, vpv, pan, tr_cpv, tr_cpvF, c_fons, col_obj, objecte, true, pas,
 				front_faces, oculta, test_vis, back_line,
 				ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
-				eixos, grid, hgrid, sw_il, sw_material);
+				eixos, grid, hgrid, sw_il, sw_material, palcolFractal, palnomFractal);
 		}
 		else if (camera == CAM_GEODE) {
 			ViewMatrix = Vista_Geode(shader_programID, OPV_G, Vis_Polar, pan, tr_cpv, tr_cpvF, c_fons, col_obj, objecte, mida, pas,
 				front_faces, oculta, test_vis, back_line,
 				ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
-				eixos, grid, hgrid, sw_il, sw_material);
+				eixos, grid, hgrid, sw_il, sw_material, palcolFractal, palnomFractal);
 				}
 
 		// Dibuix de l'Objecte o l'Escena
@@ -2835,6 +2844,8 @@ void CEntornVGIView::OnArxiuObrirFractal()
 	char *nomfitx = CString2Char(nom);
 
 // Entorn VGI: Variable de tipus char *nomfitx conté el nom del fitxer seleccionat
+	netejaVAOList(); // Neteja Llista VAO.
+	sw_il = true;
 	pas = llegir_pts(nomfitx); //llegim fractal
 	pas_ini = pas;
 	itera_fractal(soroll, pas);
@@ -3676,6 +3687,157 @@ void CEntornVGIView::OnUpdateObjecteFractalDif(CCmdUI* pCmdUI)
 	if (objecte == O_FRACTAL && soroll == S_DIFERENCIABLE) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
+
+
+
+void CEntornVGIView::OnFractalsPaletacolors()
+{
+	// TODO: Agregue aquí su código de controlador de comandos
+	objecte = O_FRACTAL;
+	palcolFractal = !palcolFractal;
+	sw_il = true;
+
+	//itera_fractal(soroll, pas_ini);
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);    // Entorn VGI: Activació el contexte OpenGL
+
+	netejaVAOList();											// Neteja Llista VAO.
+
+	
+	//Load fractal
+
+	Set_VAOList(MAR_FRACTAL_VAO, loadMar_FractalVAO());
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);// Desactivem context OpenGL
+
+	// Entorn VGI: Activació el contexte OpenGL. Permet la coexistencia d'altres contextes de generació
+	//wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
+	//Set_VAOList(O_FRACTAL_VAO, loadfractVAO(palcolFractal, ' ', sw_il, sw_material, false, pas));
+	// Crida a OnPaint() per redibuixar l'escena
+	InvalidateRect(NULL, false);
+
+	// TODO: Agregue aquí su código de controlador de comandos
+}
+
+
+void CEntornVGIView::OnUpdateFractalsPaletacolors(CCmdUI* pCmdUI)
+{
+	// TODO: Agregue aquí su código de controlador de IU para actualización de comandos
+	// TODO: Agregue aquí su código de controlador de IU para actualización de comandos
+	if (objecte == O_FRACTAL && palcolFractal) pCmdUI->SetCheck(1);
+	else pCmdUI->SetCheck(0);
+}
+
+
+void CEntornVGIView::OnPaletacolorsMediterrani()
+{
+	objecte = O_FRACTAL;
+
+	sw_il = true;
+
+	palnomFractal = MEDITERRANI;
+
+	//itera_fractal(soroll, pas_ini);
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);    // Entorn VGI: Activació el contexte OpenGL
+
+	netejaVAOList();											// Neteja Llista VAO.
+
+
+	//Load fractal
+
+	Set_VAOList(MAR_FRACTAL_VAO, loadMar_FractalVAO());
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);// Desactivem context OpenGL
+
+	// Entorn VGI: Activació el contexte OpenGL. Permet la coexistencia d'altres contextes de generació
+	//wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
+	//Set_VAOList(O_FRACTAL_VAO, loadfractVAO(palcolFractal, ' ', sw_il, sw_material, false, pas));
+	// Crida a OnPaint() per redibuixar l'escena
+	InvalidateRect(NULL, false);
+	// TODO: Agregue aquí su código de controlador de comandos
+}
+
+
+void CEntornVGIView::OnUpdatePaletacolorsMediterrani(CCmdUI* pCmdUI)
+{
+	if (objecte == O_FRACTAL && palnomFractal == MEDITERRANI) pCmdUI->SetCheck(1);
+	else pCmdUI->SetCheck(0);
+	// TODO: Agregue aquí su código de controlador de IU para actualización de comandos
+}
+
+
+void CEntornVGIView::OnPaletacolorsGlaciar()
+{
+
+	// TODO: Agregue aquí su código de controlador de comandos
+	objecte = O_FRACTAL;
+
+	sw_il = true;
+
+	palnomFractal = GLACIAR;
+
+	//itera_fractal(soroll, pas_ini);
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);    // Entorn VGI: Activació el contexte OpenGL
+
+	netejaVAOList();											// Neteja Llista VAO.
+
+
+	//Load fractal
+
+	Set_VAOList(MAR_FRACTAL_VAO, loadMar_FractalVAO());
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);// Desactivem context OpenGL
+
+	// Entorn VGI: Activació el contexte OpenGL. Permet la coexistencia d'altres contextes de generació
+	//wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
+	//Set_VAOList(O_FRACTAL_VAO, loadfractVAO(palcolFractal, ' ', sw_il, sw_material, false, pas));
+	// Crida a OnPaint() per redibuixar l'escena
+	InvalidateRect(NULL, false);
+}
+
+
+void CEntornVGIView::OnUpdatePaletacolorsGlaciar(CCmdUI* pCmdUI)
+{
+	// TODO: Agregue aquí su código de controlador de IU para actualización de comandos
+	if (objecte == O_FRACTAL && palnomFractal == GLACIAR) pCmdUI->SetCheck(1);
+	else pCmdUI->SetCheck(0);
+}
+
+
+void CEntornVGIView::OnPaletacolorsTundra()
+{
+	// TODO: Agregue aquí su código de controlador de comandos
+	objecte = O_FRACTAL;
+
+	sw_il = true;
+
+	palnomFractal = TUNDRA;
+
+	//itera_fractal(soroll, pas_ini);
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);    // Entorn VGI: Activació el contexte OpenGL
+
+	netejaVAOList();											// Neteja Llista VAO.
+
+
+	//Load fractal
+
+	Set_VAOList(MAR_FRACTAL_VAO, loadMar_FractalVAO());
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);// Desactivem context OpenGL
+
+	// Entorn VGI: Activació el contexte OpenGL. Permet la coexistencia d'altres contextes de generació
+	//wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
+	//Set_VAOList(O_FRACTAL_VAO, loadfractVAO(palcolFractal, ' ', sw_il, sw_material, false, pas));
+	// Crida a OnPaint() per redibuixar l'escena
+	InvalidateRect(NULL, false);
+
+
+}
+
+
+void CEntornVGIView::OnUpdatePaletacolorsTundra(CCmdUI* pCmdUI)
+{
+	// TODO: Agregue aquí su código de controlador de IU para actualización de comandos
+	if (objecte == O_FRACTAL && palnomFractal == TUNDRA) pCmdUI->SetCheck(1);
+	else pCmdUI->SetCheck(0);
+}
+
+
 
 
 // OBJECTE: Cap objecte
@@ -5613,6 +5775,8 @@ void CEntornVGIView::OnIteraMenys()
 	// Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
 }
+
+
 
 
 
