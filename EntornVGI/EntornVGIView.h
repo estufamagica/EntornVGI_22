@@ -153,6 +153,16 @@ public:
 	CEsfe3D OPV;			// Paràmetres camera en coord. esfèriques (R,alfa,beta)
 	char Vis_Polar;			// Variable que controla orientació dels eixos en Visualització Interactiva (POLARZ,POLARY,POLARX)
 
+
+// Variables Moviment Robot
+	float angles_R[6];
+	float pos_RI[6];
+	float pos_RF[6];
+	float incrementador;
+	bool left_to_right;
+	bool PrimeraVegada;
+
+
 // Entorn VGI: Color de fons i de l'objecte
 	bool fonsR, fonsG, fonsB;	// Booleanes per controlar variació de color per teclat.
 	CColor c_fons;			// Intensitat de color de fons.
@@ -468,6 +478,20 @@ public:
 	afx_msg void OnUpdatePaletacolorsGlaciar(CCmdUI* pCmdUI);
 	afx_msg void OnPaletacolorsTundra();
 	afx_msg void OnUpdatePaletacolorsTundra(CCmdUI* pCmdUI);
+	afx_msg void OnObjecteRobot();
+	afx_msg void OnUpdateObjecteRobot(CCmdUI* pCmdUI);
+	afx_msg void OnRobotBxmenys();
+	afx_msg void OnRobotBxmes();
+	afx_msg void OnRobotBzmenys();
+	afx_msg void OnRobotBzmes();
+	afx_msg void OnRobotCxmenys();
+	afx_msg void OnRobotCxmes();
+	afx_msg void OnRobotCymenys();
+	afx_msg void OnRobotCymes();
+	afx_msg void OnRobotCzmenys();
+	afx_msg void OnRobotCzmes();
+	afx_msg void OnRobotObertura();
+	afx_msg void OnRobotTanca();
 };
 
 #ifndef _DEBUG  // Versión de depuración en EntornVGIView.cpp

@@ -35,6 +35,7 @@
 #define ID_CLASS_ADD_MEMBER_FUNCTION    139
 #define ID_CLASS_ADD_MEMBER_VARIABLE    140
 #define ID_CLASS_DEFINITION             141
+#define ID_ROBOT_TANCA                  141
 #define ID_CLASS_PROPERTIES             142
 #define ID_NEW_FOLDER                   143
 #define ID_SORT_MENU                    144
@@ -231,13 +232,26 @@
 #define ID_PALETACOLORS_MEDITERRANI     32909
 #define ID_PALETACOLORS_GLACIAR         32910
 #define ID_PALETACOLORS_TUNDRA          32911
+#define ID_OBJECTE_ROBOT                32912
+#define ID_ROBOT_BXMES                  32915
+#define ID_ROBOT_CZMES                  32917
+#define ID_ROBOT_CXMES                  32919
+#define ID_ROBOT_CXMENYS                32920
+#define ID_ROBOT_CYMES                  32921
+#define ID_ROBOT_CYMENYS                32922
+#define ID_ROBOT_OBERTURA               32923
+#define ID_BUTTON32924                  32924
+#define ID_ROBOT_BZMES                  32925
+#define ID_ROBOT_BZMENYS                32926
+#define ID_ROBOT_BXMENYS                32927
+#define ID_ROBOT_CZMENYS                32928
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        311
-#define _APS_NEXT_COMMAND_VALUE         32912
+#define _APS_NEXT_COMMAND_VALUE         32929
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

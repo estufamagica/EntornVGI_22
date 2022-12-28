@@ -233,6 +233,20 @@ BEGIN_MESSAGE_MAP(CEntornVGIView, CView)
 		ON_UPDATE_COMMAND_UI(ID_PALETACOLORS_GLACIAR, &CEntornVGIView::OnUpdatePaletacolorsGlaciar)
 		ON_COMMAND(ID_PALETACOLORS_TUNDRA, &CEntornVGIView::OnPaletacolorsTundra)
 		ON_UPDATE_COMMAND_UI(ID_PALETACOLORS_TUNDRA, &CEntornVGIView::OnUpdatePaletacolorsTundra)
+		ON_COMMAND(ID_OBJECTE_ROBOT, &CEntornVGIView::OnObjecteRobot)
+		ON_UPDATE_COMMAND_UI(ID_OBJECTE_ROBOT, &CEntornVGIView::OnUpdateObjecteRobot)
+		ON_COMMAND(ID_ROBOT_BXMENYS, &CEntornVGIView::OnRobotBxmenys)
+		ON_COMMAND(ID_ROBOT_BXMES, &CEntornVGIView::OnRobotBxmes)
+		ON_COMMAND(ID_ROBOT_BZMENYS, &CEntornVGIView::OnRobotBzmenys)
+		ON_COMMAND(ID_ROBOT_BZMES, &CEntornVGIView::OnRobotBzmes)
+		ON_COMMAND(ID_ROBOT_CXMENYS, &CEntornVGIView::OnRobotCxmenys)
+		ON_COMMAND(ID_ROBOT_CXMES, &CEntornVGIView::OnRobotCxmes)
+		ON_COMMAND(ID_ROBOT_CYMENYS, &CEntornVGIView::OnRobotCymenys)
+		ON_COMMAND(ID_ROBOT_CYMES, &CEntornVGIView::OnRobotCymes)
+		ON_COMMAND(ID_ROBOT_CZMENYS, &CEntornVGIView::OnRobotCzmenys)
+		ON_COMMAND(ID_ROBOT_CZMES, &CEntornVGIView::OnRobotCzmes)
+		ON_COMMAND(ID_ROBOT_OBERTURA, &CEntornVGIView::OnRobotObertura)
+		ON_COMMAND(ID_ROBOT_TANCA, &CEntornVGIView::OnRobotTanca)
 		END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -280,6 +294,10 @@ CEntornVGIView::CEntornVGIView()
 	SkyBoxCube = false;		skC_programID = 0;		
 	skC_VAOID.vaoId = 0;	skC_VAOID.vboId = 0;	skC_VAOID.nVertexs = 0;	
 	cubemapTexture = 0;
+// Entorn VGI: Angles de moviment del Robot angles_R
+	angles_R[0] = 0.0; angles_R[1] = 0.0; angles_R[2] = 0.0; angles_R[3] = 0.0; angles_R[4] = 0.0; angles_R[5] = 0.0;
+	pos_RI[0] = 0.0; pos_RI[1] = 0.0; pos_RI[2] = 0.0; pos_RI[3] = 0.0; pos_RI[4] = 0.0; pos_RI[5] = 0.0;
+	pos_RF[0] = 0.0; pos_RF[1] = 0.0; pos_RF[2] = 0.0; pos_RF[3] = 0.0; pos_RF[4] = 0.0; pos_RF[5] = 0.0;
 
 // Entorn VGI: Variables de control del menú Transforma
 	transf = false;		trasl = false;		rota = false;		escal = false;
@@ -1075,7 +1093,7 @@ void CEntornVGIView::dibuixa_Escena()
 		textura, texturesID, textura_map, tFlag_invert_Y,
 		npts_T, PC_t, pas_CS, sw_Punts_Control, dibuixa_TriedreFrenet, 
 		FIT_3DS, FIT_OBJ, // VAO's i nombre de vèrtexs dels objectes 3DS i OBJ
-		ViewMatrix, GTMatrix);
+		ViewMatrix, GTMatrix,angles_R);
 }
 
 // Barra_Estat: Actualitza la barra d'estat (Status Bar) de l'aplicació amb els
@@ -4189,6 +4207,147 @@ void CEntornVGIView::OnUpdateObjecteHidroavio(CCmdUI* pCmdUI)
 
 }
 
+
+void CEntornVGIView::OnObjecteRobot()
+{
+	objecte = ROBOT;
+
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
+
+	// Càrrega dels VAO's per a construir objecte ARC
+	netejaVAOList();
+
+
+	InvalidateRect(NULL, false);
+
+
+	// TODO: Agregue aquí su código de controlador de comandos
+}
+
+
+void CEntornVGIView::OnUpdateObjecteRobot(CCmdUI* pCmdUI)
+{
+	// TODO: Agregue aquí su código de controlador de IU para actualización de comandos
+	if (objecte == ROBOT) pCmdUI->SetCheck(1);
+	else pCmdUI->SetCheck(0);
+
+	// TODO: Agregue aquí su código de controlador de IU para actualización de comandos
+}
+
+
+
+
+void CEntornVGIView::OnRobotBxmenys()
+{
+	angles_R[1] = float((int(angles_R[1]) - 1) % 360);
+	InvalidateRect(NULL, false);
+
+
+	// TODO: Agregue aquí su código de controlador de comandos
+}
+
+
+void CEntornVGIView::OnRobotBxmes()
+{
+
+
+	angles_R[1] = float((int(angles_R[1]) + 1) % 360);
+	InvalidateRect(NULL, false);
+	// TODO: Agregue aquí su código de controlador de comandos
+}
+
+
+void CEntornVGIView::OnRobotBzmenys()
+{
+
+	angles_R[0] = float((int(angles_R[0]) - 1) % 360);
+	InvalidateRect(NULL, false);
+	// TODO: Agregue aquí su código de controlador de comandos
+}
+
+
+void CEntornVGIView::OnRobotBzmes()
+{
+	angles_R[0] = float((int(angles_R[0]) + 1) % 360);
+	InvalidateRect(NULL, false);
+	// TODO: Agregue aquí su código de controlador de comandos
+}
+
+
+void CEntornVGIView::OnRobotCxmenys()
+{
+
+	angles_R[3] = float((int(angles_R[3]) - 1) % 360);
+	InvalidateRect(NULL, false);
+	// TODO: Agregue aquí su código de controlador de comandos
+}
+
+
+void CEntornVGIView::OnRobotCxmes()
+{
+	angles_R[3] = float((int(angles_R[3]) + 1) % 360);
+	InvalidateRect(NULL, false);
+	// TODO: Agregue aquí su código de controlador de comandos
+}
+
+
+void CEntornVGIView::OnRobotCymenys()
+{
+
+	angles_R[4] = float((int(angles_R[4]) - 1) % 360);
+	InvalidateRect(NULL, false);
+	// TODO: Agregue aquí su código de controlador de comandos
+}
+
+
+void CEntornVGIView::OnRobotCymes()
+{
+	angles_R[4] = float((int(angles_R[4]) + 1) % 360);
+	InvalidateRect(NULL, false);
+	// TODO: Agregue aquí su código de controlador de comandos
+}
+
+
+void CEntornVGIView::OnRobotCzmenys()
+{
+	angles_R[2] = float((int(angles_R[2]) - 1) % 360);
+	InvalidateRect(NULL, false);
+	// TODO: Agregue aquí su código de controlador de comandos
+}
+
+
+void CEntornVGIView::OnRobotCzmes()
+{
+	angles_R[2] = float((int(angles_R[2]) + 1) % 360);
+	InvalidateRect(NULL, false);
+	// TODO: Agregue aquí su código de controlador de comandos
+}
+
+
+void CEntornVGIView::OnRobotObertura()
+{
+
+	angles_R[5] =float(( int(angles_R[5])-1) % 360);
+
+
+
+
+	InvalidateRect(NULL, false);
+	// TODO: Agregue aquí su código de controlador de comandos
+}
+
+
+void CEntornVGIView::OnRobotTanca()
+{
+
+	angles_R[5] = float((int(angles_R[5]) + 1) % 360);
+	InvalidateRect(NULL, false);
+	// TODO: Agregue aquí su código de controlador de comandos
+}
+
+
+
+
 // OBJECTE ARC
 void CEntornVGIView::OnObjecteArc()
 {
@@ -5775,6 +5934,9 @@ void CEntornVGIView::OnIteraMenys()
 	// Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
 }
+
+
+
 
 
 

@@ -19,7 +19,7 @@ void dibuixa_EscenaGL(GLuint sh_programID, bool eix, GLuint axis_Id, CMask3D rei
 	bool textur, GLint texturID[NUM_MAX_TEXTURES], bool textur_map, bool flagInvertY,
 	int nptsU, CPunt3D PC_u[MAX_PATCH_CORBA], GLfloat pasCS, bool sw_PC, bool dib_TFrenet,
 	GLuint vaoList_3DS, GLuint vaoList_OBJ,
-	glm::mat4 MatriuVista, glm::mat4 MatriuTG);
+	glm::mat4 MatriuVista, glm::mat4 MatriuTG, float angles_r[6]);
 
 // Entorn VGI: dibuixa -> Funció que dibuixa objectes simples de la llibreria GLUT segons obj
 void dibuixa(GLuint sh_programID, char obj, glm::mat4 MatriuVista, glm::mat4 MatriuTG);
@@ -32,6 +32,11 @@ void camio(GLuint sh_programID, glm::mat4 MatriuVista, glm::mat4 MatriuTG, bool 
 void hidroavio(GLuint sh_programID, glm::mat4 MatriuVista, glm::mat4 MatriuTG, bool sw_mat[5]);
 void helixH(double t, GLint shaderId, glm::mat4 MatriuVista, glm::mat4 MatriuTG, bool sw_mat[5]);
 void fractal(GLuint sh_programID, glm::mat4 MatriuVista, glm::mat4 MatriuTG, bool sw_mat[5], CColor col_object);
+void Braç(GLint shaderId, glm::mat4 MatriuVista, glm::mat4 MatriuTG, bool sw_mat[5], float angles_r[6]);
+void Pinça(GLint shaderId, glm::mat4 MatriuVista, glm::mat4 MatriuTG, bool sw_mat[5], float angles_r[6]);
+void Dit(GLint shaderId, glm::mat4 MatriuVista, glm::mat4 MatriuTG, bool sw_mat[5]);
+
+
 
 //oid sea(GLint shaderId, glm::mat4 MatriuVista, glm::mat4 MatriuTG, CColor colorM);
 CVAO loadSea_VAO(CColor colorM);

@@ -80,7 +80,7 @@ void dibuixa_EscenaGL(GLuint sh_programID, bool eix, GLuint axis_Id, CMask3D rei
 			bool textur, GLint texturID[NUM_MAX_TEXTURES], bool textur_map, bool flagInvertY,
 			int nptsU, CPunt3D PC_u[MAX_PATCH_CORBA], GLfloat pasCS, bool sw_PC, bool dib_TFrenet,
 			GLuint vaoList_3DS, GLuint vaoList_OBJ,
-			glm::mat4 MatriuVista, glm::mat4 MatriuTG)
+			glm::mat4 MatriuVista, glm::mat4 MatriuTG,float angles_r[6])
 {
 	float altfar = 0;
 	GLint npunts = 0, nvertexs = 0;
@@ -88,6 +88,8 @@ void dibuixa_EscenaGL(GLuint sh_programID, bool eix, GLuint axis_Id, CMask3D rei
 	GLdouble tras[3]; //Sierpinski Sponge
 	CColor color_vermell, color_Mar;
 	bool sw_material[5];
+	//float angles_r[6];
+
 	
 // Matrius de Transformació
 	glm::mat4 NormalMatrix(1.0), ModelMatrix(1.0), TransMatrix(1.0), ScaleMatrix(1.0), RotMatrix(1.0);
@@ -156,6 +158,60 @@ void dibuixa_EscenaGL(GLuint sh_programID, bool eix, GLuint axis_Id, CMask3D rei
 		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
 
 		draw_TriVAO_Object(MAR_FRACTAL_VAO);
+
+		break;
+
+
+	case ROBOT:
+
+		
+		glm::mat4 ModelMatrix;
+
+		// Peu
+		col_object.r = 0.0;		col_object.g = 0.0;		col_object.b = 1.0;		col_object.a = 1.0;	// Color blau clar
+		SeleccionaColorMaterial(sh_programID, col_object, sw_mat);
+		ModelMatrix = glm::scale(MatriuTG, vec3(10, 10, 5));
+		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+		// Pas NormalMatrix a shader
+		NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+		glutSolidCube(1.0);
+
+		// Cama
+		col_object.r = 1.0;		col_object.g = 0.0;		col_object.b = 1.0;		col_object.a = 1.0;	// Color blau clar
+		SeleccionaColorMaterial(sh_programID, col_object, sw_mat);
+		ModelMatrix = glm::translate(MatriuTG, vec3(0, 0, 2.5));
+		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+		// Pas NormalMatrix a shader
+		NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+		glutSolidCone(2, 12.5, 20, 20);
+
+		// Colze
+		col_object.r = 1.0;		col_object.g = 0.0;		col_object.b = 0.0;		col_object.a = 1.0;	// Color blau clar
+		SeleccionaColorMaterial(sh_programID, col_object, sw_mat);
+		ModelMatrix = glm::translate(MatriuTG, vec3(0, 0, 15));
+		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+		// Pas NormalMatrix a shader
+		NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+		gluSphere(2, 20, 20);
+
+		//Moviment Braç
+		ModelMatrix = glm::translate(MatriuTG, vec3(0, 0, 15));
+		TransMatrix = glm::rotate(ModelMatrix, radians((float)(angles_r[0])), vec3(0.0f, 0.0f, 1.0f));
+		TransMatrix = glm::rotate(TransMatrix, radians((float)(angles_r[1])), vec3(1.0f, 0.0f, 0.0f));
+		ModelMatrix = glm::translate(TransMatrix, vec3(0, 0, -15));
+		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+		// Pas NormalMatrix a shader
+		NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+		glUniformMatrix4fv(glGetUniformLocation(sh_programID, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+		Braç(sh_programID, MatriuVista, ModelMatrix, sw_mat, angles_r);
+
+
+
+
+
 
 		break;
 // Arc
@@ -545,6 +601,99 @@ void dibuixa(GLuint sh_programID, char obj, glm::mat4 MatriuVista, glm::mat4 Mat
 	}
 }
 
+void Braç(GLint shaderId, glm::mat4 MatriuVista, glm::mat4 MatriuTG, bool sw_mat[5], float angles_r[6]) {
+
+	glm::mat4 TransMatrix(1.0), ModelMatrix(1.0), NormalMatrix(1.0);
+	CColor col_object;
+
+	// Braç
+	col_object.r = 0.5;		col_object.g = 0.5;		col_object.b = 0.5;		col_object.a = 1.0;	// Color blau clar
+	SeleccionaColorMaterial(shaderId, col_object, sw_mat);
+	ModelMatrix = glm::translate(MatriuTG, vec3(0, 0, 15));
+	ModelMatrix = glm::rotate(ModelMatrix, radians(90.0f), vec3(1.0f, 0.0f, 0.0f));
+	glUniformMatrix4fv(glGetUniformLocation(shaderId, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+	// Pas NormalMatrix a shader
+	NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(shaderId, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+	gluCylinder(0.5, 0.5, 15.0, 20, 20);
+
+	// Canell
+	col_object.r = 1.0;		col_object.g = 0.0;		col_object.b = 0.0;		col_object.a = 1.0;	// Color blau clar
+	SeleccionaColorMaterial(shaderId, col_object, sw_mat);
+	ModelMatrix = glm::translate(MatriuTG, vec3(0.0, -15.0, 15.0));
+	glUniformMatrix4fv(glGetUniformLocation(shaderId, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+	// Pas NormalMatrix a shader
+	NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(shaderId, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+	gluSphere(1.0, 20.0, 20.0);
+
+	ModelMatrix = glm::translate(MatriuTG, vec3(0, -15, 15));
+	TransMatrix = glm::rotate(ModelMatrix, radians((float)(angles_r[2])), vec3(0.0f, 0.0f, 1.0f));
+	TransMatrix = glm::rotate(TransMatrix, radians((float)(angles_r[3])), vec3(1.0f, 0.0f, 0.0f));
+	TransMatrix = glm::rotate(TransMatrix, radians((float)(angles_r[4])), vec3(0.0f, 1.0f, 0.0f));
+	ModelMatrix = glm::translate(TransMatrix, vec3(0, 15, -15));
+	glUniformMatrix4fv(glGetUniformLocation(shaderId, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+	// Pas NormalMatrix a shader
+	NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(shaderId, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+	Pinça(shaderId, MatriuVista, ModelMatrix, sw_mat, angles_r);
+
+
+}
+
+void Pinça(GLint shaderId, glm::mat4 MatriuVista, glm::mat4 MatriuTG, bool sw_mat[5], float angles_r[6])
+{
+	glm::mat4 TransMatrix(1.0), ModelMatrix(1.0), NormalMatrix(1.0);
+	CColor col_object;
+
+	col_object.r = 0.0;		col_object.g = 0.5;		col_object.b = 0.0;		col_object.a = 1.0;	// Color blau clar
+	SeleccionaColorMaterial(shaderId, col_object, sw_mat);
+	ModelMatrix = glm::translate(MatriuTG, vec3(0, -15, 15));
+	ModelMatrix = glm::rotate(ModelMatrix, radians(45.0f + angles_r[5]), vec3(1.0f, 0.0f, 0.0f));
+	//ModelMatrix = glm::rotate(ModelMatrix, radians(45.0f ), vec3(1.0f, 0.0f, 0.0f));
+
+	glUniformMatrix4fv(glGetUniformLocation(shaderId, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+	// Pas NormalMatrix a shader
+	NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(shaderId, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+	Dit(shaderId, MatriuVista, ModelMatrix, sw_mat);
+
+	col_object.r = 0.0;		col_object.g = 0.0;		col_object.b = 0.5;		col_object.a = 1.0;	// Color blau clar
+	SeleccionaColorMaterial(shaderId, col_object, sw_mat);
+	ModelMatrix = glm::translate(MatriuTG, vec3(0, -15, 15));
+	ModelMatrix = glm::rotate(ModelMatrix, radians(135.0f + (-angles_r[5])), vec3(1.0f, 0.0f, 0.0f));
+	//ModelMatrix = glm::rotate(ModelMatrix, radians(135.0f ), vec3(1.0f, 0.0f, 0.0f));
+
+	ModelMatrix = glm::rotate(ModelMatrix, radians(180.0f), vec3(0.0f, 0.0f, 1.0f));
+	glUniformMatrix4fv(glGetUniformLocation(shaderId, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+	// Pas NormalMatrix a shader
+	NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(shaderId, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+	Dit(shaderId, MatriuVista, ModelMatrix, sw_mat);
+}
+
+void Dit(GLint shaderId, glm::mat4 MatriuVista, glm::mat4 MatriuTG, bool sw_mat[5])
+{
+	glm::mat4 TransMatrix(1.0), ModelMatrix(1.0), NormalMatrix(1.0);
+	CColor col_object;
+
+	//Dit
+	ModelMatrix = glm::translate(MatriuTG, vec3(0, 0, 1.75));
+	ModelMatrix = glm::scale(ModelMatrix, vec3(1, 0.5, 4));
+	glUniformMatrix4fv(glGetUniformLocation(shaderId, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+	// Pas NormalMatrix a shader
+	NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(shaderId, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+	glutSolidCube(1.0);
+
+	ModelMatrix = glm::translate(MatriuTG, vec3(0, -0.75, 3.5));
+	ModelMatrix = glm::scale(ModelMatrix, vec3(1, 2, 0.5));
+	glUniformMatrix4fv(glGetUniformLocation(shaderId, "modelMatrix"), 1, GL_FALSE, &ModelMatrix[0][0]);
+	// Pas NormalMatrix a shader
+	NormalMatrix = transpose(inverse(MatriuVista * ModelMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(shaderId, "normalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+	glutSolidCube(1.0);
+}
 
 //OBJECTE HIDROAVIO
 
