@@ -159,5 +159,6 @@ void main ()	// --- L64
 
 // --- L160- Calcul intensitat final del vertex
     VertexColor.rgb = Iemissive + Iambient + ILlums;
-    VertexColor.a = 1.0;
+    //VertexColor.a = 1.0;
+	VertexColor.a = in_Color.a;
 }

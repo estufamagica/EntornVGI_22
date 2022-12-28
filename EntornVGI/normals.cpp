@@ -464,9 +464,9 @@ void normalscara(int step)
 			v1[2] = zz[i + step][j + step] - zz[i][j];
 
 			//Vector: v1->v4
-			v2[0] = step;
-			v2[1] = 0;
-			v2[2] = zz[i + step][j] - zz[i][j];
+			v2[0] = 0;
+			v2[1] = step;
+			v2[2] = zz[i][j + step] - zz[i][j];
 
 			normal(v1, v2, n);
 			normalsV[i][j][0] = n[0];
@@ -484,13 +484,13 @@ void normalscara(int step)
 
 			v2[0] = 0;
 			v2[1] = step;
-			v2[2] = zz[i][j + step] - zz[i][j];
+			v2[2] = zz[i][j+step] - zz[i][j];
 
 			normal(v1, v2, n);
 			normalsC[i][j][0] = n[0];
 			normalsC[i][j][1] = n[1];
 			normalsC[i][j][2] = n[2];
-
+			
 
 
 
@@ -528,8 +528,8 @@ void normalscara(int step)
 			normalsV[i][j][0] = n[0];
 			normalsV[i][j][1] = n[1];
 			normalsV[i][j][2] = n[2];
-			
 			*/
+			
 
 
 
