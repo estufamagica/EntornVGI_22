@@ -161,6 +161,8 @@ public:
 	float incrementador;
 	bool left_to_right;
 	bool PrimeraVegada;
+	bool state;
+	int frame;
 
 
 // Entorn VGI: Color de fons i de l'objecte

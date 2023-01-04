@@ -79,6 +79,9 @@ const double p_far=50000.0;
 #define PICKVAIXELL 2 
 #define PICKHIDRO 3 
 
+//-------------------VGI: Moviment robot
+#define NFRAMES 50
+
 // -------------- VGI: CONSTANTS TEXTURES
 // Nombre màxim de textures
 #define NUM_MAX_TEXTURES 10

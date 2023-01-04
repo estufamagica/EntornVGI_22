@@ -298,6 +298,10 @@ CEntornVGIView::CEntornVGIView()
 	angles_R[0] = 0.0; angles_R[1] = 0.0; angles_R[2] = 0.0; angles_R[3] = 0.0; angles_R[4] = 0.0; angles_R[5] = 0.0;
 	pos_RI[0] = 0.0; pos_RI[1] = 0.0; pos_RI[2] = 0.0; pos_RI[3] = 0.0; pos_RI[4] = 0.0; pos_RI[5] = 0.0;
 	pos_RF[0] = 0.0; pos_RF[1] = 0.0; pos_RF[2] = 0.0; pos_RF[3] = 0.0; pos_RF[4] = 0.0; pos_RF[5] = 0.0;
+	state = true;
+	incrementador = 4.0;
+	PrimeraVegada = true;
+	left_to_right = false;
 
 // Entorn VGI: Variables de control del menú Transforma
 	transf = false;		trasl = false;		rota = false;		escal = false;
@@ -1084,6 +1088,8 @@ void CEntornVGIView::dibuixa_Escena()
 		break;
 	case HIDROAVIO:
 		if (projeccio == ORTO) GTMatrix = glm::scale(GTMatrix, vec3(mida, mida, mida));
+	case ROBOT:
+		if (projeccio == ORTO) GTMatrix = glm::scale(GTMatrix, vec3(mida, mida, mida));
 	default:
 		break;
 	}
@@ -1665,6 +1671,131 @@ void CEntornVGIView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 									else if (!sw_color) Teclat_ColorFons(nChar, nRepCnt);
 										else Teclat_ColorObjecte(nChar, nRepCnt);
 						}
+	
+	if (nChar == VK_SPACE) {
+		state = !state;
+	}
+	if (state) {
+		if (nChar == VK_LEFT)
+			OnRobotBzmes();
+		if (nChar == VK_RIGHT)
+			OnRobotBzmenys();
+		if (nChar == VK_UP)
+			OnRobotBxmenys();
+		if (nChar == VK_DOWN)
+			OnRobotBxmes();
+		if (nChar == VK_HOME || nChar == 'T' )
+			OnRobotTanca();
+		if (nChar == VK_END || nChar == 'O' )
+			OnRobotObertura();
+	}
+	else {
+		if (nChar == VK_LEFT)
+			OnRobotCzmes();
+		if (nChar == VK_RIGHT)
+			OnRobotCzmenys();
+		if (nChar == VK_UP)
+			OnRobotCxmenys();
+		if (nChar == VK_DOWN)
+			OnRobotCxmes();
+		if (nChar == VK_HOME)
+			OnRobotCymes();
+		if (nChar == VK_END)
+			OnRobotCymenys();
+	}
+
+	if (nChar == VK_NEXT) {
+		incrementador= incrementador*2;
+		if (incrementador > 256) {
+			incrementador = 256.0;
+		}
+	}
+	if (nChar == VK_PRIOR) {
+		incrementador = incrementador / 2;
+		if (incrementador < 1) {
+			incrementador = 1.0;
+		}
+	}
+
+	if (nChar == VK_INSERT)
+	{
+		if (PrimeraVegada)
+		{
+			pos_RI[0] = angles_R[0];
+			pos_RI[1] = angles_R[1];
+			pos_RI[2] = angles_R[2];
+			pos_RI[3] = angles_R[3];
+			pos_RI[4] = angles_R[4];
+			pos_RI[5] = angles_R[5];
+			PrimeraVegada = false;
+		}
+		else
+		{
+			if (pos_RI != angles_R)
+			{
+				pos_RF[0] = angles_R[0];
+				pos_RF[1] = angles_R[1];
+				pos_RF[2] = angles_R[2];
+				pos_RF[3] = angles_R[3];
+				pos_RF[4] = angles_R[4];
+				pos_RF[5] = angles_R[5];
+				PrimeraVegada = true;
+			}
+		}
+	}
+
+	if (nChar == 'J')
+	{
+		angles_R[0] = pos_RI[0];
+		angles_R[1] = pos_RI[1];
+		angles_R[2] = pos_RI[2];
+		angles_R[3] = pos_RI[3];
+		angles_R[4] = pos_RI[4];
+		angles_R[5] = pos_RI[5];
+	}
+
+	if (nChar == 'K')
+	{
+		angles_R[0] = pos_RF[0];
+		angles_R[1] = pos_RF[1];
+		angles_R[2] = pos_RF[2];
+		angles_R[3] = pos_RF[3];
+		angles_R[4] = pos_RF[4];
+		angles_R[5] = pos_RF[5];
+	}
+
+
+	if (nChar == VK_F5)
+	{
+		if (anima) {
+			anima = false;
+			incrementador = 1;
+			KillTimer(WM_TIMER);
+		}else{
+			anima = true;
+			left_to_right = true;
+			frame = 0;
+			incrementador = 0;
+			SetTimer(WM_TIMER, 10, NULL);
+		}
+	}
+
+	if (nChar == VK_F4)
+	{
+		if (anima) {
+			anima = false;
+			incrementador = 1;
+			KillTimer(WM_TIMER);
+		}else {
+			anima = true;
+			incrementador = 0;
+			SetTimer(WM_TIMER, 10, NULL);
+			// SetTimer(WM_TIMER, 10, NULL);
+		}
+
+	}
+
+	
 
 // Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
@@ -1771,7 +1902,7 @@ void CEntornVGIView::Teclat_ColorFons(UINT nChar, UINT nRepCnt)
 	}
 	//	else 
 	if (nChar == VK_DOWN) {
-		if (fonsR) {	c_fons.r -= nRepCnt*incr;
+		/*if (fonsR) { c_fons.r -= nRepCnt * incr;
 						if (c_fons.r<0.0) c_fons.r = 0.0;
 					}
 		if (fonsG) {	c_fons.g -= nRepCnt*incr;
@@ -1780,9 +1911,10 @@ void CEntornVGIView::Teclat_ColorFons(UINT nChar, UINT nRepCnt)
 		if (fonsB) {	c_fons.b -= nRepCnt*incr;
 						if (c_fons.b<0.0) c_fons.b = 0.0;
 					}
+		*/
 		}
 	else if (nChar == VK_UP) {
-		if (fonsR) {	c_fons.r += nRepCnt*incr;
+		/*if (fonsR) { c_fons.r += nRepCnt * incr;
 						if (c_fons.r>1.0) c_fons.r = 1.0;
 					}
 		if (fonsG) {	c_fons.g += nRepCnt*incr;
@@ -1791,6 +1923,7 @@ void CEntornVGIView::Teclat_ColorFons(UINT nChar, UINT nRepCnt)
 		if (fonsB) {	c_fons.b += nRepCnt*incr;
 						if (c_fons.b>1.0) c_fons.b = 1.0;
 					}
+		*/
 		}
 	else if (nChar == VK_SPACE) {
 		if ((fonsR) && (fonsG) && (fonsB)) {	fonsG = false;
@@ -2804,7 +2937,22 @@ void CEntornVGIView::OnTimer(UINT_PTR nIDEvent)
 // TODO: Agregue aquí su código de controlador de mensajes o llame al valor predeterminado
 	if (anima)	{
 		// Codi de tractament de l'animació quan transcorren els ms. del crono.
+		if (frame > NFRAMES)
+			left_to_right = false;
+		else if (frame < 0)
+			left_to_right = true;
 
+			angles_R[0] = pos_RI[0] + (frame * (pos_RF[0] - pos_RI[0])) / NFRAMES;
+			angles_R[1] = pos_RI[1] + (frame * (pos_RF[1] - pos_RI[1])) / NFRAMES;
+			angles_R[2] = pos_RI[2] + (frame * (pos_RF[2] - pos_RI[2])) / NFRAMES;
+			angles_R[3] = pos_RI[3] + (frame * (pos_RF[3] - pos_RI[3])) / NFRAMES;
+			angles_R[4] = pos_RI[4] + (frame * (pos_RF[4] - pos_RI[4])) / NFRAMES;
+			angles_R[5] = pos_RI[5] + (frame * (pos_RF[5] - pos_RI[5])) / NFRAMES;
+
+		if (left_to_right)
+			frame = frame + 1;
+		else
+			frame = frame - 1;
 		// Crida a OnPaint() per redibuixar l'escena
 		InvalidateRect(NULL, false);
 		}
@@ -4104,7 +4252,7 @@ void CEntornVGIView::OnObjecteCamio()
 	mida = d / D;
 
 	float f = 1.3;
-	OPV.R = f * D / (2 * sin(60.0 / 2 * PI / 180));;
+	OPV.R = f * D / (2 * sin(60.0 / 2 * PI / 180));
 
 	// Entorn VGI: Activació el contexte OpenGL
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
@@ -4210,6 +4358,14 @@ void CEntornVGIView::OnUpdateObjecteHidroavio(CCmdUI* pCmdUI)
 
 void CEntornVGIView::OnObjecteRobot()
 {
+
+	float D = 50.0f;
+	float d = 1.0 * sqrt(3.0);
+	mida = d / D;
+
+	float f = 1.3;
+	OPV.R = f * D / (2 * sin(60.0 / 2 * PI / 180));
+
 	objecte = ROBOT;
 
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
@@ -4239,7 +4395,7 @@ void CEntornVGIView::OnUpdateObjecteRobot(CCmdUI* pCmdUI)
 
 void CEntornVGIView::OnRobotBxmenys()
 {
-	angles_R[1] = float((int(angles_R[1]) - 1) % 360);
+	angles_R[1] = float((int(angles_R[1]) - int(incrementador)) % 360);
 	InvalidateRect(NULL, false);
 
 
@@ -4251,7 +4407,7 @@ void CEntornVGIView::OnRobotBxmes()
 {
 
 
-	angles_R[1] = float((int(angles_R[1]) + 1) % 360);
+	angles_R[1] = float((int(angles_R[1]) + int(incrementador)) % 360);
 	InvalidateRect(NULL, false);
 	// TODO: Agregue aquí su código de controlador de comandos
 }
@@ -4260,7 +4416,7 @@ void CEntornVGIView::OnRobotBxmes()
 void CEntornVGIView::OnRobotBzmenys()
 {
 
-	angles_R[0] = float((int(angles_R[0]) - 1) % 360);
+	angles_R[0] = float((int(angles_R[0]) - int(incrementador)) % 360);
 	InvalidateRect(NULL, false);
 	// TODO: Agregue aquí su código de controlador de comandos
 }
@@ -4268,7 +4424,7 @@ void CEntornVGIView::OnRobotBzmenys()
 
 void CEntornVGIView::OnRobotBzmes()
 {
-	angles_R[0] = float((int(angles_R[0]) + 1) % 360);
+	angles_R[0] = float((int(angles_R[0]) + int(incrementador)) % 360);
 	InvalidateRect(NULL, false);
 	// TODO: Agregue aquí su código de controlador de comandos
 }
@@ -4277,7 +4433,7 @@ void CEntornVGIView::OnRobotBzmes()
 void CEntornVGIView::OnRobotCxmenys()
 {
 
-	angles_R[3] = float((int(angles_R[3]) - 1) % 360);
+	angles_R[3] = float((int(angles_R[3]) - int(incrementador)) % 360);
 	InvalidateRect(NULL, false);
 	// TODO: Agregue aquí su código de controlador de comandos
 }
@@ -4285,7 +4441,7 @@ void CEntornVGIView::OnRobotCxmenys()
 
 void CEntornVGIView::OnRobotCxmes()
 {
-	angles_R[3] = float((int(angles_R[3]) + 1) % 360);
+	angles_R[3] = float((int(angles_R[3]) + int(incrementador)) % 360);
 	InvalidateRect(NULL, false);
 	// TODO: Agregue aquí su código de controlador de comandos
 }
@@ -4294,7 +4450,7 @@ void CEntornVGIView::OnRobotCxmes()
 void CEntornVGIView::OnRobotCymenys()
 {
 
-	angles_R[4] = float((int(angles_R[4]) - 1) % 360);
+	angles_R[4] = float((int(angles_R[4]) - int(incrementador)) % 360);
 	InvalidateRect(NULL, false);
 	// TODO: Agregue aquí su código de controlador de comandos
 }
@@ -4302,7 +4458,7 @@ void CEntornVGIView::OnRobotCymenys()
 
 void CEntornVGIView::OnRobotCymes()
 {
-	angles_R[4] = float((int(angles_R[4]) + 1) % 360);
+	angles_R[4] = float((int(angles_R[4]) + int(incrementador)) % 360);
 	InvalidateRect(NULL, false);
 	// TODO: Agregue aquí su código de controlador de comandos
 }
@@ -4310,7 +4466,7 @@ void CEntornVGIView::OnRobotCymes()
 
 void CEntornVGIView::OnRobotCzmenys()
 {
-	angles_R[2] = float((int(angles_R[2]) - 1) % 360);
+	angles_R[2] = float((int(angles_R[2]) - int(incrementador)) % 360);
 	InvalidateRect(NULL, false);
 	// TODO: Agregue aquí su código de controlador de comandos
 }
@@ -4318,7 +4474,7 @@ void CEntornVGIView::OnRobotCzmenys()
 
 void CEntornVGIView::OnRobotCzmes()
 {
-	angles_R[2] = float((int(angles_R[2]) + 1) % 360);
+	angles_R[2] = float((int(angles_R[2]) + int(incrementador)) % 360);
 	InvalidateRect(NULL, false);
 	// TODO: Agregue aquí su código de controlador de comandos
 }
@@ -4327,7 +4483,7 @@ void CEntornVGIView::OnRobotCzmes()
 void CEntornVGIView::OnRobotObertura()
 {
 
-	angles_R[5] =float(( int(angles_R[5])-1) % 360);
+	angles_R[5] =float(( int(angles_R[5])- int(incrementador)) % 360);
 
 
 
@@ -4340,7 +4496,7 @@ void CEntornVGIView::OnRobotObertura()
 void CEntornVGIView::OnRobotTanca()
 {
 
-	angles_R[5] = float((int(angles_R[5]) + 1) % 360);
+	angles_R[5] = float((int(angles_R[5]) + int(incrementador)) % 360);
 	InvalidateRect(NULL, false);
 	// TODO: Agregue aquí su código de controlador de comandos
 }
